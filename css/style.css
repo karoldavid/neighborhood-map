@@ -1,8 +1,8 @@
 html,
 body {
 	height: 100%;
-	margin: 0;
-	padding: 0.5em 1em 1em;
+	margin: 0 1em;
+	padding: 0;	
 }
 
 body {
@@ -10,64 +10,129 @@ body {
     font-size: 1em;
 }
 
-header {
-  margin: 1em auto;
-  text-align: center;
-  border-bottom: 1px solid #ccc;
-}
-
-header h1 {
-  margin: 0;
-  padding: 0;
-  font-size: 3em;
-  font-weight: bold;
-}
-
-header p {
-  margin: 0;
-  padding-bottom: 0.5em;
-  font-size: 1.2em;
-  color: #ccc;
-}
-
-#map-canvas {
-  height: 500px;
-  width: auto;
-}
-
+/**
+ *
+ * Flexbox
+ *
+ */
 
 .flex-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
+    flex: 1 0 auto;
+    height: 100%;
+    margin-left: 4em;
 }
 
-.col-1 {
-	width: 50%;
-}
-
-.col-2 {
-	width: 50%;
+main {
+	flex: 1;
 }
 
 .row {
     display: flex;
+    width: 100%;
+}
+
+.col-1 {
+	width: 30%;
+}
+
+.col-2 {
+	width: 70%;
 }
 
 .item-1 {
-  order: 1;
+	order: 1;
 }
 
 .item-2 {
-  order: 2;
-  padding: 1em auto;
+	order: 2;
+	padding: 1em auto;
 }
 
 .item-3 {
-  order: 3;
+	order: 3;
 }
+
+/**
+ *
+ * Header
+ *
+ */
+
+header {
+    flex: none;
+    width: 100%;
+    margin: 1em auto;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    position: relative; 
+    z-index: 1; /* The z-index should be higher than Google Maps */
+    background: black;
+    height: auto;
+    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
+    color: white;
+    padding: 0 0.5em;
+}
+
+header h1, header p {
+    display: inline;
+    vertical-align: center;
+    font-size: 1em;  
+}
+header h1 {
+    font-weight: bold;
+    font-size: 2em;
+    line-height: 2em;  
+}
+
+/**
+ *
+ * Elements
+ *
+ */
+
+#map-canvas { 
+    height: 100%; 
+    width: 100%; 
+    position:absolute; 
+    top: 0; 
+    left: 0; 
+    z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
+}
+
+#searchbar { 
+    position: relative; 
+    z-index: 1; /* The z-index should be higher than Google Maps */
+    width: 300px;
+    margin: 1em auto 0;
+    padding: 10px;
+    background: black;
+    height: auto;
+    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
+    color: white;
+}
+
+#searchlist { 
+    position: relative; 
+    z-index: 1; /* The z-index should be higher than Google Maps */
+    width: 300px;
+    margin: 1em auto 0;
+    padding: 10px;
+    background: black;
+    height: auto;
+    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
+    color: white;
+}
+
+/**
+ *
+ *
+ *
+ */
 
 ul {
 	list-style: none;
@@ -76,21 +141,43 @@ ul {
 }
 
 a {
-  text-decoration: none;
-  color: #ccc;
+	text-decoration: none;
+    color: #ccc;
 }
 
 a:hover {
-  color: #000;
+    color: #000;
 }
 
+/**
+ *
+ * Footer
+ *
+ */
+
 footer {
-  margin-top: 3em;
-  border-top: 1px solid #ccc;
+	flex: none;
+	position: relative; 
+    z-index: 1; /* The z-index should be higher than Google Maps */
+    background: black;
+    height: auto;
+    width: 100%;
+    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
+    color: white;
+	border-top: 1px solid #ccc;
 }
 
 .contact {
-  text-align: right;
-  margin: 0.2em;
-  font-size: 1.2em;
+	text-align: right;
+    margin: 0.2em;
+    padding: 0.5em;
+    font-size: 1.2em;
 }
+
+/**
+ *
+ * Media Queries
+ *
+ */
+
+

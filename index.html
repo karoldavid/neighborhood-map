@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Neighborhood Map Application">
+  <meta name="author" content="Karol Zyskowski">
   <title>Neighborhood Map</title>
-  <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Architects+Daughter">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
-  <header>
-  	<h1>Neighborhood Map</h1><p>Check It Out Ya Hood</p>
-  </header>
   <div class="flex-container">
-    <div class="col-1">
-        <div class= "item-1">
-          <form action="#"> 
-            <input placeholder="Search…" type="search" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"> 
-          </form>
-        </div>
-        <div class="item-2">
-          <div class="content"> 
-            <ul data-bind="template: {name: 'restaurant', foreach: restaurants}"></ul> 
+    
+    <div id="map-canvas"></div>
+    
+    <header>
+  	  <h1>Neighborhood Map</h1>
+  	  <p>Check It Out Da Hood !</p>
+    </header>
+    
+    <main>
+      <div class="row">
+    
+        <div class="col-1">
+          <div class= "item-1" id="searchbar">
+            <form action="#"> 
+              <input placeholder="Search…" type="search" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"> 
+            </form>
+          </div>
+          <div class="item-2" id="searchlist">
+            <div class="content"> 
+              <ul data-bind="template: {name: 'restaurant', foreach: restaurants}"></ul> 
+            </div>
           </div>
         </div>
-    </div>
-    <div class="col-2">
-      <div id="map-canvas"></div>
-    </div>
-  </div>
+    
+        <div class="col-2"></div>
 
-  <footer>
-    <div class="contact">
-      <a href="mailto:k.zysk@zoho.com" title="email me" target="_self">&#9993;</a>
-    </div>
-  </footer>
+      </div>   
+    </main>
+
+    <footer>
+      <div class="contact">
+        <a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>
+      </div>
+    </footer>
+
+  </div>
+  
 
   <script type="text/html" id="restaurant"> 
     <li>
@@ -47,5 +62,6 @@
   <script src="js/lib/knockout-3.3.0.js"></script>
   <script src="js/searchbar.js"></script>
   <script src="js/map.js"></script>
+
 </body>
 </html>
