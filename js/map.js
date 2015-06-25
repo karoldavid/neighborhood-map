@@ -1,6 +1,16 @@
+var neighborhood = {
+		location: {
+			"name": "Warsaw",
+			"coord": [{"lat": 52.232938, "lng":  21.0611941}]
+		}
+	};
+    
 function initialize() {
+	var latitude = neighborhood.location["coord"][0].lat,
+	    longitude = neighborhood.location["coord"][0].lng;
+
 	var mapOptions = {
-        center: { lat: 52.232938, lng: 21.0611941},
+        center: { lat: latitude , lng: longitude},
         zoom: 12
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'),
