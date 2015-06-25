@@ -8,10 +8,30 @@
 
 <body>
 
+  <header> 
+    <form action="#"> 
+        <input placeholder="Search…" type="search" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"> 
+    </form> 
+  </header>
+
+  <div class="content"> 
+    <ul data-bind="template: {name: 'restaurant', foreach: restaurants}"> 
+    </ul> 
+  </div>
+
   <div id="map-canvas"></div>
+
+  <script type="text/html" id="restaurant"> 
+    <li>
+        <strong data-bind="text: name"></strong> –
+        <span data-bind="text: options"></span> –
+        <span data-bind="text: address"></span>
+    </li>
+  </script> 
 
   <script src="js/lib/jquery-1.11.3.js"></script>
   <script src="js/lib/knockout-3.3.0.js"></script>
+  <script src="js/searchbar.js"></script>
   <script src="js/map.js"></script>
 </body>
 </html>
