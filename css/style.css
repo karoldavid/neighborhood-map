@@ -64,7 +64,6 @@ main {
  */
 
 header {
-    flex: none;
     width: 100%;
     margin: 1em auto;
     text-align: left;
@@ -81,12 +80,16 @@ header {
 header h1, header p {
     display: inline;
     vertical-align: center;
-    font-size: 1em;  
 }
+
 header h1 {
     font-weight: bold;
     font-size: 2em;
     line-height: 2em;  
+}
+
+header p {
+    font-size: 1em;
 }
 
 /**
@@ -181,3 +184,10 @@ footer {
  */
 
 
+/* Portrait */
+@media only screen and (max-width: 568px) and (orientation: portrait) {
+  	header p {
+  		display: none;
+  	}
+
+}
