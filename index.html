@@ -13,7 +13,7 @@
 <body>
   <div class="flex-container">
     
-    <div id="map-canvas"></div>
+    <div id="map-canvas" class="map"></div>
     
     <header>
   	  <h1>Neighborhood Map</h1>
@@ -46,6 +46,7 @@
 
     <footer>
       <div class="contact">
+        <i>by Karol Zyskowski</i>
         <a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>
       </div>
     </footer>
@@ -53,18 +54,17 @@
   </div>
 
   <script type="text/html" id="result"> 
-    <li>
+    <li data-bind="if: visible">
         <strong data-bind="text: name"></strong> –
         <span data-bind="text: options"></span> –
         <span data-bind="text: address"></span>
     </li>
   </script> 
 
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
   <script src="js/lib/jquery-1.11.3.js"></script>
   <script src="js/lib/knockout-3.3.0.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/searchbar.js"></script>
-  <script src="js/map.js"></script>
-
+  <script src="js/app.js"></script>
 </body>
 </html>
