@@ -7,9 +7,10 @@ $(function(data) {
         this.name = ko.observable(data.name);
         this.address = ko.observable(data.address);
         this.options = ko.observable(data.options);
+        this.tag = ko.observable(data.tag);
 
         this.title = ko.computed(function() {
-            return this.name() + ", " + this.address() + ", " + this.options();
+            return this.name() + ", " + this.address() + ", " + this.tag();
         }, this);
 
         this.lat = ko.observable(data.coord.lat);
@@ -71,4 +72,4 @@ $(function(data) {
 
 
     ko.applyBindings(new ViewModel());
-}(restaurants));
+}(locations));
