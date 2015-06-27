@@ -61,7 +61,7 @@
         	name: "Muzeum Powstania Warszawskiego",
         	address: "Grzybowska 79, Warsaw - Poland",
         	coord: {lat: 52.232841, lng: 20.980982},
-        	www: "http://www.1944.pl/"
+        	www: "http://www.1944.pl/",
         	tag: "Museum"
         }
         ];
