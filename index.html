@@ -16,8 +16,8 @@
     <div id="map-canvas" class="map"></div>
     
     <header>
-  	  <h1>Neighborhood Map</h1>
-  	  <p>Check It Out Da Hood!</p>
+  	  <h1 data-bind="text: mapCenter"></h1>
+  	  <p>rocks!!!</p>
     </header>
     
     <main>
@@ -37,9 +37,16 @@
             </div>
           </div>
         </div>
-       
+
         <div class="col-2">
+        </div>
        
+        <div class="col-3">
+            <div class="item-1" id="tag-cloud">
+                <div class="content">
+                    <ul data-bind="template: {name: 'cloud', foreach: searchTags}"></ul>
+                </div>
+            </div>
         </div>
       </div>   
     </main>
@@ -58,6 +65,12 @@
         <strong data-bind="text: name"></strong> –
         <span data-bind="text: tag"></span> –
         <span data-bind="text: address"></span>
+    </li>
+  </script>
+
+  <script type="text/html" id="cloud"> 
+    <li class="tag">
+        <strong data-bind="click: $parent.selectTag, text: tag"></strong>
     </li>
   </script> 
 
