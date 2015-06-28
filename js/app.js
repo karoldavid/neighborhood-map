@@ -2,14 +2,13 @@
 $(function(data) {
     var initialLocations = data;
 
-
     var Location = function(data) {
         this.name = ko.observable(data.name);
         this.address = ko.observable(data.address);
         this.options = ko.observable(data.options);
         this.tag = ko.observable(data.tag);
 
-        this.title = ko.computed(function() {
+        this.title = ko.pureComputed(function() {
             return this.name() + ", " + this.address() + ", " + this.tag();
         }, this);
 
@@ -21,13 +20,39 @@ $(function(data) {
     var ViewModel = function() {
 
         var self = this;
-        this.query = ko.observable("");
-        this.locationList = ko.observableArray();
 
-       
-        initialLocations.forEach(function(locationItem) {
-            self.locationList.push(new Location(locationItem));
+        this.query = ko.observable("");
+        this.selectedTag = ko.observable("");
+
+        this.mapCenter = ko.observable(neighborhood.center["name"].toUpperCase());
+
+        // Build location list
+        this.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
+            return new Location(locationItem)
+        }));
+
+        // Sort location list by name property
+        self.locationList().sort(function(left, right) {
+            return left.name() === right.name() ? 0 : (left.name() < right.name() ? -1 : 1)
+        })
+
+        // Return unique tag names
+        self.uniqueSelect = ko.dependentObservable(function() {
+            var tags = ko.utils.arrayMap(self.locationList(), function(item) {
+                return item.tag();
+            })
+            return ko.utils.arrayGetDistinctValues(tags).sort();
         });
+
+        this.searchTags = ko.observableArray(ko.utils.arrayMap(self.uniqueSelect(), function(item) {
+            return {tag: item}
+        }));
+
+         // Get current tag clicked on
+        this.selectTag = function() {
+            self.selectedTag(this);
+        };
+
 
         var infowindow = new google.maps.InfoWindow(),
             marker;
@@ -49,7 +74,8 @@ $(function(data) {
                 return location.title().toLowerCase().indexOf(search) >= 0;
             });
         });
-
+        
+        //Filter location list and display only matching locations as markers on the map
         this.mapMarkers = ko.computed(function() {
             var search = self.query().toLowerCase();
             ko.utils.arrayFilter(self.locationList(), function(location) {
@@ -73,3 +99,8 @@ $(function(data) {
 
     ko.applyBindings(new ViewModel());
 }(locations));
+
+//@TODO: Markers are clickable, and change styling to indicate their selected state
+//@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
+//       (ex. Yelp reviews, Wikipedia, Flickr images, etc). 
+//@TODO: 
