@@ -3,13 +3,13 @@ $(function(data) {
     var initialLocations = data;
 
     var Location = function(data) {
-        this.name = ko.observable(data.name);
-        this.address = ko.observable(data.address);
-        this.options = ko.observable(data.options);
+        this.name = data.name;
+        this.address = data.address;
+        this.options = data.options;
         this.tag = ko.observable(data.tag);
 
         this.title = ko.pureComputed(function() {
-            return this.name() + ", " + this.address() + ", " + this.tag();
+            return this.name + ", " + this.address + ", " + this.tag();
         }, this);
 
         this.lat = ko.observable(data.coord.lat);
@@ -32,12 +32,16 @@ $(function(data) {
         }));
 
         // Sort location list by name property
-        self.locationList().sort(function(left, right) {
-            return left.name() === right.name() ? 0 : (left.name() < right.name() ? -1 : 1)
+        this.locationList().sort(function(left, right) {
+            return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
         })
 
+        this.reverseList = function() {
+            self.locationList.reverse();
+        }
+
         // Return unique tag names
-        self.uniqueSelect = ko.dependentObservable(function() {
+        this.uniqueSelect = ko.dependentObservable(function() {
             var tags = ko.utils.arrayMap(self.locationList(), function(item) {
                 return item.tag();
             })
@@ -48,11 +52,10 @@ $(function(data) {
             return {tag: item}
         }));
 
-         // Get current tag clicked on
-        this.selectTag = function() {
+        // Get current tag clicked on and pass it to the query in the search bar
             self.selectedTag(this);
+            self.query(self.selectedTag().tag);
         };
-
 
         var infowindow = new google.maps.InfoWindow(),
             marker;
