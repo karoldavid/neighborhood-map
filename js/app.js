@@ -53,6 +53,7 @@ $(function(data) {
         }));
 
         // Get current tag clicked on and pass it to the query in the search bar
+        this.selectTag = function() {
             self.selectedTag(this);
             self.query(self.selectedTag().tag);
         };
