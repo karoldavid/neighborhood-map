@@ -66,7 +66,7 @@ $(function(data) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(location.lat(), location.lng()),
                     map: map,
-                    title: location.title(),
+                    title: location.name
                 });
                 location.marker = marker;
             });
@@ -95,7 +95,7 @@ $(function(data) {
 
     var mapOptions = {
         center: {lat: latitude , lng: longitude},
-        zoom: 12
+        zoom: neighborhood.zoom
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
