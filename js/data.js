@@ -3,16 +3,25 @@
  var neighborhood = {
 		center: {
 			"name": "Warszawa",
-			"coord": {lat: 52.232938, lng:  21.0611941}
-	    }
+			"address": "Warszawa, Polska",
+			"coord": {lat: 52.231778, lng: 21.006162}
+	    },
+	    zoom: 14,
+	    bounds: {} 
 	 };
 
 
  var locations = [
         {   name: "Centrum",
             address:"Warszawa - Polska",
-            coord: {lat: 52.232938, lng:  21.0611941},
+            coord: {lat: 52.231778, lng: 21.006162},
             tag:"City Center"
+        },
+        {   name: "Pałac Kultury i Nauki",
+            address:"Plac Defilad 1, 00-901 Warszawa - Polska",
+            coord: {lat: 52.231778, lng: 21.006162},
+            www: "http://www.pkin.pl/",
+            tag:"Cultural Center"
         },
         {   name: "Stare Miasto",
             address: "Warszawa - Polska",
