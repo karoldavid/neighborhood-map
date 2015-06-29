@@ -1,17 +1,16 @@
  //@ http://www.latlong.net/
 
  var neighborhood = {
-		center: {
-			"name": "Warszawa",
-			"address": "Warszawa, Polska",
-			"coord": {lat: 52.231778, lng: 21.006162}
-	    },
-	    zoom: 14,
-	    bounds: {} 
-	 };
-
-
- var locations = [
+		map: {
+			center: {
+				"name": "Warszawa",
+			    "address": "Warszawa, Polska",
+			    "coord": {lat: 52.231778, lng: 21.006162}
+			},
+			zoom: 14,
+			bounds: {}
+		},
+	    locations: [
         {   name: "Centrum",
             address:"Warszawa - Polska",
             coord: {lat: 52.231778, lng: 21.006162},
@@ -123,7 +122,7 @@
         	coord: {lat: 52.230838, lng: 21.002277},
         	tag: "Shopping Center"
         }
-        ];
+        ]};
 
 /*var locations = [
         ["Bar mleczny", "Marymoncka 49, Warszawa - Polska"],

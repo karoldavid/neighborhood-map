@@ -1,5 +1,5 @@
 
-$(function(data) {
+$(function(region, data) {
     var initialLocations = data;
 
     var Location = function(data) {
@@ -24,7 +24,7 @@ $(function(data) {
         this.query = ko.observable("");
         this.selectedTag = ko.observable("");
 
-        this.mapCenter = ko.observable(neighborhood.center["name"].toUpperCase());
+        this.mapCenter = ko.observable(region.center["name"].toUpperCase());
 
         // Build location list
         this.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
@@ -90,19 +90,19 @@ $(function(data) {
     };
 
     // Initialize google maps and center map on Warsaw, Poland.
-    var latitude = neighborhood.center["coord"].lat,
-        longitude = neighborhood.center["coord"].lng;
+    var latitude = region.center["coord"].lat,
+        longitude = region.center["coord"].lng;
 
     var mapOptions = {
         center: {lat: latitude , lng: longitude},
-        zoom: neighborhood.zoom
+        zoom: region.zoom
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
 
     ko.applyBindings(new ViewModel());
-}(locations));
+}(neighborhood.map, neighborhood.locations));
 
 //@TODO: Markers are clickable, and change styling to indicate their selected state
 //@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
