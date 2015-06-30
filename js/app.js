@@ -1,6 +1,13 @@
 
-$(function(region, data) {
-    var initialLocations = data;
+$(function(region, locations) {
+    var initialLocations = locations;
+
+    var Region = function(data) {
+        this.mapOptions = {
+            center: {lat: data.center["coord"].lat , lng: data.center["coord"].lng},
+            zoom: data.zoom
+        };
+    };
 
     var Location = function(data) {
         this.name = data.name;
@@ -17,9 +24,27 @@ $(function(region, data) {
         this.visible = ko.observable(true);
     };
 
+
     var ViewModel = function() {
 
         var self = this;
+
+        this.availableOptions = [
+            { optionName: "Name"},
+            { optionName: "Address"},
+            { optionName: "Tag"}
+
+        ];
+
+        this.selectedOption = ko.observable("");
+
+        // Initialize google maps and center map on Warsaw, Poland.
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+                      (new Region(region)).mapOptions);
+
+        //Create a new info window.
+        var infowindow = new google.maps.InfoWindow();
+
 
         this.query = ko.observable("");
         this.selectedTag = ko.observable("");
@@ -58,18 +83,29 @@ $(function(region, data) {
             self.query(self.selectedTag().tag);
         };
 
-        var infowindow = new google.maps.InfoWindow(),
-            marker;
+        var marker;
 
-        //Bind map markers to locations
+        //Set map markers and define info window
         this.locationList().forEach(function(location) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(location.lat(), location.lng()),
-                    map: map,
-                    title: location.name
-                });
-                location.marker = marker;
+            marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(location.lat(), location.lng()),
+                            map: map,
+                            title: location.name,
+                            animation: google.maps.Animation.DROP
+                        });
+
+            location.marker = marker;
+
+            google.maps.event.addListener(location.marker, 'click', function(){
+                var infoString = '<h2>' + location.name + '</h2>'+
+                                 '<p>Address: ' + location.address + '</p>' +
+                                 '<hr><p>' + location.tag() + '</p';
+            
+                infowindow.setContent(infoString);
+                infowindow.open(map, location.marker);
+            
             });
+        });
 
         //Filter location list and return search result
         this.searchResults = ko.computed(function() {
@@ -87,22 +123,19 @@ $(function(region, data) {
             });
          });
 
+        google.maps.event.addDomListener(window, "resize", function() {
+            var center = map.getCenter();
+                google.maps.event.trigger(map, "resize");
+                map.setCenter(center); 
+        });
+
+       /* this.show_info = function(location){
+            google.maps.event.trigger(location.marker,'click');
+        };*/
     };
-
-    // Initialize google maps and center map on Warsaw, Poland.
-    var latitude = region.center["coord"].lat,
-        longitude = region.center["coord"].lng;
-
-    var mapOptions = {
-        center: {lat: latitude , lng: longitude},
-        zoom: region.zoom
-    };
-    var map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
-
 
     ko.applyBindings(new ViewModel());
-}(neighborhood.map, neighborhood.locations));
+}(neighborhood.region, neighborhood.locations));
 
 //@TODO: Markers are clickable, and change styling to indicate their selected state
 //@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
