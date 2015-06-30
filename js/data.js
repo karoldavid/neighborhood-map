@@ -1,7 +1,7 @@
  //@ http://www.latlong.net/
 
  var neighborhood = {
-		map: {
+		region: {
 			center: {
 				"name": "Warszawa",
 			    "address": "Warszawa, Polska",
