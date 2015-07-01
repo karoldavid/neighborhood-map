@@ -94,6 +94,15 @@ $(function(region, locations) {
 
             location.marker = marker;
 
+            function toggleBounce() {
+                if(location.marker.getAnimation() != null) {
+                    location.marker.setAnimation(null);
+                } else {
+                    location.marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            }
+
+
             google.maps.event.addListener(location.marker, 'click', function(){
                 var infoString = '<div id="iw-container">' +
                                  '<h2 class="iw-title">' + location.name + '</h2>'+
@@ -110,9 +119,15 @@ $(function(region, locations) {
                                  //'</div>' + 
                                  '</div>';
             
-                infowindow.setContent(infoString);
-                infowindow.open(map, location.marker);
-                marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+                toggleBounce();
+                setTimeout(toggleBounce, 2000);
+
+                setTimeout(function() {
+                    infowindow.setContent(infoString);
+                    infowindow.open(map, location.marker);
+                }, 1000);
+
+                location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
             
             });
         });
@@ -143,6 +158,7 @@ $(function(region, locations) {
     ko.applyBindings(new ViewModel());
 }(neighborhood.region, neighborhood.locations));
 
+//@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood.
 //@TODO: Markers are clickable, and change styling to indicate their selected state
 //@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
 //       (ex. Yelp reviews, Wikipedia, Flickr images, etc). 
