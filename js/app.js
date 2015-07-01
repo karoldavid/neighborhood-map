@@ -97,12 +97,24 @@ $(function(region, locations) {
             location.marker = marker;
 
             google.maps.event.addListener(location.marker, 'click', function(){
-                var infoString = '<h2>' + location.name + '</h2>'+
-                                 '<p>Address: ' + location.address + '</p>' +
-                                 '<hr><p>' + location.tag() + '</p';
+                var infoString = '<div id="iw-container">' +
+                                 '<h2 class="iw-title">' + location.name + '</h2>'+
+                                 '<div class="iw-body">' +
+                                 '<h3>History</h3>' +
+                                 '<p>When the user edits the value in the associated' +
+                                 'form control, it updates the value on your view model.' +
+                                 'Likewise, when you update the value in your view model, this updates the value</p>' +
+                                 '<p>' + location.address + '</p>' +
+                                 '<p>' + location.tag() + '</p>' +
+                                 '</div>' +
+                                 //'<div class="iw-footer">' +
+                                 //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
+                                 //'</div>' + 
+                                 '</div>';
             
                 infowindow.setContent(infoString);
                 infowindow.open(map, location.marker);
+                marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
             
             });
         });
@@ -128,10 +140,6 @@ $(function(region, locations) {
                 google.maps.event.trigger(map, "resize");
                 map.setCenter(center); 
         });
-
-       /* this.show_info = function(location){
-            google.maps.event.trigger(location.marker,'click');
-        };*/
     };
 
     ko.applyBindings(new ViewModel());
