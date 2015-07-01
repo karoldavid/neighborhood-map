@@ -282,6 +282,84 @@ a:hover {
     color: #000;
 }
 
+.fade {
+	opacity: 1;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+ }
+
+.fade:hover {
+	opacity: 0.5;
+}
+
+
+/**
+ *
+ * Navigation
+ *
+ */
+
+.nav-fade li {
+    background: #fff;
+    padding: 3px 8px;
+    display: inline-block;
+    transition: background .25s ease-in-out;
+    -moz-transition: background .25s ease-in-out;
+    -webkit-transition: background .25s ease-in-out;
+}
+
+.nav-fade li:hover {
+    background: #ddd;
+}
+
+
+/**
+ *
+ * Google Maps
+ *
+ */
+
+#iw-container {
+    font-family: 'Architects Daughter', cursive;
+}
+
+#iw-container h2, h3{
+	margin: 0;
+	padding: 0;
+}
+
+#iw-container .iw-title {
+   font-size: 1.5em;
+   font-weight: 400;
+   padding: 0.5em;
+   background-color: #48b5e9;
+   color: white;
+   margin: 1px;
+   border-radius: 2px 2px 0 0;
+}
+
+#iw-container .iw-body {
+	padding: 1em;
+	font-size: 1em;
+}
+
+#iw-container .iw-footer {
+	background-color: #48b5e9;
+	border-top: 1px solid #ccc;
+}
+
+#iw-container .iw-footer a {
+    padding: 1em;
+}
+
+.gm-style-iw {
+   max-width: 350px !important;
+   top: 0 !important;
+   left: 0 !important;
+   border-radius: 2px 2px 0 0;
+}
+
 /**
  *
  * Footer
