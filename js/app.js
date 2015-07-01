@@ -9,19 +9,17 @@ $(function(region, locations) {
         };
     };
 
-    var Location = function(data) {
+    var Location = function(data, activeTag) {
         this.name = data.name;
         this.address = data.address;
         this.options = data.options;
         this.tag = ko.observable(data.tag);
-
         this.title = ko.pureComputed(function() {
             return this.name + ", " + this.address + ", " + this.tag();
         }, this);
-
         this.lat = ko.observable(data.coord.lat);
         this.lng = ko.observable(data.coord.lng);
-        this.visible = ko.observable(true);
+        this.visible = ko.observable(!activeTag || activeTag === this.tag() ? true : false);
     };
 
 
@@ -45,15 +43,13 @@ $(function(region, locations) {
         //Create a new info window.
         var infowindow = new google.maps.InfoWindow();
 
-
         this.query = ko.observable("");
-        this.selectedTag = ko.observable("");
 
         this.mapCenter = ko.observable(region.center["name"].toUpperCase());
 
         // Build location list
         this.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
-            return new Location(locationItem)
+            return new Location(locationItem, "")
         }));
 
         // Sort location list by name property
@@ -66,21 +62,23 @@ $(function(region, locations) {
         }
 
         // Return unique tag names
-        this.uniqueSelect = ko.dependentObservable(function() {
+        this.uniqueSelect = function() {
             var tags = ko.utils.arrayMap(self.locationList(), function(item) {
                 return item.tag();
             })
             return ko.utils.arrayGetDistinctValues(tags).sort();
-        });
+        };
 
         this.searchTags = ko.observableArray(ko.utils.arrayMap(self.uniqueSelect(), function(item) {
             return {tag: item}
         }));
 
-        // Get current tag clicked on and pass it to the query in the search bar
+        // Get current tag clicked on and set only respective locations to visible
         this.selectTag = function() {
-            self.selectedTag(this);
-            self.query(self.selectedTag().tag);
+            var activeTag = this.tag;
+            self.locationList().forEach(function(location) {
+                location.visible(!activeTag || activeTag === location.tag() ? true : false);
+            });
         };
 
         var marker;
@@ -123,7 +121,7 @@ $(function(region, locations) {
         this.searchResults = ko.computed(function() {
             var search = self.query().toLowerCase();
             return ko.utils.arrayFilter(self.locationList(), function(location) {
-                return location.title().toLowerCase().indexOf(search) >= 0;
+                return location.title().toLowerCase().indexOf(search) >= 0 && location.visible();
             });
         });
         
@@ -131,7 +129,7 @@ $(function(region, locations) {
         this.mapMarkers = ko.computed(function() {
             var search = self.query().toLowerCase();
             ko.utils.arrayFilter(self.locationList(), function(location) {
-                location.marker.setMap(location.title().toLowerCase().indexOf(search) >= 0 ? map : null);
+                location.marker.setMap((location.title().toLowerCase().indexOf(search) >= 0 && location.visible()) ? map : null);
             });
          });
 
