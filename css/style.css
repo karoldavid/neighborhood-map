@@ -180,11 +180,11 @@ header p {
 }
 
 #search-results li:hover {
-	background: #191970;
+	background: #ccc;
 	cursor: pointer;
 	-webkit-transition: all 0.1s;
 	font-weight: bold;
-	color: #fff;
+	color: #000;
 }
 
 #search-results li.selected {
@@ -211,11 +211,11 @@ header p {
 }
 
 #tag-cloud span:hover {
-	background: #191970;
+	background: #ccc;
 	cursor: pointer;
 	-webkit-transition: all 0.1s;
 	font-weight: bold;
-	color: #fff;
+	color: #000;
 }
 
 #tag-cloud span.selected {
