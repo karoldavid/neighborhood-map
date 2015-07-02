@@ -36,6 +36,10 @@ $(function(region, locations) {
 
         this.selectedOption = ko.observable("");
 
+        self.chosenLocationId = ko.observable();
+
+        self.goToLocation = function(location) { self.chosenLocationId(location); };
+
         // Initialize google maps and center map on Warsaw, Poland.
         var map = new google.maps.Map(document.getElementById('map-canvas'),
                       (new Region(region)).mapOptions);
@@ -73,6 +77,10 @@ $(function(region, locations) {
             return {tag: item}
         }));
 
+        this.selectItem = function() {
+            console.log(this);
+        };
+
         // Get current tag clicked on and set only respective locations to visible
         this.selectTag = function() {
             var activeTag = this.tag;
@@ -101,7 +109,6 @@ $(function(region, locations) {
                     location.marker.setAnimation(google.maps.Animation.BOUNCE);
                 }
             }
-
 
             google.maps.event.addListener(location.marker, 'click', function(){
                 var infoString = '<div id="iw-container">' +
@@ -155,11 +162,35 @@ $(function(region, locations) {
         });
     };
 
+    setTimeout(function () {
+
+        try{
+            if (!google || !google.maps) {
+                //This will throw the error if 'google' is not defined
+            }
+        }
+        catch (e) {
+            var $error_elem = $('#map-canvas');
+            $error_elem.text('Sorry, An Error Occured. Google Maps Could Not Be Reached.');
+        }
+    }, 1000);
+
     ko.applyBindings(new ViewModel());
 }(neighborhood.region, neighborhood.locations));
 
-//@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood.
+//@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
+//@TODO: Searchbox Text updates item list and map markers instantly when user types
 //@TODO: Markers are clickable, and change styling to indicate their selected state
+//@TODO: Markers bounce on click
+//@TODO: SHOW GOOGLE MAPS ERROR MESSAGE WHEN RESPONSE FAILS
+//QTODO: When list item is clicked, highlight marker/ open marker info window
 //@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
-//       (ex. Yelp reviews, Wikipedia, Flickr images, etc). 
-//@TODO: 
+//       (ex. Yelp reviews, Wikipedia, Flickr images, etc).
+
+//@TODO: Additional 3rd party API
+//@TODO: Optimmize Performance
+
+//@NOTES: KNOCKOUTJS: MODEL VIEW VIEW MODEL Pattern
+//@NOTES: RESPONSIVE Design
+//@NOTES: USER EXPERIENCE | UI
+//@NOTES: PRODUCTION CODE with grunt/gulp
