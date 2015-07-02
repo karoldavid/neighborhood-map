@@ -13,30 +13,24 @@
 <body>
   <div class="flex-container">
     
-    <div id="map-canvas" class="map"></div>
-    
     <header>
   	  <h1 data-bind="text: mapCenter"></h1>
   	  <p>rocks!!!</p>
     </header>
+
+    <div id="map-canvas" class="map"></div>
     
     <main>
       <div class="row">
     
-        <div class="col-1">
+        <div class="col-1 search-items">
       
           <div class="item-1 search" id="searchbar">
             <form action="#"> 
-              <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off"> 
-              <button data-bind="click: reverseList"><></button>
+              <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
+              <button class="button" data-bind="click: reverseList"><></button>
             </form>
           </div>
-
-          <!-- <div class="item-2 search" id="buttons">
-             <button data-bind="click: reverseList"><></button>
-             <select data-bind="options: availableOptions, value: selectedOption, optionsText: 'optionName'"></select>
-             <select data-bind="options: searchTags, optionsCaption: 'Choose one...', value: selectedTag, optionsText: 'tag', valueAllowUnset: true"></select></select>
-          </div> -->
 
           <div class="item-2" id="tag-cloud">
             <div class="content search">
@@ -51,11 +45,10 @@
           </div>
         </div>
 
-        <div class="col-2">
-        </div>
+        <div class="col-2"></div>
        
-        <div class="col-3">
-        </div>
+        <div class="col-3"></div>
+
       </div>   
     </main>
 
@@ -68,6 +61,14 @@
 
   </div>
 
+  <!-- tag cloud -->
+  <script type="text/html" id="cloud"> 
+    <span class="tag" data-bind="css: { selected: $data == $root.chosenTagId() }, click: $root.chosenTagId">
+        <strong data-bind="click: $parent.selectTag, text: tag"></strong>
+    </span>
+  </script> 
+ 
+  <!-- search result list -->
   <script type="text/html" id="result"> 
     <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.chosenLocationId, if: visible">
         <strong data-bind="text: name"></strong> –
@@ -76,14 +77,7 @@
     </li>
   </script>
 
-  <script type="text/html" id="cloud"> 
-    <span class="tag" data-bind="css: { selected: $data == $root.chosenTagId() }, click: $root.chosenTagId">
-        <strong data-bind="click: $parent.selectTag, text: tag"></strong>
-    </span>
-  </script> 
-
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
-  <!--<script src="js/map.js"></script>-->
   <script src="js/lib/jquery-1.11.3.js"></script>
   <script src="js/lib/knockout-3.3.0.js"></script>
   <script src="js/data.js"></script>
