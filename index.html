@@ -25,20 +25,20 @@
     
         <div class="col-1">
       
-          <div class= "item-1" id="searchbar">
+          <div class="item-1 search" id="searchbar">
             <form action="#"> 
               <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off"> 
             </form>
           </div>
 
-          <div class="item-2" id="buttons">
+          <div class="item-2 search" id="buttons">
              <button data-bind="click: reverseList"><></button>
      
              <select data-bind="options: availableOptions, value: selectedOption, optionsText: 'optionName'"></select>
             <!--  <select data-bind="options: searchTags, optionsCaption: 'Choose one...', value: selectedTag, optionsText: 'tag', valueAllowUnset: true"></select></select> -->
           </div>
 
-          <div class="item-3" id="search-results">
+          <div class="item-3 search" id="search-results">
             <div class="content"> 
               <ul data-bind="template: {name: 'result', foreach: searchResults}"></ul> 
             </div>
@@ -58,17 +58,17 @@
       </div>   
     </main>
 
-    <footer>
+   <!--  <footer>
       <div class="contact">
         <i>by Karol Zyskowski</i>
         <a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>
       </div>
-    </footer>
+    </footer> -->
 
   </div>
 
   <script type="text/html" id="result"> 
-    <li data-bind="if: visible">
+    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.chosenLocationId, if: visible">
         <strong data-bind="text: name"></strong> –
         <span data-bind="text: tag"></span> –
         <span data-bind="text: address"></span>
@@ -82,6 +82,7 @@
   </script> 
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
+  <!--<script src="js/map.js"></script>-->
   <script src="js/lib/jquery-1.11.3.js"></script>
   <script src="js/lib/knockout-3.3.0.js"></script>
   <script src="js/data.js"></script>
