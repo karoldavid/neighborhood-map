@@ -30,23 +30,22 @@ body {
 
 main {
 	flex: 1;
-	 -webkit-order: 0;
+	-webkit-order: 0;
             order: 0;
 }
 
 .row {
     display: -webkit-flex;
-   display:         flex;
-   -webkit-flex-flow: row;
-           flex-flow: row;
-
+    display:         flex;
+    -webkit-flex-flow: row;
+            flex-flow: row;
 }
 
 .col-1 {
-	 -webkit-flex: 1 6 20%;
-           flex: 1 6 20%;
-   -webkit-order: 1;
-           order: 1;
+	-webkit-flex: 1 6 20%;
+            flex: 1 6 20%;
+    -webkit-order: 1;
+            order: 1;
 }
 
 .col-2 {
@@ -57,10 +56,10 @@ main {
 }
 
 .col-3 {
- -webkit-flex: 1 6 20%;
-           flex: 1 6 20%;
-   -webkit-order: 3;
-           order: 3;
+    -webkit-flex: 1 6 20%;
+            flex: 1 6 20%;
+    -webkit-order: 3;
+            order: 3;
 }
 
 .item-1 {
@@ -123,66 +122,39 @@ header p {
     position:absolute; 
     top: 0; 
     left: 0; 
-    z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
+    z-index: 0; /* Set z-index to 0 as it will be on a layer below search form */
+}
+
+.search {
+	position: relative; 
+    z-index: 1; /* The z-index should be higher than Google Maps */
+    width: 300px;
+    margin: 1em auto 0;
+    padding: 10px;
+    background: black;
+    height: auto;
+    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
+    color: white;
 }
 
 #searchbar { 
-    position: relative; 
-    z-index: 1; /* The z-index should be higher than Google Maps */
-    width: 300px;
-    margin: 1em auto 0;
-    padding: 10px;
-    background: black;
-    height: auto;
-    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
-    color: white;
+    
 }
 
 #buttons {
-	position: relative; 
-    z-index: 1; /* The z-index should be higher than Google Maps */
-    width: 300px;
-    margin: 1em auto 0;
-    padding: 10px;
-    background: black;
-    height: auto;
-    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
-    color: white;
+	
 }
 
 #search-results { 
-    position: relative; 
-    z-index: 1; /* The z-index should be higher than Google Maps */
-    width: 300px;
-    margin: 1em auto 0;
-    padding: 10px;
-    background: black;
-    height: auto;
-    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
-    color: white;
+ 
 }
 
-/*#tag-cloud {
+#tag-cloud {
+	
+}
+
+.tag {
 	position: relative; 
-    z-index: 1;
-    width: 300px;
-    margin: 1em auto 0;
-    padding: 10px;
-    background: black;
-    height: auto;
-    opacity: .45;
-    color: white;
-}*/
-
-/**
- *
- *
- *
- */
-
-
- .tag {
- 	position: relative; 
     z-index: 1; /* The z-index should be higher than Google Maps */
     background: blue;
     height: auto;
@@ -273,6 +245,14 @@ ul {
 	color: #fff;
 }
 
+#search-results li.selected {
+	background: #191970;
+	cursor: pointer;
+	-webkit-transition: all 0.1s;
+	font-weight: bold;
+	color: #fff;
+}
+
 a {
 	text-decoration: none;
     color: #ccc;
@@ -293,7 +273,6 @@ a:hover {
 	opacity: 0.5;
 }
 
-
 /**
  *
  * Navigation
@@ -312,7 +291,6 @@ a:hover {
 .nav-fade li:hover {
     background: #ddd;
 }
-
 
 /**
  *
@@ -360,6 +338,11 @@ a:hover {
    border-radius: 2px 2px 0 0;
 }
 
+.error {
+	font-size: 3em;
+	font-weight: bold;
+}
+
 /**
  *
  * Footer
@@ -401,7 +384,7 @@ footer {
 }
 
 /* Too narrow to support three columns */
-  @media all and (max-width: 640px) {
+@media all and (max-width: 640px) {
   
    main, .row {
     -webkit-flex-flow: column;
