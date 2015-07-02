@@ -76,7 +76,7 @@
   </script>
 
   <script type="text/html" id="cloud"> 
-    <li class="tag">
+    <li class="tag" data-bind="css: { selected: $data == $root.chosenTagId() }, click: $root.chosenTagId">
         <strong data-bind="click: $parent.selectTag, text: tag"></strong>
     </li>
   </script> 

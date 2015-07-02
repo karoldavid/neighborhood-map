@@ -207,7 +207,7 @@ header p {
 	color: #fff;
 }
 
-#tag-cloud li.active {
+#tag-cloud li.selected{
 	background: #191970;
 }
 

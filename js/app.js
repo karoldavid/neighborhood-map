@@ -40,6 +40,10 @@ $(function(region, locations) {
 
         self.goToLocation = function(location) { self.chosenLocationId(location); };
 
+        self.chosenTagId = ko.observable();
+
+        self.goToTag = function(tag) { self.chosenTagId(tag); };
+
         // Initialize google maps and center map on Warsaw, Poland.
         var map = new google.maps.Map(document.getElementById('map-canvas'),
                       (new Region(region)).mapOptions);
