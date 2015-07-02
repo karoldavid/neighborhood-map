@@ -112,7 +112,7 @@ header p {
 
 /**
  *
- * Elements
+ * Google Maps
  *
  */
 
@@ -125,12 +125,18 @@ header p {
     z-index: 0; /* Set z-index to 0 as it will be on a layer below search form */
 }
 
+/**
+ *
+ * Search Elements
+ *
+ */
+
 .search {
 	position: relative; 
     z-index: 1; /* The z-index should be higher than Google Maps */
-    width: 300px;
+    width: 19em;
     margin: 1em auto 0;
-    padding: 10px;
+    padding: 0.75em;
     background: black;
     height: auto;
     opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
@@ -153,78 +159,14 @@ header p {
 	
 }
 
-.tag {
-	position: relative; 
-    z-index: 1; /* The z-index should be higher than Google Maps */
-    background: blue;
-    height: auto;
-    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
-    color: white;
-    float:left;
-    margin:0 0 7px 20px;
-    position:relative;
-    font-size:0.75em;
-    font-weight:bold;
-    text-decoration:none;
- 
-    padding:0.417em 0.417em 0.417em 0.917em;
- 
-    -webkit-border-radius: 0.25em 0.25em 0.25em 0.25em;
-    -moz-border-radius: 0.25em 0.25em 0.25em 0.25em;
-    border-radius:0.25em 0.25em 0.25em 0.25em;
- 
-    background-image: -webkit-linear-gradient(top, rgb(254, 218, 113), rgb(254, 186, 71));
-    background-image: -moz-linear-gradient(top, rgb(254, 218, 113), rgb(254, 186, 71));
-    background-image: -o-linear-gradient(top, rgb(254, 218, 113), rgb(254, 186, 71));
-    background-image: -ms-linear-gradient(top, rgb(254, 218, 113), rgb(254, 186, 71));
-    background-image: linear-gradient(top, rgb(254, 218, 113), rgb(254, 186, 71));
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#feda71', EndColorStr='#feba47');
- 
-    z-index:100;
-}
-
-#tag-cloud ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-/*#tag-cloud li {
-	background: none;   
-	-webkit-transition: all 0.5s ease-out;
-	border-bottom: 1px solid #fff;
-}
-
-#tag-cloud li:last-child {
-	border-bottom: none;
-}*/
-
-#tag-cloud li:hover {
-	background: #191970;
-	cursor: pointer;
-	-webkit-transition: all 0.1s;
-	font-weight: bold;
-	color: #fff;
-}
-
-#tag-cloud li.selected{
-	background: #191970;
-}
-
 #search-results ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	height: 500px;
+	height: 25em;
 	width:auto;
 	overflow:hidden;
 	overflow-y:scroll;
-}
-
-ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
 }
 
 #search-results li {
@@ -252,6 +194,43 @@ ul {
 	font-weight: bold;
 	color: #fff;
 }
+
+#tag-cloud ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#tag-cloud span {
+	margin: 0.25em;
+	padding: 0;
+	text-decoration: none;
+	border: none;
+	background: none;   
+	-webkit-transition: all 0.5s ease-out;
+}
+
+#tag-cloud span:hover {
+	background: #191970;
+	cursor: pointer;
+	-webkit-transition: all 0.1s;
+	font-weight: bold;
+	color: #fff;
+}
+
+#tag-cloud span.selected {
+	background: #191970;
+	cursor: pointer;
+	-webkit-transition: all 0.1s;
+	font-weight: bold;
+	color: #fff;
+}
+
+/**
+ *
+ *
+ *
+ */
 
 a {
 	text-decoration: none;

@@ -28,14 +28,20 @@
           <div class="item-1 search" id="searchbar">
             <form action="#"> 
               <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off"> 
+              <button data-bind="click: reverseList"><></button>
             </form>
           </div>
 
-          <div class="item-2 search" id="buttons">
+          <!-- <div class="item-2 search" id="buttons">
              <button data-bind="click: reverseList"><></button>
-     
              <select data-bind="options: availableOptions, value: selectedOption, optionsText: 'optionName'"></select>
-            <!--  <select data-bind="options: searchTags, optionsCaption: 'Choose one...', value: selectedTag, optionsText: 'tag', valueAllowUnset: true"></select></select> -->
+             <select data-bind="options: searchTags, optionsCaption: 'Choose one...', value: selectedTag, optionsText: 'tag', valueAllowUnset: true"></select></select>
+          </div> -->
+
+          <div class="item-2" id="tag-cloud">
+            <div class="content search">
+              <ul data-bind="template: {name: 'cloud', foreach: searchTags}"></ul>
+            </div>
           </div>
 
           <div class="item-3 search" id="search-results">
@@ -49,11 +55,6 @@
         </div>
        
         <div class="col-3">
-            <div class="item-1" id="tag-cloud">
-                <div class="content">
-                    <ul data-bind="template: {name: 'cloud', foreach: searchTags}"></ul>
-                </div>
-            </div>
         </div>
       </div>   
     </main>
@@ -76,9 +77,9 @@
   </script>
 
   <script type="text/html" id="cloud"> 
-    <li class="tag" data-bind="css: { selected: $data == $root.chosenTagId() }, click: $root.chosenTagId">
+    <span class="tag" data-bind="css: { selected: $data == $root.chosenTagId() }, click: $root.chosenTagId">
         <strong data-bind="click: $parent.selectTag, text: tag"></strong>
-    </li>
+    </span>
   </script> 
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
