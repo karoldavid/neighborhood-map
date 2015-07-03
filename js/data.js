@@ -11,6 +11,59 @@
 			bounds: {}
 		},
 	    locations: [
+	    {   
+	    	name: "Muzeum Narodowe",
+	        address: "Aleje Jerozolimskie 3, 00-495 Warszawa - Polska",
+	        coord: {lat: 52.231585, lng: 21.024704},
+	        www: "http://www.mnw.art.pl/en/",
+	        tag: "Museum"
+
+	    },
+	    {
+	    	name: "Hilton Warsaw Hotel and Convention Centre",
+	    	address: "Grzybowska 63, 00-844 Warszawa - Polska",
+            coord: {lat: 52.233893, lng: 20.986264},
+            www: "http://www3.hilton.com/en/hotels/poland/hilton-warsaw-hotel-and-convention-centre-WAWHIHI/index.html",
+            tag: "Hotel"
+	    },
+	    {
+	    	name: "Sheraton Warsaw Hotel",
+	    	address: " Bolesława Prusa 2, 00-493 Warszawa - Polska",
+	    	coord: {lat: 52.227926, lng: 21.024925},
+	    	www: "http://www.sheraton.pl/en/",
+	    	tag: "Hotel"
+
+	    },
+	    {
+	    	name: "InterContinental Warsaw",
+	    	address: "Emilii Plater 49, 00-125 Warszawa - Polska",
+	    	coord: {lat: 52.232408, lng: 21.002608},
+	    	www: "http://warsaw.intercontinental.com/",
+	    	tag: "Hotel"
+
+	    },
+	    {
+	    	name: "RADISSON BLU SOBIESKI HOTEL",
+	    	address: "plac Zawiszy 1, 02-025 Warszawa - Polska",
+	    	coord: {lat: 52.224420, lng: 20.989001},
+	    	www: "http://www.radissonblu.com/sobieski-warsaw",
+            tag: "Hotel"
+	    },
+	    {
+	    	name: "Biblioteka Narodowa",
+	    	address: "Aleja Niepodległości 213, 02-086 Warszawa - Polska",
+	    	coord: {lat: 52.213878, lng: 21.004422},
+	    	www: "http://www.bn.org.pl/",
+	    	tag: "Library"
+
+	    },
+	    {
+	    	name: "Kino Femina",
+	        address: "Aleja Solidarności 115 Warszawa - Polska",
+	        coord: {lat: 52.241984, lng: 20.994493},
+	        tag: "Cinema"
+
+	    },
         {   name: "Centrum",
             address:"Warszawa - Polska",
             coord: {lat: 52.231778, lng: 21.006162},
@@ -68,6 +121,13 @@
             options: "Dinner, Dessert",
             tag: "Restaurant"
         },
+        {
+        	name: "Teatr Dramatyczny im. G. Holoubka",
+        	address: "Plac Defilad 1, Warszawa - Polska",
+        	coord: {lat: 52.231755, lng: 21.006482},
+        	www: "http://teatrdramatyczny.pl/",
+        	tag: "Performing Arts"
+        },
         {   name: "Łazienki Królewskie w Warszawie",
             address: "Ujazdów, 01-999, Warszawa - Polska",
             coord: {lat: 52.2152, lng: 21.035},
@@ -80,8 +140,15 @@
         },
         {   name: "Warszawa Centralna",
             address: "00-844, Warszawa - Polska",
-            coord: {lat: 52.228483, lng: 21.003531},
+            coord: {lat:52.228729, lng: 21.003268},
             tag: "Train Station"
+        },
+        {
+        	name: "Warszawa Wschodnia",
+        	address: "03-802, Warszawa - Polska",
+        	coord: {lat: 52.251697, lng: 21.054861},
+        	tag: "Train Station"
+
         },
         {
         	name: "Polonia Palace Hotel",
@@ -105,9 +172,17 @@
         },
         {
         	name: "Filharmonia Narodowa",
-        	address: "Jasna 5, 00-950 Warszawa - Polska",
-        	coord: {lat: 52.234530, lng: 21.011338},
-        	tag: "Concert Hall"
+        	address: "Jasna 5, 00-950, Warszawa - Polska",
+        	coord: {lat: 52.234445, lng: 21.011390},
+        	www: "http://www.filharmonia.pl/",
+        	tag: "Performing Arts"
+        },
+        {
+        	name: "Teatr Wielki Opera Narodowa",
+        	address: "Plac Teatralny 1, 00-950 Warszawa - Polska",
+        	coord: {lat: 52.243516, lng: 21.010438},
+        	www: "http://teatrwielki.pl/",
+        	tag: "Performing Arts"
         },
         {
         	name: "Biblioteka Uniwersytecka",
