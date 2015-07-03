@@ -26,6 +26,24 @@ $(function(region, locations) {
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
     };
 
+    getInfoString = function(location) {
+        var infoString = '<div id="iw-container">' +
+                         '<h2 class="iw-title">' + location.name + '</h2>'+
+                         '<div class="iw-body">' +
+                         '<h3>History</h3>' +
+                         '<p>When the user edits the value in the associated' +
+                         'form control, it updates the value on your view model.' +
+                         'Likewise, when you update the value in your view model, this updates the value</p>' +
+                         '<p>' + location.address + '</p>' +
+                         '<p>' + location.tag + '</p>' +
+                         '</div>' +
+                         //'<div class="iw-footer">' +
+                         //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
+                         //'</div>' + 
+                         '</div>';
+        return infoString;
+    }
+
 
     var ViewModel = function() {
 
@@ -76,9 +94,15 @@ $(function(region, locations) {
 
         };
 
+        var markers = [];
+
         // Highlight active search result list item
         self.goToLocation = function(location) {
             self.chosenLocationId(location);
+            
+            // Show google maps info window when list item clicked
+            infowindow.setContent(getInfoString(location));
+            infowindow.open(map, location.marker);
         };
 
         // Initialize google maps and center map 
@@ -88,11 +112,10 @@ $(function(region, locations) {
         //Create a new info window.
         var infowindow = new google.maps.InfoWindow();
 
-        var marker;
-
         //Set map markers and define info window
-        self.locationList().forEach(function(location) {
+        self.locationList().forEach(function(location, index) {
             marker = new google.maps.Marker({
+                            setter: index,
                             position: new google.maps.LatLng(location.lat, location.lng),
                             map: map,
                             title: location.name,
@@ -110,21 +133,9 @@ $(function(region, locations) {
             }
 
             google.maps.event.addListener(location.marker, 'click', function(){
-                var infoString = '<div id="iw-container">' +
-                                 '<h2 class="iw-title">' + location.name + '</h2>'+
-                                 '<div class="iw-body">' +
-                                 '<h3>History</h3>' +
-                                 '<p>When the user edits the value in the associated' +
-                                 'form control, it updates the value on your view model.' +
-                                 'Likewise, when you update the value in your view model, this updates the value</p>' +
-                                 '<p>' + location.address + '</p>' +
-                                 '<p>' + location.tag + '</p>' +
-                                 '</div>' +
-                                 //'<div class="iw-footer">' +
-                                 //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
-                                 //'</div>' + 
-                                 '</div>';
             
+                var infoString = getInfoString(location);
+
                 toggleBounce();
                 setTimeout(toggleBounce, 2000);
 
@@ -136,6 +147,8 @@ $(function(region, locations) {
                 location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
             
             });
+
+            markers.push(marker);
         });
 
         //Filter location list and return search result

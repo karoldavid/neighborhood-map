@@ -68,7 +68,7 @@
 
   <!-- search result list -->
   <script type="text/html" id="result"> 
-    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.chosenLocationId"></li>
+    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation"></li>
   </script>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
