@@ -63,18 +63,12 @@
 
   <!-- tag cloud -->
   <script type="text/html" id="cloud"> 
-    <span class="tag" data-bind="css: { selected: $data == $root.chosenTagId() }, click: $root.chosenTagId">
-        <strong data-bind="click: $parent.selectTag, text: tag"></strong>
-    </span>
+    <span class="tag" data-bind="text: $data, css: { selected: $data == $root.chosenTagId() }, click: $root.goToTag"</span>
   </script> 
- 
+
   <!-- search result list -->
   <script type="text/html" id="result"> 
-    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.chosenLocationId, if: visible">
-        <strong data-bind="text: name"></strong> –
-        <span data-bind="text: tag"></span> –
-        <span data-bind="text: address"></span>
-    </li>
+    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.chosenLocationId"></li>
   </script>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>

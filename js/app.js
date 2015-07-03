@@ -13,13 +13,17 @@ $(function(region, locations) {
         this.name = data.name;
         this.address = data.address;
         this.options = data.options;
-        this.tag = ko.observable(data.tag);
+        this.tag = data.tag;
+
         this.title = ko.pureComputed(function() {
-            return this.name + ", " + this.address + ", " + this.tag();
+            return this.name + ", " + this.address + ", " + this.tag;
         }, this);
-        this.lat = ko.observable(data.coord.lat);
-        this.lng = ko.observable(data.coord.lng);
-        this.visible = ko.observable(!activeTag || activeTag === this.tag() ? true : false);
+
+        this.lat = data.coord.lat;
+        this.lng = data.coord.lng;
+        
+        // If no tag is active all location items are visible, otherwise only locations with active tag
+        this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
     };
 
 
@@ -27,78 +31,69 @@ $(function(region, locations) {
 
         var self = this;
 
-        this.availableOptions = [
-            { optionName: "Name"},
-            { optionName: "Address"},
-            { optionName: "Tag"}
-
-        ];
-
-        this.selectedOption = ko.observable("");
-
+        self.query = ko.observable("");
+        self.chosenTagId = ko.observable();
         self.chosenLocationId = ko.observable();
 
-        self.goToLocation = function(location) { self.chosenLocationId(location); };
+        self.mapCenter = ko.observable(region.center["name"].toUpperCase());
 
-        self.chosenTagId = ko.observable();
+        // Build location list
+        self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
+            return new Location(locationItem, "")
+        }));
 
-        self.goToTag = function(tag) { self.chosenTagId(tag); };
+        // Sort location list by name property
+        self.locationList().sort(function(left, right) {
+            return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
+        })
+        
+        // Reverse location list order
+        self.reverseList = function() {
+            self.locationList.reverse();
+        }
+        
+        // Retrieve only unique tags form the location list
+        self.uniqueSelect = function() {
+            var tags = ko.utils.arrayMap(self.locationList(), function(item) {
+                return item.tag;
+            })
+            return ko.utils.arrayGetDistinctValues(tags).sort();
+        };
+        
+        // Build search tag array
+        self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
+            return tag
+        });
 
-        // Initialize google maps and center map on Warsaw, Poland.
+        // Highlight active search
+        self.goToTag = function(tag) {
+            self.chosenTagId(tag);
+
+            // Get current tag clicked on and set only respective locations to visible
+            self.locationList().forEach(function(location) {
+                location.visible(!tag || tag === location.tag ? true : false);
+            });
+
+        };
+
+        // Highlight active search result list item
+        self.goToLocation = function(location) {
+            self.chosenLocationId(location);
+        };
+
+        // Initialize google maps and center map 
         var map = new google.maps.Map(document.getElementById('map-canvas'),
                       (new Region(region)).mapOptions);
 
         //Create a new info window.
         var infowindow = new google.maps.InfoWindow();
 
-        this.query = ko.observable("");
-
-        this.mapCenter = ko.observable(region.center["name"].toUpperCase());
-
-        // Build location list
-        this.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
-            return new Location(locationItem, "")
-        }));
-
-        // Sort location list by name property
-        this.locationList().sort(function(left, right) {
-            return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
-        })
-
-        this.reverseList = function() {
-            self.locationList.reverse();
-        }
-
-        // Return unique tag names
-        this.uniqueSelect = function() {
-            var tags = ko.utils.arrayMap(self.locationList(), function(item) {
-                return item.tag();
-            })
-            return ko.utils.arrayGetDistinctValues(tags).sort();
-        };
-
-        this.searchTags = ko.observableArray(ko.utils.arrayMap(self.uniqueSelect(), function(item) {
-            return {tag: item}
-        }));
-
-        this.selectItem = function() {
-            console.log(this);
-        };
-
-        // Get current tag clicked on and set only respective locations to visible
-        this.selectTag = function() {
-            var activeTag = this.tag;
-            self.locationList().forEach(function(location) {
-                location.visible(!activeTag || activeTag === location.tag() ? true : false);
-            });
-        };
-
         var marker;
 
         //Set map markers and define info window
-        this.locationList().forEach(function(location) {
+        self.locationList().forEach(function(location) {
             marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(location.lat(), location.lng()),
+                            position: new google.maps.LatLng(location.lat, location.lng),
                             map: map,
                             title: location.name,
                             animation: google.maps.Animation.DROP
@@ -123,7 +118,7 @@ $(function(region, locations) {
                                  'form control, it updates the value on your view model.' +
                                  'Likewise, when you update the value in your view model, this updates the value</p>' +
                                  '<p>' + location.address + '</p>' +
-                                 '<p>' + location.tag() + '</p>' +
+                                 '<p>' + location.tag + '</p>' +
                                  '</div>' +
                                  //'<div class="iw-footer">' +
                                  //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
@@ -144,7 +139,7 @@ $(function(region, locations) {
         });
 
         //Filter location list and return search result
-        this.searchResults = ko.computed(function() {
+        self.searchResults = ko.computed(function() {
             var search = self.query().toLowerCase();
             return ko.utils.arrayFilter(self.locationList(), function(location) {
                 return location.title().toLowerCase().indexOf(search) >= 0 && location.visible();
@@ -152,7 +147,7 @@ $(function(region, locations) {
         });
         
         //Filter location list and display only matching locations as markers on the map
-        this.mapMarkers = ko.computed(function() {
+        self.mapMarkers = ko.computed(function() {
             var search = self.query().toLowerCase();
             ko.utils.arrayFilter(self.locationList(), function(location) {
                 location.marker.setMap((location.title().toLowerCase().indexOf(search) >= 0 && location.visible()) ? map : null);
@@ -165,12 +160,11 @@ $(function(region, locations) {
                 map.setCenter(center); 
         });
     };
-
+    
+    // Show error message if google is not defined
     setTimeout(function () {
-
         try{
             if (!google || !google.maps) {
-                //This will throw the error if 'google' is not defined
             }
         }
         catch (e) {
