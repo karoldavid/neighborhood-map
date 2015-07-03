@@ -22,7 +22,7 @@ $(function(region, locations) {
         this.lat = data.coord.lat;
         this.lng = data.coord.lng;
         
-        // If no tag is active all location items are visible, otherwise only locations with active tag
+        // If no tag is active all location items are visible, otherwise only locations with active tag are visible
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
     };
 
@@ -41,6 +41,7 @@ $(function(region, locations) {
                          //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
                          //'</div>' + 
                          '</div>';
+
         return infoString;
     }
 
@@ -53,7 +54,7 @@ $(function(region, locations) {
         self.chosenTagId = ko.observable();
         self.chosenLocationId = ko.observable();
 
-        self.mapCenter = ko.observable(region.center["name"].toUpperCase());
+        self.region = region.center["name"].toUpperCase();
 
         // Build location list
         self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
@@ -78,12 +79,12 @@ $(function(region, locations) {
             return ko.utils.arrayGetDistinctValues(tags).sort();
         };
         
-        // Build search tag array
+        // Build search tag array for the tag cloud in the view
         self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
             return tag
         });
 
-        // Highlight active search
+        // Highlight slected search tag as active
         self.goToTag = function(tag) {
             self.chosenTagId(tag);
 
@@ -101,6 +102,7 @@ $(function(region, locations) {
             self.chosenLocationId(location);
             
             // Show google maps info window when list item is clicked
+            map.panTo(location.marker.getPosition());
             infowindow.setContent(getInfoString(location));
             infowindow.open(map, location.marker);
         };
@@ -138,10 +140,13 @@ $(function(region, locations) {
             
                 var infoString = getInfoString(location);
 
+                //map.setCenter(location.marker.getPosition());
+
                 toggleBounce();
                 setTimeout(toggleBounce, 2000);
 
                 setTimeout(function() {
+                    map.panTo(location.marker.getPosition());
                     infowindow.setContent(infoString);
                     infowindow.open(map, location.marker);
                 }, 1000);
