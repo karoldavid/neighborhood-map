@@ -100,7 +100,7 @@ $(function(region, locations) {
         self.goToLocation = function(location) {
             self.chosenLocationId(location);
             
-            // Show google maps info window when list item clicked
+            // Show google maps info window when list item is clicked
             infowindow.setContent(getInfoString(location));
             infowindow.open(map, location.marker);
         };
@@ -133,6 +133,8 @@ $(function(region, locations) {
             }
 
             google.maps.event.addListener(location.marker, 'click', function(){
+
+                self.goToLocation(location); // Highlight search list item when map marker is clicked
             
                 var infoString = getInfoString(location);
 
