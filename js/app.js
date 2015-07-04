@@ -56,6 +56,15 @@ $(function(region, locations) {
 
         self.region = region.center["name"].toUpperCase();
 
+         // Initialize google maps and center map 
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+                      (new Region(region)).mapOptions);
+
+        var bounds = new google.maps.LatLngBounds();
+
+        //Create a new info window.
+        var infowindow = new google.maps.InfoWindow();
+
         // Build location list
         self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
             return new Location(locationItem, "")
@@ -93,6 +102,14 @@ $(function(region, locations) {
                 location.visible(!tag || tag === location.tag ? true : false);
             });
 
+            // Fit map to new bounds based on all location positions filtered by tag
+            var currentBounds = new google.maps.LatLngBounds();
+
+            self.searchResults().forEach(function(location) {
+                currentBounds.extend(location.marker.position);
+            });
+
+            map.fitBounds(currentBounds);
         };
 
         var markers = [];
@@ -105,14 +122,9 @@ $(function(region, locations) {
             map.panTo(location.marker.getPosition());
             infowindow.setContent(getInfoString(location));
             infowindow.open(map, location.marker);
+            console.log("Pos: " + location.marker.getPosition());
+            console.log("Center: " + region.center.coord.lng);
         };
-
-        // Initialize google maps and center map 
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-                      (new Region(region)).mapOptions);
-
-        //Create a new info window.
-        var infowindow = new google.maps.InfoWindow();
 
         //Set map markers and define info window
         self.locationList().forEach(function(location, index) {
@@ -125,6 +137,8 @@ $(function(region, locations) {
                         });
 
             location.marker = marker;
+
+            bounds.extend(location.marker.position);
 
             function toggleBounce() {
                 if(location.marker.getAnimation() != null) {
@@ -140,8 +154,6 @@ $(function(region, locations) {
             
                 var infoString = getInfoString(location);
 
-                //map.setCenter(location.marker.getPosition());
-
                 toggleBounce();
                 setTimeout(toggleBounce, 2000);
 
@@ -152,7 +164,18 @@ $(function(region, locations) {
                 }, 1000);
 
                 location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+                 
+            });
+
+            map.fitBounds(bounds);
+
+            //map.setCenter(location.marker.getPosition());
             
+            map.panTo(map.getCenter());
+
+            var listener = google.maps.event.addListener(map, "idle", function () {
+                map.setZoom(region.zoom);
+                google.maps.event.removeListener(listener);
             });
 
             markers.push(marker);
