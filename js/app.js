@@ -148,6 +148,7 @@ $(function(region, locations) {
             self.chosenLocationId(location);
             
             // Show google maps info window when list item is clicked
+            infowindow.close();
             if (location) {
                 map.panTo(location.marker.getPosition());
                 infowindow.setContent(getInfoString(location));
