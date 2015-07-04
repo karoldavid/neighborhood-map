@@ -75,9 +75,9 @@ $(function(region, locations) {
         //Create a new info window.
         var infowindow = new google.maps.InfoWindow();
 
+        // Delete locations that are not within bounds
         initialLocations.forEach(function(location, index) {
             if (!checkBounds(strictBounds, location)) {
-                console.log(location);
                 initialLocations.splice(index, 1);
             }
         });
@@ -95,6 +95,15 @@ $(function(region, locations) {
         // Reverse location list order
         self.reverseList = function() {
             self.locationList.reverse();
+        }
+
+        self.resetList = function() {
+            self.query("");
+            self.chosenTagId("");
+            self.chosenLocationId("");
+            self.goToTag("");
+            self.goToLocation("");
+            map.fitBounds(bounds);
         }
         
         // Retrieve only unique tags form the location list
@@ -126,7 +135,9 @@ $(function(region, locations) {
                 currentBounds.extend(location.marker.position);
             });
 
-            map.fitBounds(currentBounds);
+            if (tag) {
+                map.fitBounds(currentBounds);
+            }
             //map.panToBounds(currentBounds);
         };
 
@@ -137,9 +148,12 @@ $(function(region, locations) {
             self.chosenLocationId(location);
             
             // Show google maps info window when list item is clicked
-            map.panTo(location.marker.getPosition());
-            infowindow.setContent(getInfoString(location));
-            infowindow.open(map, location.marker);
+            
+            if (location) {
+                map.panTo(location.marker.getPosition());
+                infowindow.setContent(getInfoString(location));
+                infowindow.open(map, location.marker);
+            }
         };
 
         //Set map markers and define info window
