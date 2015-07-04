@@ -8,7 +8,7 @@
 			    "coord": {lat: 52.231778, lng: 21.006162}
 			},
 			zoom: {initial: 14, min: 12, max: 20}, 
-			bounds: {}
+			bounds: [52.258875, 20.966867, 52.205255, 21.056818]
 		},
 	    locations: [
 	    {   

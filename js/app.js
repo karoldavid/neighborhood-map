@@ -185,6 +185,32 @@ $(function(region, locations) {
                 }
             });
 
+            // Bounds for region
+            // CREDIT TO: http://jsfiddle.net/cse_tushar/9d4jy4ye/
+
+            var strictBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(region.bounds[0], region.bounds[1]),
+                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
+
+            // Listen for the dragend event
+            google.maps.event.addListener(map, 'dragend', function () {
+                if (strictBounds.contains(map.getCenter())) return;
+                // We're out of bounds - Move the map back within the bounds
+                var c = map.getCenter(),
+                x = c.lng(),
+                y = c.lat(),
+                maxX = strictBounds.getNorthEast().lng(),
+                maxY = strictBounds.getNorthEast().lat(),
+                minX = strictBounds.getSouthWest().lng(),
+                minY = strictBounds.getSouthWest().lat();
+                if (x < minX) x = minX;
+                if (x > maxX) x = maxX;
+                if (y < minY) y = minY;
+                if (y > maxY) y = maxY;
+                map.setCenter(new google.maps.LatLng(y, x));
+            });
+
+
             markers.push(marker);
         });
 
