@@ -4,8 +4,8 @@ $(function(region, locations) {
 
     var Region = function(data) {
         this.mapOptions = {
-            center: {lat: data.center["coord"].lat , lng: data.center["coord"].lng},
-            zoom: data.zoom
+            center: {lat: data.center["coord"].lat, lng: data.center["coord"].lng},
+            zoom: data.zoom.initial
         };
     };
 
@@ -122,8 +122,6 @@ $(function(region, locations) {
             map.panTo(location.marker.getPosition());
             infowindow.setContent(getInfoString(location));
             infowindow.open(map, location.marker);
-            console.log("Pos: " + location.marker.getPosition());
-            console.log("Center: " + region.center.coord.lng);
         };
 
         //Set map markers and define info window
@@ -174,8 +172,17 @@ $(function(region, locations) {
             map.panTo(map.getCenter());
 
             var listener = google.maps.event.addListener(map, "idle", function () {
-                map.setZoom(region.zoom);
+                map.setZoom(region.zoom.initial);
                 google.maps.event.removeListener(listener);
+            });
+
+             // Limit the zoom level
+             google.maps.event.addListener(map, "zoom_changed", function () {
+                if (map.getZoom() < region.zoom.min) {
+                    map.setZoom(region.zoom.min);
+                } else if (map.getZoom() > region.zoom.max) {
+                    map.setZoom(region.zoom.max);
+                }
             });
 
             markers.push(marker);
