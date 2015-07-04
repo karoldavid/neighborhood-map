@@ -8,7 +8,7 @@
 			    "coord": {lat: 52.231778, lng: 21.006162}
 			},
 			zoom: {initial: 14, min: 12, max: 20}, 
-			bounds: [52.258875, 20.966867, 52.205255, 21.056818]
+			bounds: [52.152227, 20.955794, 52.283899, 21.157324]
 		},
 	    locations: [
 	    {   
@@ -135,7 +135,7 @@
         },
         {   name: "Lotnisko Chopina",
             address: "Żwirki i Wigury 1, Warszawa - Polska",
-            coord: {lat: 52.165699, lng: 20.967100},
+            coord: {lat: 52.167232, lng: 20.967891},
             tag: "Airport"
         },
         {   name: "Warszawa Centralna",
