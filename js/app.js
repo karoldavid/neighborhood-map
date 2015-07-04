@@ -44,6 +44,12 @@ $(function(region, locations) {
 
         return infoString;
     }
+    
+    // Check whether location is in map bounds
+    checkBounds = function(bounds, location) {
+        var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
+        return bounds.contains(position);
+    }
 
 
     var ViewModel = function() {
@@ -60,10 +66,21 @@ $(function(region, locations) {
         var map = new google.maps.Map(document.getElementById('map-canvas'),
                       (new Region(region)).mapOptions);
 
+        var strictBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(region.bounds[0], region.bounds[1]),
+                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
+
         var bounds = new google.maps.LatLngBounds();
 
         //Create a new info window.
         var infowindow = new google.maps.InfoWindow();
+
+        initialLocations.forEach(function(location, index) {
+            if (!checkBounds(strictBounds, location)) {
+                console.log(location);
+                initialLocations.splice(index, 1);
+            }
+        });
 
         // Build location list
         self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
@@ -110,6 +127,7 @@ $(function(region, locations) {
             });
 
             map.fitBounds(currentBounds);
+            //map.panToBounds(currentBounds);
         };
 
         var markers = [];
@@ -166,6 +184,7 @@ $(function(region, locations) {
             });
 
             map.fitBounds(bounds);
+            //map.panToBounds(bounds);
 
             //map.setCenter(location.marker.getPosition());
             
@@ -188,13 +207,9 @@ $(function(region, locations) {
             // Bounds for region
             // CREDIT TO: http://jsfiddle.net/cse_tushar/9d4jy4ye/
 
-            var strictBounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(region.bounds[0], region.bounds[1]),
-                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
-
             // Listen for the dragend event
             google.maps.event.addListener(map, 'dragend', function () {
-                if (strictBounds.contains(map.getCenter())) return;
+                if (strictBounds.contains(map.getCenter())) return
                 // We're out of bounds - Move the map back within the bounds
                 var c = map.getCenter(),
                 x = c.lng(),
@@ -209,7 +224,6 @@ $(function(region, locations) {
                 if (y > maxY) y = maxY;
                 map.setCenter(new google.maps.LatLng(y, x));
             });
-
 
             markers.push(marker);
         });
