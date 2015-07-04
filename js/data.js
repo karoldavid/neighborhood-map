@@ -178,6 +178,21 @@
         	tag: "Performing Arts"
         },
         {
+            name: "Arkadia",
+            address: "Aleja Jana Pawła II 82, 00-175 Warszawa Polska",
+            coord: {lat: 52.257119, lng: 20.984434},
+            www: "http://www.arkadia.com.pl/W/do/centre/strona-glowna",
+            tag: "Shopping Center"
+        },
+        {
+        	name: "Park Świętokrzyski",
+        	address: "Świętokrzyska, Warszawa - Polska",
+        	coord: {lat: 52.233889, lng: 21.005366},
+        	www: "http://zielona.um.warszawa.pl/tereny-zielone/parki/park-swietokrzyski",
+        	tag: "Park"
+
+        },
+        {
         	name: "Teatr Wielki Opera Narodowa",
         	address: "Plac Teatralny 1, 00-950 Warszawa - Polska",
         	coord: {lat: 52.243516, lng: 21.010438},
@@ -192,9 +207,16 @@
 
         },
         {
-        	name: "Złote Tarasy",
+            name: "Zachęta – Narodowa Galeria Sztuki",
+            address: "Plac Małachowskiego 3, 00-916 Warszawa - Polska",
+            coord: {lat: 52.239318, lng: 21.011531},
+            www: "http://www.zacheta.art.pl/",
+            tag: "Arts Gallery"
+        },
+        {
+        	name: "Parfois-Złote Tarasy",
         	address: "Ulica Złota 59, 00-120 Warszawa",
-        	coord: {lat: 52.230838, lng: 21.002277},
+        	coord: {lat: 52.230035, lng: 21.002501},
         	tag: "Shopping Center"
         }
         ]};
