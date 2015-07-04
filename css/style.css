@@ -93,7 +93,7 @@ header {
     height: auto;
     opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
     color: white;
-    padding: 0 0.5em;
+    padding: 0.25em;
 }
 
 header h1, header p {
@@ -103,12 +103,12 @@ header h1, header p {
 
 header h1 {
     font-weight: bold;
-    font-size: 2em;
-    line-height: 2em;  
+    font-size: 1.2em;
+    line-height: 1.4em;  
 }
 
 header p {
-    font-size: 1em;
+    font-size: 0.75em;
 }
 
 /**
@@ -273,6 +273,46 @@ a:hover {
 
 .nav-fade li:hover {
     background: #ddd;
+}
+
+/**
+ *
+ * Buttons
+ * CREDITS: https://css-tricks.com/examples/ButtonMaker/;
+ */
+
+.button {
+   border-top: 1px solid #a688a6;
+   background: #b4d6ed;
+   background: -webkit-gradient(linear, left top, left bottom, from(#c7c7c7), to(#b4d6ed));
+   background: -webkit-linear-gradient(top, #c7c7c7, #b4d6ed);
+   background: -moz-linear-gradient(top, #c7c7c7, #b4d6ed);
+   background: -ms-linear-gradient(top, #c7c7c7, #b4d6ed);
+   background: -o-linear-gradient(top, #c7c7c7, #b4d6ed);
+   padding: 0.1em 0..25em;
+   -webkit-border-radius: 0px;
+   -moz-border-radius: 0px;
+   border-radius: 0px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 0.75em;
+   text-decoration: none;
+   vertical-align: middle;
+}
+
+.button:hover {
+   border-top-color: #3b474f;
+   background: #3b474f;
+   color: #d6bcd6;
+   cursor: pointer;
+}
+
+.button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
 }
 
 /**
