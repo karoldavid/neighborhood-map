@@ -148,7 +148,6 @@ $(function(region, locations) {
             self.chosenLocationId(location);
             
             // Show google maps info window when list item is clicked
-            
             if (location) {
                 map.panTo(location.marker.getPosition());
                 infowindow.setContent(getInfoString(location));
@@ -287,7 +286,7 @@ $(function(region, locations) {
 //@TODO: SHOW GOOGLE MAPS ERROR MESSAGE WHEN RESPONSE FAILS
 //QTODO: When list item is clicked, highlight marker/ open marker info window
 //@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
-//       (ex. Yelp reviews, Wikipedia, Flickr images, etc).
+//       (ex. Yelp reviews, Wikipedia, Flickr images, Kayak, etc).
 
 //@TODO: Additional 3rd party API
 //@TODO: Optimmize Performance
