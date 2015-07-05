@@ -164,11 +164,24 @@ header p {
 	
 }
 
+.message ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: auto;
+}
+
+.message li {
+	background: none;   
+	-webkit-transition: all 0.5s ease-out;
+}
+
 #search-results ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	height: 25em;
+	height: auto;
+	max-height: 25em;
 	overflow:hidden;
 	overflow-y:scroll;
 }

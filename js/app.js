@@ -3,6 +3,11 @@ $(function(region, locations) {
     var initialLocations = locations;
 
     ko.bindingHandlers.fadeVisible = {
+        init: function(element, valueAccessor) {
+            // Start visible/invisible according to initial value
+            var shouldDisplay = valueAccessor();
+            $(element).toggle(shouldDisplay);
+        },
         update: function(element, valueAccessor) {
             // On update, fade in/out
             var shouldDisplay = valueAccessor();
@@ -65,8 +70,8 @@ $(function(region, locations) {
         var self = this;
 
         self.query = ko.observable("");
-        self.chosenTagId = ko.observable();
-        self.chosenLocationId = ko.observable();
+        self.chosenTagId = ko.observable("");
+        self.chosenLocationId = ko.observable("");
 
         self.region = region.center["name"].toUpperCase();
 
@@ -129,12 +134,11 @@ $(function(region, locations) {
 
         // Highlight slected search tag as active
         self.goToTag = function(tag) {
-            self.chosenTagId(tag != self.chosenTagId() ? tag : null);
-
-            console.log(self.chosenTagId());
+            self.chosenTagId(tag != self.chosenTagId() ? tag : "");
 
             self.query("");
             // Get current tag clicked on and set only respective locations to visible
+
             self.locationList().forEach(function(location) {
                 location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
             });
@@ -146,7 +150,7 @@ $(function(region, locations) {
                 currentBounds.extend(location.marker.position);
             });
 
-            if (tag) {
+            if (self.chosenTagId()) {
                 map.fitBounds(currentBounds);
             }
 
@@ -158,14 +162,13 @@ $(function(region, locations) {
         // Highlight active search result list item
         self.goToLocation = function(location) {
                        
-            self.chosenLocationId(location != self.chosenLocationId() ? location : null);
-            //self.chosenLocationId(location);
+            self.chosenLocationId(location != self.chosenLocationId() ? location : "");
+            //console.log(self.searchResults().length === 0);
             
             // Show google maps info window when list item is clicked
             infowindow.close();
 
             if (self.chosenLocationId()) {
-                console.log("yes");
                 map.panTo(location.marker.getPosition());
                 infowindow.setContent(getInfoString(location));
                 infowindow.open(map, location.marker);

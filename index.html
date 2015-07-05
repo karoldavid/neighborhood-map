@@ -40,9 +40,11 @@
           </div>
 
           <div class="item-3 search" id="search-results">
-            <div class="content"> 
-              <h3 data-bind="fadeVisible: searchResults().length === 0">Nothing Found</h3>
+            <div class="content">
               <ul data-bind="template: {name: 'result', foreach: searchResults}"></ul>
+              <ul class="message" data-bind="fadeVisible: searchResults().length === 0">
+                <li>Nothing Found</li>
+              </ul>
             </div>
           </div>
         </div>
