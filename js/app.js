@@ -28,6 +28,7 @@ $(function(region, locations) {
         this.name = data.name;
         this.address = data.address;
         this.options = data.options;
+        this.website = data.www;
         this.tag = data.tag;
 
         this.title = ko.pureComputed(function() {
@@ -53,8 +54,9 @@ $(function(region, locations) {
                          '<p>When the user edits the value in the associated' +
                          'form control, it updates the value on your view model.' +
                          'Likewise, when you update the value in your view model, this updates the value</p>' +
-                         '<img class="iw-img" src="' + location.img() + '">' +
-                         '<p>' + location.address + '</p>' +
+                         '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
+                         '<a href="' + location.website + '" target="_blank">Click to visit Website</a>' +
+                         '<p>' + location.name + ' ' + location.address + '</p>' +
                          '<p>' + location.tag + '</p>' +
                          '</div>' +
                          //'<div class="iw-footer">' +
