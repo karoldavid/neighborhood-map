@@ -39,6 +39,10 @@ $(function(region, locations) {
         
         // If no tag is active all location items are visible, otherwise only locations with active tag are visible
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
+
+        this.img = ko.computed(function() {
+            return 'https://maps.googleapis.com/maps/api/streetview?size=600x400&location=' + this.address;
+        }, this);
     };
 
     getInfoString = function(location) {
@@ -49,6 +53,7 @@ $(function(region, locations) {
                          '<p>When the user edits the value in the associated' +
                          'form control, it updates the value on your view model.' +
                          'Likewise, when you update the value in your view model, this updates the value</p>' +
+                         '<img class="iw-img" src="' + location.img() + '">' +
                          '<p>' + location.address + '</p>' +
                          '<p>' + location.tag + '</p>' +
                          '</div>' +
@@ -163,13 +168,13 @@ $(function(region, locations) {
 
         // Highlight active search result list item
         self.goToLocation = function(location) {
-                       
+         
+            // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
-            //console.log(self.searchResults().length === 0);
-            
-            // Show google maps info window when list item is clicked
+
             infowindow.close();
 
+            // Show google maps info window when list item is active
             if (self.chosenLocationId()) {
                 map.panTo(location.marker.getPosition());
                 infowindow.setContent(getInfoString(location));

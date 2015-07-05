@@ -357,6 +357,9 @@ a:hover {
 	padding: 1em;
 	font-size: 1em;
 }
+#iw-container .iw-body .iw-img {
+	max-width: 200px;
+}
 
 #iw-container .iw-footer {
 	background-color: #48b5e9;
