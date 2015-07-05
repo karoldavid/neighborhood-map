@@ -1,7 +1,9 @@
 
 $(function(region, locations) {
+
     var initialLocations = locations;
 
+    // CREDITS: http://learn.knockoutjs.com/
     ko.bindingHandlers.fadeVisible = {
         init: function(element, valueAccessor) {
             // Start visible/invisible according to initial value
@@ -150,9 +152,9 @@ $(function(region, locations) {
                 currentBounds.extend(location.marker.position);
             });
 
-            if (self.chosenTagId()) {
-                map.fitBounds(currentBounds);
-            }
+            self.chosenLocationId("");
+            infowindow.close();
+            map.fitBounds(currentBounds);
 
             //map.panToBounds(currentBounds);
         };
