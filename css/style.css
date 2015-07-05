@@ -338,9 +338,11 @@ a:hover {
     font-family: 'Architects Daughter', cursive;
 }
 
-#iw-container h2, h3{
+#iw-container .iw-body h2,
+#iw-container .iw-body h3,
+#iw-container .iw-body p {
 	margin: 0;
-	padding: 0;
+	padding: 0.5 0;
 }
 
 #iw-container .iw-title {
@@ -357,6 +359,7 @@ a:hover {
 	padding: 1em;
 	font-size: 1em;
 }
+
 #iw-container .iw-body .iw-img {
 	max-width: 200px;
 }
