@@ -2,6 +2,14 @@
 $(function(region, locations) {
     var initialLocations = locations;
 
+    ko.bindingHandlers.fadeVisible = {
+        update: function(element, valueAccessor) {
+            // On update, fade in/out
+            var shouldDisplay = valueAccessor();
+            shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
+        } 
+    };
+
     var Region = function(data) {
         this.mapOptions = {
             center: {lat: data.center["coord"].lat, lng: data.center["coord"].lng},
@@ -122,7 +130,7 @@ $(function(region, locations) {
         // Highlight slected search tag as active
         self.goToTag = function(tag) {
             self.chosenTagId(tag);
-
+            self.query("");
             // Get current tag clicked on and set only respective locations to visible
             self.locationList().forEach(function(location) {
                 location.visible(!tag || tag === location.tag ? true : false);

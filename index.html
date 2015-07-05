@@ -41,7 +41,8 @@
 
           <div class="item-3 search" id="search-results">
             <div class="content"> 
-              <ul data-bind="template: {name: 'result', foreach: searchResults}"></ul> 
+              <h3 data-bind="fadeVisible: searchResults().length === 0">Nothing Found</h3>
+              <ul data-bind="template: {name: 'result', foreach: searchResults}"></ul>
             </div>
           </div>
         </div>
