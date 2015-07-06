@@ -3,7 +3,7 @@
  var neighborhood = {
 		region: {
 			center: {
-				"name": "Warszawa",
+				"name": "Warsaw",
 			    "address": "Warszawa, Polska",
 			    "coord": {lat: 52.231778, lng: 21.006162}
 			},
