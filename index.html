@@ -34,7 +34,8 @@
             <form action="#"> 
               <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
               <button class="button" data-bind="click: reverseList"><></button>
-              <button class="button" data-bind="click: resetList">RESET</button>
+              <button class="button" data-bind="click: resetList">x</button>
+              <!--<button class="button" onclick="toggleVisibility('tag-cloud');">tags</button>-->
             </form>
           </div>
 
@@ -92,11 +93,16 @@
   <script src="js/app.js"></script>
 
   <script>
+    
     function toggleVisibility(id) {
-    	var e = document.getElementById(id);
-    	e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+    	var elem = document.getElementById(id);
+    	elem.style.display = ((elem.style.display!='none') ? 'none' : 'block');
     }
+    
+    // Hide wikipedia list
+    /*toggleVisibility('tag-cloud');*/
     toggleVisibility('wikipedia-links');
+
   </script>
 </body>
 </html>
