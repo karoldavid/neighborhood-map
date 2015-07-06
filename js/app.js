@@ -92,6 +92,7 @@ $(function(region, locations) {
 
         self.weather = ko.observable();
 
+        // Get current weather description and temperature of map region
         $(document).ready(function(){
             var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
                           'lat=' + region.center["coord"].lat +
@@ -101,6 +102,37 @@ $(function(region, locations) {
                 self.weather(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
             });
         });
+
+
+        // Get Wikipedia data
+
+        var $wikiElem = $('#wikipedia-links');
+
+        $wikiElem.text("");
+
+        var wikiQuery = region.center["name"],
+        dt = 'jsonp',
+        wikiBase = 'http://en.wikipedia.org/w/api.php',
+        wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
+
+        var wikiRequestTimeout = setTimeout(function() {
+            $wikiElem.text('failed to get Wikipedia resources');
+        }, 8000);
+
+        var x = $.ajax({
+            url: wikiUrl,
+            dataType: dt,
+            success: function(response){
+                         var articleList = response[1];
+                         for (var i = 0; i < articleList.length; i++) {
+                            var articleStr = articleList[i],
+                                url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                                console.log(articleStr);
+                            $wikiElem.append('<li><a href="' + url + '" target="_blank">' + articleStr + '</a></li>');
+                         };
+                         clearTimeout(wikiRequestTimeout);
+                       }
+            });
 
          // Initialize google maps and center map 
         var map = new google.maps.Map(document.getElementById('map-canvas'),
