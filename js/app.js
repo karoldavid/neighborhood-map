@@ -118,21 +118,22 @@ $(function(region, locations) {
         var wikiRequestTimeout = setTimeout(function() {
             $wikiElem.text('failed to get Wikipedia resources');
         }, 8000);
-
-        var x = $.ajax({
-            url: wikiUrl,
-            dataType: dt,
-            success: function(response){
-                         var articleList = response[1];
-                         for (var i = 0; i < articleList.length; i++) {
-                            var articleStr = articleList[i],
-                                url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                                console.log(articleStr);
-                            $wikiElem.append('<li><a href="' + url + '" target="_blank">' + articleStr + '</a></li>');
-                         };
-                         clearTimeout(wikiRequestTimeout);
-                       }
+        
+        $(document).ready(function(){
+            $.ajax({
+                url: wikiUrl,
+                dataType: dt,
+                success: function(response){
+                    var articleList = response[1];
+                    for (var i = 0; i < articleList.length; i++) {
+                        var articleStr = articleList[i],
+                        url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                        $wikiElem.append('<li><a href="' + url + '" target="_blank">' + articleStr + '</a></li>');
+                    };
+                    clearTimeout(wikiRequestTimeout);
+                }
             });
+        });
 
          // Initialize google maps and center map 
         var map = new google.maps.Map(document.getElementById('map-canvas'),
