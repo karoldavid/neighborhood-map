@@ -46,14 +46,15 @@ $(function(region, locations) {
         }, this);
     };
 
-    getInfoString = function(location) {
+    getInfoString = function(location, fourSquare) {
         // CREDITS: http://www.lipsum.com/
         var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' + 
                     'Pellentesque elementum consequat mi id consequat. Sed eu dapibus lectus.'
                     'Nunc tristique justo sed urna sodales pretium. Proin convallis' + 
                     'sollicitudin magna. Nunc pulvinar gravida enim, vel vestibulum ex' +
                     'suscipit sed. Etiam nec ligula ornare risus eleifend gravida et id nunc.' +
-                    'Aliquam sed lectus risus.'
+                    'Aliquam sed lectus risus.';
+        //var fq_request = fourSquare([location.lat, location.lng], location.name);
 
         var infoString = '<div id="iw-container">' +
                          '<h2 class="iw-title">' + location.name + '</h2>'+
@@ -62,8 +63,8 @@ $(function(region, locations) {
                          '<p>' + lorem + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
                          '<a href="' + location.website + '" target="_blank">Click to visit Website</a>' +
-                         '<p>' + location.name + ' ' + location.address + '</p>' +
-                         '<p>' + location.tag + '</p>' +
+                         '<p>' + location.name + ' ' + location.address + '</p>' + '<hr>' +
+                         '<p>' + fourSquare + '</p>' +
                          '</div>' +
                          //'<div class="iw-footer">' +
                          //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
@@ -78,7 +79,6 @@ $(function(region, locations) {
         var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
         return bounds.contains(position);
     }
-
 
     var ViewModel = function() {
 
@@ -185,9 +185,42 @@ $(function(region, locations) {
             // Show google maps info window when list item is active
             if (self.chosenLocationId()) {
                 map.panTo(location.marker.getPosition());
-                infowindow.setContent(getInfoString(location));
+                self.fourSquareRQ(location);
+
+                infowindow.setContent(getInfoString(location, self.fourSquare()));
                 infowindow.open(map, location.marker);
             }
+        };
+
+        self.fourSquare = ko.observable("");
+
+        self.fourSquareRQ = function(location) {
+
+            // @TODO: CORRECT RESPONSE ALWAyS ONE ACTIVE ITEM TOO LATE
+            // @TODO: FOURSUQARE NEEDS PROPER KNOCkOUT INTEGRATION
+
+            var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
+                CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
+                version = 20150705,
+                latlng = [location.lat, location.lng],
+                query = location.name;
+
+            $.ajax({
+                url: 'https://api.foursquare.com/v2/venues/search',
+                dataType: 'json',
+                data: 'limit=1' + 
+                      '&ll=' + latlng +
+                      '&query=' + query +
+                      '&client_id=' + CLIENT_ID +
+                      '&client_secret=' + CLIENT_SECRET +
+                      '&v=' + version +
+                      '&m=foursquare',
+                async: true,
+
+                success: function(data) {
+                    self.fourSquare(data.response.venues[0].categories[0].name || "");
+                }
+            });
         };
 
         //Set map markers and define info window
@@ -217,7 +250,8 @@ $(function(region, locations) {
                 self.goToLocation(location); // Highlight search list item when map marker is clicked
                 // @TODO: Un-Highlight search list item when map marker is closed by clicked
             
-                var infoString = getInfoString(location);
+                self.fourSquareRQ(location);
+                var infoString = getInfoString(location, self.fourSquare());
 
                 toggleBounce();
                 setTimeout(toggleBounce, 2000);
@@ -331,3 +365,4 @@ $(function(region, locations) {
 //@NOTES: RESPONSIVE Design
 //@NOTES: USER EXPERIENCE | UI
 //@NOTES: PRODUCTION CODE with grunt/gulp
+
