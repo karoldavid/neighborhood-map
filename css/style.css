@@ -362,6 +362,7 @@ a:hover {
 
 #iw-container .iw-body .iw-img {
 	max-width: 200px;
+	height: auto;
 }
 
 #iw-container .iw-footer {

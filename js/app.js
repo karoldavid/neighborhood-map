@@ -42,7 +42,7 @@ $(function(region, locations) {
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
 
         this.img = ko.computed(function() {
-            return 'https://maps.googleapis.com/maps/api/streetview?size=600x400&location=' + this.lat + ',' + this.lng;
+            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
         }, this);
     };
 
@@ -63,8 +63,8 @@ $(function(region, locations) {
                          '<p>' + lorem + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
                          '<a href="' + location.website + '" target="_blank">Click to visit Website</a>' +
-                         '<p>' + location.name + ' ' + location.address + '</p>' + '<hr>' +
-                         '<p>' + fourSquare + '</p>' +
+                         '<p>' + location.name + ' ' + location.address + '</p>'// + '<hr>' +
+                         //'<p>' + fourSquare + '</p>' +
                          '</div>' +
                          //'<div class="iw-footer">' +
                          //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
@@ -166,8 +166,10 @@ $(function(region, locations) {
             });
 
             self.chosenLocationId("");
+
             infowindow.close();
-            map.fitBounds(currentBounds);
+
+            if (self.chosenTagId()) { map.fitBounds(currentBounds); }
 
             //map.panToBounds(currentBounds);
         };
@@ -185,9 +187,9 @@ $(function(region, locations) {
             // Show google maps info window when list item is active
             if (self.chosenLocationId()) {
                 map.panTo(location.marker.getPosition());
-                self.fourSquareRQ(location);
+                //self.fourSquareRQ(location);
 
-                infowindow.setContent(getInfoString(location, self.fourSquare()));
+                infowindow.setContent(getInfoString(location, ""));
                 infowindow.open(map, location.marker);
             }
         };
@@ -250,8 +252,8 @@ $(function(region, locations) {
                 self.goToLocation(location); // Highlight search list item when map marker is clicked
                 // @TODO: Un-Highlight search list item when map marker is closed by clicked
             
-                self.fourSquareRQ(location);
-                var infoString = getInfoString(location, self.fourSquare());
+                //self.fourSquareRQ(location);
+                var infoString = getInfoString(location, "");
 
                 toggleBounce();
                 setTimeout(toggleBounce, 2000);
