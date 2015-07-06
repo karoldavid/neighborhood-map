@@ -42,11 +42,12 @@ $(function(region, locations) {
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
 
         this.img = ko.computed(function() {
-            return 'https://maps.googleapis.com/maps/api/streetview?size=600x400&location=' + this.address;
+            return 'https://maps.googleapis.com/maps/api/streetview?size=600x400&location=' + this.lat + ',' + this.lng;
         }, this);
     };
 
     getInfoString = function(location) {
+        // CREDITS: http://www.lipsum.com/
         var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' + 
                     'Pellentesque elementum consequat mi id consequat. Sed eu dapibus lectus.'
                     'Nunc tristique justo sed urna sodales pretium. Proin convallis' + 
