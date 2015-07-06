@@ -85,12 +85,17 @@ main {
  */
 
 header {
+	display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: flex-start;
+    justify-content: space-between;  
     margin: 0.5em 0;
-    text-align: left;
+    /*text-align: left;*/
     border-bottom: 1px solid #ccc;
     z-index: 1; /* The z-index should be higher than Google Maps */
-    background: black;
-    height: auto;
+    background: black;   
     opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
     color: white;
     padding: 0.25em;
@@ -109,6 +114,18 @@ header h1 {
 
 header p {
     font-size: 0.75em;
+}
+
+header .item-1 {
+	
+}
+
+header .item-2 {
+   
+}
+
+header .weather {
+	padding: 0 1em;
 }
 
 /**

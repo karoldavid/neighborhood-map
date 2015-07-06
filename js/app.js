@@ -73,6 +73,19 @@ $(function(region, locations) {
 
         return infoString;
     }
+
+    function getWeather(callback) {
+        var weather = 'http://openweathermap.org/data/2.1/find/city?' +
+                      'lat=' + region.center["coord"].lat +
+                      '&lon=' + region.center["coord"].lng +
+                      '&cnt=10';
+        $.ajax({
+            dataType: "jsonp",
+            url: weather,
+            success: callback
+        });
+    }
+
     
     // Check whether location is in map bounds
     checkBounds = function(bounds, location) {
@@ -89,6 +102,14 @@ $(function(region, locations) {
         self.chosenLocationId = ko.observable("");
 
         self.region = region.center["name"].toUpperCase();
+
+        self.weather = ko.observable();
+
+        getWeather(function (data) {
+            console.log('weather data received');
+            console.log(data.list[0]);
+            self.weather(data.list[0].weather[0].description + "   " + Math.round(data.list[0].main.temp - 273.15) + " °C");
+        });
 
          // Initialize google maps and center map 
         var map = new google.maps.Map(document.getElementById('map-canvas'),
