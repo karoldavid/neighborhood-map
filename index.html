@@ -58,8 +58,8 @@
        
         <div class="col-3">
             <div id="wikipedia">
-                <h3>Wikipedia</h3>
-                <ul id="wikipedia-links"></ul>
+                <button onclick="toggleVisibility('wikipedia-links');">Wikipedia</button>
+                 <ul id="wikipedia-links"></ul>         
             </div>
         </div>
 
@@ -90,5 +90,13 @@
   <script src="js/lib/knockout-3.3.0.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
+
+  <script>
+    function toggleVisibility(id) {
+    	var e = document.getElementById(id);
+    	e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+    }
+    toggleVisibility('wikipedia-links');
+  </script>
 </body>
 </html>
