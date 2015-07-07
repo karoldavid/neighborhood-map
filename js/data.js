@@ -65,7 +65,7 @@
 	        tag: "Cinema"
 
 	    },
-        {   name: "Centrum",
+        {   name: "Centrum Warszawy",
             address:"Warszawa - Polska",
             coord: {lat: 52.231778, lng: 21.006162},
             website: "#",
