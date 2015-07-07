@@ -2,6 +2,7 @@
 $(function(region, locations) {
 
     var initialLocations = locations;
+    var map;
 
     // CREDITS: http://learn.knockoutjs.com/
     ko.bindingHandlers.fadeVisible = {
@@ -31,6 +32,7 @@ $(function(region, locations) {
         this.website = data.website;
         this.tag = data.tag;
 
+        // Create string for search list
         this.title = ko.pureComputed(function() {
             return this.name + ", " + this.address + ", " + this.tag;
         }, this);
@@ -41,23 +43,19 @@ $(function(region, locations) {
         // If no tag is active all location items are visible, otherwise only locations with active tag are visible
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
 
+        // Get Googl Street View Image
         this.img = ko.computed(function() {
             return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
         }, this);
 
-        this.description = "-"; // Wikipedia API
+        // Wikipedia API
+        this.description = "-";
         
-        this.fs = "-"; // fourSquare API
+        // fourSquare API
+        this.fs = "-";
     };
 
     getInfoString = function(location) {
-        // CREDITS: http://www.lipsum.com/
-        var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' + 
-                    'Pellentesque elementum consequat mi id consequat. Sed eu dapibus lectus.'
-                    'Nunc tristique justo sed urna sodales pretium. Proin convallis' + 
-                    'sollicitudin magna. Nunc pulvinar gravida enim, vel vestibulum ex' +
-                    'suscipit sed. Etiam nec ligula ornare risus eleifend gravida et id nunc.' +
-                    'Aliquam sed lectus risus.';
 
         var infoString = '<div id="iw-container">' +
                          '<h2 class="iw-title">' + location.name + '</h2>'+
@@ -84,6 +82,14 @@ $(function(region, locations) {
         return bounds.contains(position);
     }
 
+    // Initialize Google Maps
+    function initialize() {
+     
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+                      (new Region(region)).mapOptions);
+        return map;
+    }
+
     var ViewModel = function() {
 
         var self = this;
@@ -92,20 +98,52 @@ $(function(region, locations) {
         self.chosenTagId = ko.observable("");
         self.chosenLocationId = ko.observable("");
 
+        // @TODO: Make map region changeable on click
         self.region = region.center["name"].toUpperCase();
-
         self.weather = ko.observable();
 
-        // Get current weather description and temperature of map region
-        $(document).ready(function(){
-            var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
-                          'lat=' + region.center["coord"].lat +
-                          '&lon=' + region.center["coord"].lng;
+        // @TODO: 
+        /*this.setGoogleMapBindings = function () {
+            ko.bindingHandlers.googlemap = {
+                init: function (element, valueAccessor) {
+                    var value = valueAccessor();
+                    var mapOptions = {
+                        zoom: 10,
+                        center: new google.maps.LatLng(value.centerLat, value.centerLon),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    };
+                    app.view.map = new google.maps.Map(element, mapOptions);
+                    google.maps.event.trigger(app.view.map, 'resize');
+                },
+            };
+        };*/
+             
+        // Get Google Maps region bounds
+        var strictBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(region.bounds[0], region.bounds[1]),
+                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
 
-            $.getJSON(weather, function(response) {
-                self.weather(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
-            });
+        var bounds = new google.maps.LatLngBounds();
+
+        //Create Google Maps info window.
+        var infowindow = new google.maps.InfoWindow();
+
+        // Filter locations that are not within bounds
+        initialLocations.forEach(function(location, index) {
+            if (!checkBounds(strictBounds, location)) {
+                initialLocations.splice(index, 1);
+            }
         });
+
+        // Build location list
+        self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
+            return new Location(locationItem, "")
+        }));
+
+        // Sort location list by name property
+        self.locationList().sort(function(left, right) {
+            return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
+        })
 
         // Get Wikipedia data for Wikipedia region info link list 
         self.wikipediaLinks = ko.observableArray();
@@ -136,42 +174,11 @@ $(function(region, locations) {
                     clearTimeout(wikiRequestTimeout);
                 }
         });
-        
-        // Initialize google maps and center map 
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-                      (new Region(region)).mapOptions);
 
-        var strictBounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(region.bounds[0], region.bounds[1]),
-                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
-
-        var bounds = new google.maps.LatLngBounds();
-
-        //Create a new info window.
-        var infowindow = new google.maps.InfoWindow();
-
-        // Delete locations that are not within bounds
-        initialLocations.forEach(function(location, index) {
-            if (!checkBounds(strictBounds, location)) {
-                initialLocations.splice(index, 1);
-            }
-        });
-
-        // Build location list
-        self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
-            return new Location(locationItem, "")
-        }));
-
-        // Sort location list by name property
-        self.locationList().sort(function(left, right) {
-            return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
-        })
-
-        // Get locations short description from Wikipedia
-
+        // Get from Wikipedia API short description for locations
         var wikiRequestTimeout2 = setTimeout(function() {
-            console.log('failed to get Wikipedia resources for locations short description');
             // @TODO: DRY + error message handling
+            console.log('failed to get Wikipedia resources for locations short description');
         }, 8000);
 
         self.locationList().forEach(function(location, i) {
@@ -191,82 +198,8 @@ $(function(region, locations) {
                 }
             });
         });
-        
-        // Reverse location list order
-        self.reverseList = function() {
-            self.locationList.reverse();
-        }
 
-        self.resetList = function() {
-            self.query("");
-            self.chosenTagId("");
-            self.chosenLocationId("");
-            self.goToTag("");
-            self.goToLocation("");
-            map.fitBounds(bounds);
-        }
-        
-        // Retrieve only unique tags form the location list
-        self.uniqueSelect = function() {
-            var tags = ko.utils.arrayMap(self.locationList(), function(item) {
-                return item.tag;
-            })
-            return ko.utils.arrayGetDistinctValues(tags).sort();
-        };
-        
-        // Build search tag array for the tag cloud in the view
-        self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
-            return tag
-        });
-
-        // Highlight slected search tag as active
-        self.goToTag = function(tag) {
-            self.chosenTagId(tag != self.chosenTagId() ? tag : "");
-
-            self.query("");
-            // Get current tag clicked on and set only respective locations to visible
-
-            self.locationList().forEach(function(location) {
-                location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
-            });
-
-            // Fit map to new bounds based on all location positions filtered by tag
-            var currentBounds = new google.maps.LatLngBounds();
-
-            self.searchResults().forEach(function(location) {
-                currentBounds.extend(location.marker.position);
-            });
-
-            self.chosenLocationId("");
-
-            infowindow.close();
-
-            if (self.chosenTagId()) { map.fitBounds(currentBounds); }
-
-            //map.panToBounds(currentBounds);
-        };
-
-        var markers = [];
-
-        // Highlight active search result list item
-        self.goToLocation = function(location) {
-         
-            // Make sure the list item clicked on is not active
-            self.chosenLocationId(location != self.chosenLocationId() ? location : "");
-
-            infowindow.close();
-
-            // Show google maps info window when list item is active
-            if (self.chosenLocationId()) {
-                map.panTo(location.marker.getPosition());
-                //self.fourSquareRQ(location);
-
-                infowindow.setContent(getInfoString(location));
-                infowindow.open(map, location.marker);
-            }
-        };
-
-        // Ajax request to fourSquare API
+        // Ajax request to fourSquare API to get proper location categories
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
             version = 20150705;
@@ -299,6 +232,97 @@ $(function(region, locations) {
             });
         });
 
+        // Get from Open Weather Map API current weather description and temperature
+        $(document).ready(function(){
+            var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
+                          'lat=' + region.center["coord"].lat +
+                          '&lon=' + region.center["coord"].lng;
+
+            $.getJSON(weather, function(response) {
+                self.weather(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
+            });
+        });
+
+        
+        // Reverse location list order
+        self.reverseList = function() {
+            self.locationList.reverse();
+        }
+        
+        // Reset complete search
+        self.resetList = function() {
+            self.query("");
+            self.chosenTagId("");
+            self.chosenLocationId("");
+            self.goToTag("");
+            self.goToLocation("");
+            map.fitBounds(bounds);
+        }
+        
+        // Retrieve only unique tags form the location list
+        self.uniqueSelect = function() {
+            var tags = ko.utils.arrayMap(self.locationList(), function(item) {
+                return item.tag;
+            })
+            return ko.utils.arrayGetDistinctValues(tags).sort();
+        };
+        
+        // Build search tag array for the tag cloud in the view
+        self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
+            return tag
+        });
+
+        // Highlight selected search tag as active
+        self.goToTag = function(tag) {
+            self.chosenTagId(tag != self.chosenTagId() ? tag : "");
+
+            self.query("");
+            // Get current tag clicked on and set only respective locations to visible
+
+            self.locationList().forEach(function(location) {
+                location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
+            });
+
+            // Fit map to new bounds based on all location positions filtered by tag
+            var currentBounds = new google.maps.LatLngBounds();
+
+            self.searchResults().forEach(function(location) {
+                currentBounds.extend(location.marker.position);
+            });
+
+            self.chosenLocationId("");
+
+            infowindow.close();
+
+            if (self.chosenTagId()) { map.fitBounds(currentBounds); }
+
+            //map.panToBounds(currentBounds);
+        };
+
+        // Highlight active search result list item
+        self.goToLocation = function(location) {
+         
+            // Make sure the list item clicked on is not active
+            self.chosenLocationId(location != self.chosenLocationId() ? location : "");
+            console.log(location);
+
+            infowindow.close();
+
+            // Show google maps info window when list item is active
+            if (self.chosenLocationId()) {
+                map.panTo(location.marker.getPosition());
+
+                infowindow.setContent(getInfoString(location));
+                infowindow.open(map, location.marker);
+            }
+        };
+
+        // @TODO:
+        /*self.show_marker = function(location) {
+            console.log(location);
+            google.maps.events.trigger(location.marker,'click');
+        }*/
+
         //Set map markers and define info window
         self.locationList().forEach(function(location, index) {
             marker = new google.maps.Marker({
@@ -323,10 +347,10 @@ $(function(region, locations) {
 
             google.maps.event.addListener(location.marker, 'click', function(){
 
-                self.goToLocation(location); // Highlight search list item when map marker is clicked
+                // Highlight search list item when map marker is clicked
                 // @TODO: Un-Highlight search list item when map marker is closed by clicked
+                self.goToLocation(location);
             
-                //self.fourSquareRQ(location);
                 var infoString = getInfoString(location);
 
                 toggleBounce();
@@ -354,7 +378,7 @@ $(function(region, locations) {
                 google.maps.event.removeListener(listener);
             });
 
-             // Limit the zoom level
+             // Limit the zoom level according to region data object
              google.maps.event.addListener(map, "zoom_changed", function () {
                 if (map.getZoom() < region.zoom.min) {
                     map.setZoom(region.zoom.min);
@@ -363,7 +387,7 @@ $(function(region, locations) {
                 }
             });
 
-            // Bounds for region
+            // Make sure, that bounds of Google Maps region are never left
             // CREDIT TO: http://jsfiddle.net/cse_tushar/9d4jy4ye/
 
             // Listen for the dragend event
@@ -384,7 +408,6 @@ $(function(region, locations) {
                 map.setCenter(new google.maps.LatLng(y, x));
             });
 
-            markers.push(marker);
         });
 
         //Filter location list and return search result
@@ -422,6 +445,9 @@ $(function(region, locations) {
             $error_elem.text('Sorry, An Error Occured. Google Maps Could Not Be Reached.');
         }
     }, 1000);
+
+    // Initialize Google Maps
+    google.maps.event.addDomListener(window, "load", map = initialize());
 
     ko.applyBindings(new ViewModel());
 }(neighborhood.region, neighborhood.locations));
