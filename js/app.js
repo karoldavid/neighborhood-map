@@ -45,23 +45,10 @@ $(function(region, locations) {
             return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
         }, this);
 
-        this.intro = ko.computed(function() {
-            var wikiQuery = this.name,
-                dt = 'jsonp',
-                wikiBase = 'http://en.wikipedia.org/w/api.php',
-                wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
-
-            return $.ajax({
-                       url: wikiUrl,
-                       dataType: dt,
-                       success: function(response) {
-                       // response[2][0];
-                       }
-                    });
-        }, this);
+        this.description = "-";
     };
 
-    getInfoString = function(location, fourSquare) {
+    getInfoString = function(location) {
         // CREDITS: http://www.lipsum.com/
         var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' + 
                     'Pellentesque elementum consequat mi id consequat. Sed eu dapibus lectus.'
@@ -69,17 +56,16 @@ $(function(region, locations) {
                     'sollicitudin magna. Nunc pulvinar gravida enim, vel vestibulum ex' +
                     'suscipit sed. Etiam nec ligula ornare risus eleifend gravida et id nunc.' +
                     'Aliquam sed lectus risus.';
-        //var fq_request = fourSquare([location.lat, location.lng], location.name);
 
         var infoString = '<div id="iw-container">' +
                          '<h2 class="iw-title">' + location.name + '</h2>'+
                          '<div class="iw-body">' +
                          '<h3>Info</h3>' +
-                         '<p>' + location.intro() + '</p>' +
+                         '<p>' + location.description + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
                          '<a href="' + location.website + '" target="_blank">Click to visit Website</a>' +
                          '<p>' + location.name + ' ' + location.address + '</p>'// + '<hr>' +
-                         //'<p>' + fourSquare + '</p>' +
+                         //'<p>' + location.fourSquare + '</p>' +
                          '</div>' +
                          //'<div class="iw-footer">' +
                          //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
@@ -118,7 +104,7 @@ $(function(region, locations) {
             });
         });
 
-        // Get Wikipedia data for Wikipedia region info list 
+        // Get Wikipedia data for Wikipedia region info link list 
         self.wikipediaLinks = ko.observableArray();
 
         var wikiQuery = region.center["name"],
@@ -148,8 +134,7 @@ $(function(region, locations) {
                 }
         });
         
-
-         // Initialize google maps and center map 
+        // Initialize google maps and center map 
         var map = new google.maps.Map(document.getElementById('map-canvas'),
                       (new Region(region)).mapOptions);
 
@@ -178,6 +163,33 @@ $(function(region, locations) {
         self.locationList().sort(function(left, right) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
         })
+
+        // Get locations short description text
+
+        var wikiRequestTimeout = setTimeout(function() {
+            //var $wikiElem = $('#wikipedia');
+            $//wikiElem.text('failed to get Wikipedia resources');
+            alert('failed to get Wikipedia resources');
+        }, 8000);
+
+        self.locationList().forEach(function(location, i) {
+
+            var wikiQuery = location.name,
+                dt = 'jsonp',
+                wikiBase = 'http://en.wikipedia.org/w/api.php',
+                wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
+   
+            $.ajax({
+                url: wikiUrl,
+                dataType: dt,
+                success: function(response){
+                    var description = response[2][0] || "-";
+                    self.locationList()[i].description = description;
+                    console.log(description);
+                    clearTimeout(wikiRequestTimeout);
+                }
+            });
+        });
         
         // Reverse location list order
         self.reverseList = function() {
@@ -248,7 +260,7 @@ $(function(region, locations) {
                 map.panTo(location.marker.getPosition());
                 //self.fourSquareRQ(location);
 
-                infowindow.setContent(getInfoString(location, ""));
+                infowindow.setContent(getInfoString(location));
                 infowindow.open(map, location.marker);
             }
         };
@@ -312,7 +324,7 @@ $(function(region, locations) {
                 // @TODO: Un-Highlight search list item when map marker is closed by clicked
             
                 //self.fourSquareRQ(location);
-                var infoString = getInfoString(location, "");
+                var infoString = getInfoString(location);
 
                 toggleBounce();
                 setTimeout(toggleBounce, 2000);
@@ -393,6 +405,7 @@ $(function(region, locations) {
                 google.maps.event.trigger(map, "resize");
                 map.setCenter(center); 
         });
+
     };
     
     // Show error message if google is not defined
