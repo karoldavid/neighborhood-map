@@ -426,6 +426,7 @@ a:hover {
 #iw-container .iw-body .iw-img {
 	max-width: 200px;
 	height: auto;
+  padding: 0.5em 0;
 }
 
 #iw-container .iw-footer {
