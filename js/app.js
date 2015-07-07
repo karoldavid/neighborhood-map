@@ -45,7 +45,9 @@ $(function(region, locations) {
             return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
         }, this);
 
-        this.description = "-";
+        this.description = "-"; // Wikipedia API
+        
+        this.fs = "-"; // fourSquare API
     };
 
     getInfoString = function(location) {
@@ -63,9 +65,9 @@ $(function(region, locations) {
                          '<h3>Info</h3>' +
                          '<p>' + location.description + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
-                         '<a href="' + location.website + '" target="_blank">Click to visit Website</a>' +
-                         '<p>' + location.name + ' ' + location.address + '</p>'// + '<hr>' +
-                         //'<p>' + location.fourSquare + '</p>' +
+                         '<a href="' + location.website + '" title="Go to ' + location.website + '" target="_blank">Click to visit Website</a>' +
+                         '<p>' + location.name + ' ' + location.address + '</p>'+ '<hr>' +
+                         '<p>' + location.fs + '</p>' +
                          '</div>' +
                          //'<div class="iw-footer">' +
                          //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
@@ -164,12 +166,11 @@ $(function(region, locations) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
         })
 
-        // Get locations short description text
+        // Get locations short description from Wikipedia
 
         var wikiRequestTimeout = setTimeout(function() {
-            //var $wikiElem = $('#wikipedia');
-            $//wikiElem.text('failed to get Wikipedia resources');
-            alert('failed to get Wikipedia resources');
+            console.log('failed to get Wikipedia resources for locations short description');
+            // @TODO: DRY + error message handling
         }, 8000);
 
         self.locationList().forEach(function(location, i) {
@@ -185,7 +186,6 @@ $(function(region, locations) {
                 success: function(response){
                     var description = response[2][0] || "-";
                     self.locationList()[i].description = description;
-                    console.log(description);
                     clearTimeout(wikiRequestTimeout);
                 }
             });
@@ -265,17 +265,17 @@ $(function(region, locations) {
             }
         };
 
-        self.fourSquare = ko.observable("");
+        // Ajax request to fourSquare API
+        var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
+            CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
+            version = 20150705;
 
-        self.fourSquareRQ = function(location) {
+        self.locationList().forEach(function(location,i) {
 
             // @TODO: CORRECT RESPONSE ALWAyS ONE ACTIVE ITEM TOO LATE
             // @TODO: FOURSUQARE NEEDS PROPER KNOCkOUT INTEGRATION
 
-            var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
-                CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
-                version = 20150705,
-                latlng = [location.lat, location.lng],
+            var latlng = [location.lat, location.lng],
                 query = location.name;
 
             $.ajax({
@@ -291,10 +291,12 @@ $(function(region, locations) {
                 async: true,
 
                 success: function(data) {
-                    self.fourSquare(data.response.venues[0].categories[0].name || "");
+                    var venue = data.response.hasOwnProperty("venues") ? data.response.venues[0] : "";
+                    var category = venue && venue.hasOwnProperty("categories") ? venue.categories[0].name : "-";
+                    self.locationList()[i].fs = category;
                 }
             });
-        };
+        });
 
         //Set map markers and define info window
         self.locationList().forEach(function(location, index) {
