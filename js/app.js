@@ -65,8 +65,9 @@ $(function(region, locations) {
                          '<h3>Info</h3>' +
                          '<p>' + location.description + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
-                         '<a href="' + location.website + '" title="Go to ' + location.website + '" target="_blank">Click to visit Website</a>' +
-                         '<p>' + location.name + ' ' + location.address + '</p>'+ '<hr>' +
+                         '<a href="' + location.website + '" title="Go to ' + location.website +
+                         '" target="_blank">Click to visit Website</a>' + '<hr>' +
+                         '<p>' + location.address + '</p>'+ '<hr>' +
                          '<p>' + location.fs + '</p>' +
                          '</div>' +
                          //'<div class="iw-footer">' +
@@ -168,7 +169,7 @@ $(function(region, locations) {
 
         // Get locations short description from Wikipedia
 
-        var wikiRequestTimeout = setTimeout(function() {
+        var wikiRequestTimeout2 = setTimeout(function() {
             console.log('failed to get Wikipedia resources for locations short description');
             // @TODO: DRY + error message handling
         }, 8000);
@@ -186,7 +187,7 @@ $(function(region, locations) {
                 success: function(response){
                     var description = response[2][0] || "-";
                     self.locationList()[i].description = description;
-                    clearTimeout(wikiRequestTimeout);
+                    clearTimeout(wikiRequestTimeout2);
                 }
             });
         });
