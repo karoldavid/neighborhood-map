@@ -4,7 +4,7 @@
 		region: {
 			center: {
 				"name": "Warsaw",
-			    "address": "Warszawa, Polska",
+			    "address": "Warszawa - Polska",
 			    "coord": {lat: 52.231778, lng: 21.006162}
 			},
 			zoom: {initial: 14, min: 12, max: 20}, 
@@ -68,7 +68,7 @@
         {   name: "Centrum Warszawy",
             address:"Warszawa - Polska",
             coord: {lat: 52.231778, lng: 21.006162},
-            website: "#",
+            website: "https://www.google.pl/?gws_rd=ssl#safe=strict&q=centrum+Warszawy",
             tag:"City Center"
         },
         {   name: "Pałac Kultury i Nauki",
@@ -77,17 +77,11 @@
             website: "http://www.pkin.pl/",
             tag:"Cultural Center"
         },
-        {   name: "Stare Miasto",
+        {   name: "Stare Miasto w Warszawie",
             address: "Warszawa - Polska",
             coord: {lat: 52.247733, lng:  21.013608},
-            website: "#",
+            website: "http://www.stare-miasto.com/",
             tag: "Historic Center"
-        },
-        {   name: "Centrum Kultury Nowy Wspaniały Świat",
-            address: "Świętokrzyska 63, Warszawa - Polska",
-            coord: {lat: 52.233839, lng:  21.001905},
-            website: "http://www.nowywspanialyswiat.pl/",
-            tag: "Cultural Center"
         },
         {   name: "Tygmont Jazz Club",
             address: "Mazowiecka 6/8, Warszawa, Polska",
