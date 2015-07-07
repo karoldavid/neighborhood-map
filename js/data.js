@@ -87,7 +87,6 @@
             address: "Świętokrzyska 63, Warszawa - Polska",
             coord: {lat: 52.233839, lng:  21.001905},
             website: "http://www.nowywspanialyswiat.pl/",
-            website: "#",
             tag: "Cultural Center"
         },
         {   name: "Tygmont Jazz Club",
@@ -110,7 +109,7 @@
             address: "Chocimska 7, Warszawa - Polska",
             coord: {lat: 52.2083889, lng: 21.023467900000014},
             options: "Lunch, Dinner, Dessert",
-            website: "#",
+            website: "http://restauracjarozana.com.pl/",
             tag: "Restaurant"
         },
         {
@@ -118,7 +117,7 @@
             address: "Str. Widok 8, Warszawa - Polska",
             coord: {lat: 52.2315629, lng: 21.0151429},
             options: "Brunch, Lunch, Dinner, Dessert",
-            website: "#",
+            website: "http://www.stara-kamienica.com.pl/",
             tag: "Restaurant"
         },
         {
@@ -126,7 +125,7 @@
             address: "Długa 52, Warszawa - Polska",
             coord: {lat: 52.2456709, lng: 21.001365899999996},
             options: "Dinner, Dessert",
-            website: "#",
+            website: "http://www.gessler.pl/",
             tag: "Restaurant"
         },
         {
@@ -139,26 +138,26 @@
         {   name: "Łazienki Królewskie w Warszawie",
             address: "Ujazdów, 01-999, Warszawa - Polska",
             coord: {lat: 52.2152, lng: 21.035},
-            website: "#",
+            website: "http://www.lazienki-krolewskie.pl/pl",
             tag:"Park"
         },
         {   name: "Lotnisko Chopina",
             address: "Żwirki i Wigury 1, Warszawa - Polska",
             coord: {lat: 52.167232, lng: 20.967891},
-            website: "#",
+            website: "http://www.lotnisko-chopina.pl/en/index.html",
             tag: "Airport"
         },
         {   name: "Warszawa Centralna",
             address: "00-844, Warszawa - Polska",
             coord: {lat:52.228729, lng: 21.003268},
-            website: "#",
+            website: "http://rozklad-pkp.pl/pl/terminal/warszawa-centralna",
             tag: "Train Station"
         },
         {
         	name: "Warszawa Wschodnia",
         	address: "03-802, Warszawa - Polska",
         	coord: {lat: 52.251697, lng: 21.054861},
-        	website: "#",
+        	website: "http://rozklad-pkp.pl/en/terminal/warszawa-wschodnia",
         	tag: "Train Station"
 
         },
@@ -166,7 +165,7 @@
         	name: "Polonia Palace Hotel",
         	address: "Aleje Jerozolimskie 45, 00-692, Warszawa - Polska",
         	coord: {lat: 52.229239, lng: 21.010275},
-        	website: "#",
+        	website: "http://www.poloniapalace.com/default-en.html",
         	tag: "Hotel"
 
         },
@@ -181,7 +180,7 @@
             name: "Plan B",
             address: "Aleja Wyzwolenia 18, 00-999 Warszawa - Polska",
             coord: {lat: 52.219978, lng: 21.018735},
-            website: "#",
+            website: "https://pl-pl.facebook.com/pages/Plan-B/200377996747550",
             tag: "Club",
         },
         {
@@ -196,7 +195,7 @@
             address: "Aleja Jana Pawła II 82, 00-175 Warszawa Polska",
             coord: {lat: 52.257119, lng: 20.984434},
             website: "http://www.arkadia.com.pl/W/do/centre/strona-glowna",
-            tag: "Shopping Center"
+            tag: "Mall"
         },
         {
         	name: "Park Świętokrzyski",
@@ -232,8 +231,8 @@
         	name: "Parfois-Złote Tarasy",
         	address: "Ulica Złota 59, 00-120 Warszawa",
         	coord: {lat: 52.230035, lng: 21.002501},
-        	website: "#",
-        	tag: "Shopping Center"
+        	website: "http://zlotetarasy.pl/",
+        	tag: "Mall"
         }
         ]};
 
