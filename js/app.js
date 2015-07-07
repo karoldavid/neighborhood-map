@@ -27,6 +27,7 @@ $(function(region, locations) {
 
     var Location = function(data, activeTag) {
         this.name = data.name;
+        this.marker;
         this.address = data.address;
         this.options = data.options;
         this.website = data.website;
@@ -301,27 +302,13 @@ $(function(region, locations) {
 
         // Highlight active search result list item
         self.goToLocation = function(location) {
-         
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
-            console.log(location);
-
-            infowindow.close();
-
-            // Show google maps info window when list item is active
-            if (self.chosenLocationId()) {
-                map.panTo(location.marker.getPosition());
-
-                infowindow.setContent(getInfoString(location));
-                infowindow.open(map, location.marker);
-            }
         };
 
-        // @TODO:
-        /*self.show_marker = function(location) {
-            console.log(location);
-            google.maps.events.trigger(location.marker,'click');
-        }*/
+        self.show_marker = function(location) {
+            google.maps.event.trigger(location.marker,'click');
+        }
 
         //Set map markers and define info window
         self.locationList().forEach(function(location, index) {
