@@ -60,7 +60,7 @@
         <div class="col-3">
             <div id="wikipedia">
                 <button class="button" onclick="toggleVisibility('wikipedia-links');">Wikipedia</button>
-                 <ul id="wikipedia-links"></ul>         
+                <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
             </div>
         </div>
 
@@ -84,6 +84,10 @@
   <!-- search result list -->
   <script type="text/html" id="result"> 
     <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation"></li>
+  </script>
+
+  <script type="text/html" id="wikipediaList"> 
+    <li><a data-bind="attr:{href: url}, text: title" target="_blank"></a></li>
   </script>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>

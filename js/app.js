@@ -44,6 +44,21 @@ $(function(region, locations) {
         this.img = ko.computed(function() {
             return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
         }, this);
+
+        this.intro = ko.computed(function() {
+            var wikiQuery = this.name,
+                dt = 'jsonp',
+                wikiBase = 'http://en.wikipedia.org/w/api.php',
+                wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
+
+            return $.ajax({
+                       url: wikiUrl,
+                       dataType: dt,
+                       success: function(response) {
+                       // response[2][0];
+                       }
+                    });
+        }, this);
     };
 
     getInfoString = function(location, fourSquare) {
@@ -59,8 +74,8 @@ $(function(region, locations) {
         var infoString = '<div id="iw-container">' +
                          '<h2 class="iw-title">' + location.name + '</h2>'+
                          '<div class="iw-body">' +
-                         '<h3>About</h3>' +
-                         '<p>' + lorem + '</p>' +
+                         '<h3>Info</h3>' +
+                         '<p>' + location.intro() + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
                          '<a href="' + location.website + '" target="_blank">Click to visit Website</a>' +
                          '<p>' + location.name + ' ' + location.address + '</p>'// + '<hr>' +
@@ -103,12 +118,8 @@ $(function(region, locations) {
             });
         });
 
-
-        // Get Wikipedia data
-
-        var $wikiElem = $('#wikipedia-links');
-
-        $wikiElem.text("");
+        // Get Wikipedia data for Wikipedia region info list 
+        self.wikipediaLinks = ko.observableArray();
 
         var wikiQuery = region.center["name"],
         dt = 'jsonp',
@@ -116,24 +127,27 @@ $(function(region, locations) {
         wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
 
         var wikiRequestTimeout = setTimeout(function() {
+            var $wikiElem = $('#wikipedia');
             $wikiElem.text('failed to get Wikipedia resources');
+            //alert('failed to get Wikipedia resources');
         }, 8000);
         
-        $(document).ready(function(){
-            $.ajax({
+        $.ajax({
                 url: wikiUrl,
                 dataType: dt,
                 success: function(response){
-                    var articleList = response[1];
-                    for (var i = 0; i < articleList.length; i++) {
-                        var articleStr = articleList[i],
-                        url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                        $wikiElem.append('<li><a href="' + url + '" target="_blank">' + articleStr + '</a></li>');
+                    var titleList = response[1];
+
+                    for (var i = 0; i < titleList.length; i++) {
+                        var titleStr = titleList[i],
+                            urlStr = 'http://en.wikipedia.org/wiki/' + titleStr;
+                        self.wikipediaLinks.push({url: urlStr, title: titleStr});
                     };
+
                     clearTimeout(wikiRequestTimeout);
                 }
-            });
         });
+        
 
          // Initialize google maps and center map 
         var map = new google.maps.Map(document.getElementById('map-canvas'),
