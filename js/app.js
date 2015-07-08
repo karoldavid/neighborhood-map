@@ -338,6 +338,11 @@ $(function(region, locations) {
                 // Close infowindow immediately on click if any is open
                 infowindow.close();
 
+                google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
+                    marker.setMap(null);
+                    self.chosenLocationId("");
+                });
+
                 self.chosenLocationId(location != self.chosenLocationId() ? location : "");
 
                 if (self.chosenLocationId()) {
