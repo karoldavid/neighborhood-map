@@ -277,9 +277,12 @@ $(function(region, locations) {
         self.goToTag = function(tag) {
             self.chosenTagId(tag != self.chosenTagId() ? tag : "");
 
+            // Reset current search
+            infowindow.close();
             self.query("");
-            // Get current tag clicked on and set only respective locations to visible
+            self.chosenLocationId("");
 
+            // Get current tag clicked on and set only respective locations to visible
             self.locationList().forEach(function(location) {
                 location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
             });
@@ -291,13 +294,7 @@ $(function(region, locations) {
                 currentBounds.extend(location.marker.position);
             });
 
-            self.chosenLocationId("");
-
-            infowindow.close();
-
-            if (self.chosenTagId()) { map.fitBounds(currentBounds); }
-
-            //map.panToBounds(currentBounds);
+            map.fitBounds(currentBounds);
         };
 
         // Highlight active search result list item
@@ -333,26 +330,32 @@ $(function(region, locations) {
                 }
             }
 
-            google.maps.event.addListener(location.marker, 'click', function(){
+            google.maps.event.addListener(location.marker, 'click', function() {
 
                 // Highlight search list item when map marker is clicked
                 // @TODO: Un-Highlight search list item when map marker is closed by clicked
+
+                // Close infowindow immediately on click if any is open
                 infowindow.close();
-                self.goToLocation(location);
-                map.panTo(location.marker.getPosition());
-            
-                var infoString = getInfoString(location);
 
-                toggleBounce();
-                setTimeout(toggleBounce, 2000);
+                self.chosenLocationId(location != self.chosenLocationId() ? location : "");
 
-                setTimeout(function() {
-                    infowindow.setContent(infoString);
-                    infowindow.open(map, location.marker);
-                }, 1000);
+                if (self.chosenLocationId()) {
 
-                location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
-                 
+                    map.panTo(location.marker.getPosition());
+
+                    var infoString = getInfoString(location);
+
+                    toggleBounce();
+                    setTimeout(toggleBounce, 2000);
+
+                    setTimeout(function() {
+                        infowindow.setContent(infoString);
+                        infowindow.open(map, location.marker);
+                    }, 1000);
+
+                    location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+                }
             });
 
             map.fitBounds(bounds);

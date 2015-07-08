@@ -48,6 +48,7 @@
           <div class="item-3 search" id="search-results">
             <div class="content">
               <ul data-bind="template: {name: 'result', foreach: searchResults}">
+                  <!-- @TODO: not working properly-->
                   <li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>
               </ul>
             </div>
