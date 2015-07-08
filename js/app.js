@@ -340,6 +340,7 @@ $(function(region, locations) {
 
                 google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
                     marker.setMap(null);
+                    // Deactivate currentyl activated location list item
                     self.chosenLocationId("");
                 });
 
