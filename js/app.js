@@ -306,6 +306,7 @@ $(function(region, locations) {
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
         };
 
+        // Open Google Maps info window when location list item is clicked
         self.show_marker = function(location) {
             google.maps.event.trigger(location.marker,'click');
         }
@@ -336,7 +337,9 @@ $(function(region, locations) {
 
                 // Highlight search list item when map marker is clicked
                 // @TODO: Un-Highlight search list item when map marker is closed by clicked
+                infowindow.close();
                 self.goToLocation(location);
+                map.panTo(location.marker.getPosition());
             
                 var infoString = getInfoString(location);
 
@@ -344,7 +347,6 @@ $(function(region, locations) {
                 setTimeout(toggleBounce, 2000);
 
                 setTimeout(function() {
-                    map.panTo(location.marker.getPosition());
                     infowindow.setContent(infoString);
                     infowindow.open(map, location.marker);
                 }, 1000);

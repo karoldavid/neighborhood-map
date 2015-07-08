@@ -82,7 +82,7 @@
 
   <!-- search result list -->
   <script type="text/html" id="result"> 
-    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation"><span data-bind="text: title,  click: $root.show_marker"></span></li>
+    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, click: $root.show_marker"></li>
   </script>
 
   <script type="text/html" id="wikipediaList"> 
