@@ -1,5 +1,5 @@
 
-$(function(region, locations) {
+$(document).ready(function(region, locations) {
 
     var initialLocations = locations;
     var map;
@@ -25,6 +25,7 @@ $(function(region, locations) {
         };
     };
 
+    // Location 'data' comes from the location object and 'activeTag' is ...
     var Location = function(data, activeTag) {
         this.name = data.name;
         this.marker;
@@ -91,7 +92,7 @@ $(function(region, locations) {
         return map;
     }
 
-    var ViewModel = function() {
+    var MyViewModel = function() {
 
         var self = this;
 
@@ -102,22 +103,6 @@ $(function(region, locations) {
         // @TODO: Make map region changeable on click
         self.region = region.center["name"].toUpperCase();
         self.weather = ko.observable();
-
-        // @TODO: 
-        /*this.setGoogleMapBindings = function () {
-            ko.bindingHandlers.googlemap = {
-                init: function (element, valueAccessor) {
-                    var value = valueAccessor();
-                    var mapOptions = {
-                        zoom: 10,
-                        center: new google.maps.LatLng(value.centerLat, value.centerLon),
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    };
-                    app.view.map = new google.maps.Map(element, mapOptions);
-                    google.maps.event.trigger(app.view.map, 'resize');
-                },
-            };
-        };*/
              
         // Get Google Maps region bounds
         var strictBounds = new google.maps.LatLngBounds(
@@ -145,6 +130,25 @@ $(function(region, locations) {
         self.locationList().sort(function(left, right) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
         })
+
+        self.myMap = ko.observable({
+            lat: ko.observable(region.center['coord'].lat),
+            lng: ko.observable(region.center['coord'].lng),
+            name: region.center['name']
+        });
+
+        self.locationList().forEach(function(location) {
+            //console.log(location.name);
+            self.myMap = ko.observable({
+                lat: ko.observable(location.lat),
+                lng: ko.observable(location.lng),
+                name: location.name
+            });
+        });
+
+        //map = self.myMap().googleMap;
+
+        //console.log(self.myMap());
 
         // Get Wikipedia data for Wikipedia region info link list 
         self.wikipediaLinks = ko.observableArray();
@@ -243,8 +247,7 @@ $(function(region, locations) {
                 self.weather(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
             });
         });
-
-        
+     
         // Reverse location list order
         self.reverseList = function() {
             self.locationList.reverse();
@@ -257,7 +260,6 @@ $(function(region, locations) {
             self.chosenLocationId("");
             self.goToTag("");
             self.goToLocation("");
-            map.fitBounds(bounds);
         }
         
         // Retrieve only unique tags form the location list
@@ -286,15 +288,6 @@ $(function(region, locations) {
             self.locationList().forEach(function(location) {
                 location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
             });
-
-            // Fit map to new bounds based on all location positions filtered by tag
-            var currentBounds = new google.maps.LatLngBounds();
-
-            self.searchResults().forEach(function(location) {
-                currentBounds.extend(location.marker.position);
-            });
-
-            map.fitBounds(currentBounds);
         };
 
         // Highlight active search result list item
@@ -332,9 +325,6 @@ $(function(region, locations) {
 
             google.maps.event.addListener(location.marker, 'click', function() {
 
-                // Highlight search list item when map marker is clicked
-                // @TODO: Un-Highlight search list item when map marker is closed by clicked
-
                 // Close infowindow immediately on click if any is open
                 infowindow.close();
 
@@ -363,21 +353,22 @@ $(function(region, locations) {
                     location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
                 }
             });
-
+            
             map.fitBounds(bounds);
-            //map.panToBounds(bounds);
+            // map.panToBounds(bounds);
 
-            //map.setCenter(location.marker.getPosition());
+            // map.setCenter(location.marker.getPosition());
             
             map.panTo(map.getCenter());
 
+            // @TODO: Check functionality
             var listener = google.maps.event.addListener(map, "idle", function () {
                 map.setZoom(region.zoom.initial);
                 google.maps.event.removeListener(listener);
             });
 
-             // Limit the zoom level according to region data object
-             google.maps.event.addListener(map, "zoom_changed", function () {
+            // Limit the zoom level according to region data object
+            google.maps.event.addListener(map, "zoom_changed", function () {
                 if (map.getZoom() < region.zoom.min) {
                     map.setZoom(region.zoom.min);
                 } else if (map.getZoom() > region.zoom.max) {
@@ -408,6 +399,14 @@ $(function(region, locations) {
 
         });
 
+       /* self.visibleMapMarkers = ko.observable(function() {
+            var bounds = new google.maps.LatLngBounds();
+            self.locationList().forEach(function(location) {
+                bounds.extend(location.marker.getPosition());
+            });
+            map.fitBounds(bounds);
+        });*/
+
         //Filter location list and return search result
         self.searchResults = ko.computed(function() {
             var search = self.query().toLowerCase();
@@ -422,8 +421,16 @@ $(function(region, locations) {
             ko.utils.arrayFilter(self.locationList(), function(location) {
                 location.marker.setMap((location.title().toLowerCase().indexOf(search) >= 0 && location.visible()) ? map : null);
             });
+
+            // Fit map to new bounds based on all location positions filtered by tag
+            var currentBounds = new google.maps.LatLngBounds();
+            self.searchResults().forEach(function(location) {
+                currentBounds.extend(location.marker.position);
+            });
+            map.fitBounds(currentBounds);
          });
 
+        // @TODO: Is this even listener realy needed?
         google.maps.event.addDomListener(window, "resize", function() {
             var center = map.getCenter();
                 google.maps.event.trigger(map, "resize");
@@ -431,7 +438,45 @@ $(function(region, locations) {
         });
 
     };
-    
+
+    ko.bindingHandlers.map = {
+
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            this.mapObj = ko.utils.unwrapObservable(valueAccessor());
+            var latLng = new google.maps.LatLng(
+                ko.utils.unwrapObservable(this.mapObj.lat),
+                ko.utils.unwrapObservable(this.mapObj.lng));
+            var name = ko.utils.unwrapObservable(this.mapObj.name);
+
+            this.mapObj.googleMap = new google.maps.Map(element, (new Region(region)).mapOptions);
+          
+           /* mapObj.marker = new google.maps.Marker({
+                map: mapObj.googleMap,
+                position: latLng,
+                title: name,
+                draggable: true
+            });*/
+        },
+        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+            var newLocation = ko.utils.unwrapObservable(valueAccessor());
+            var latLng = new google.maps.LatLng(
+                ko.utils.unwrapObservable(newLocation.lat),
+                ko.utils.unwrapObservable(newLocation.lng));
+            var name = ko.utils.unwrapObservable(newLocation.name);
+            
+
+            //console.log(newLocation);
+            //console.log(this.mapObj.googleMap);
+
+            newLocation.marker = new google.maps.Marker({
+                map: this.mapObj.googleMap,
+                position: latLng,
+                title: name,
+                draggable: true
+            });
+        }
+    };
+ 
     // Show error message if google is not defined
     setTimeout(function () {
         try{
@@ -444,10 +489,12 @@ $(function(region, locations) {
         }
     }, 1000);
 
-    // Initialize Google Maps
+    //Initialize Google Maps
     google.maps.event.addDomListener(window, "load", map = initialize());
 
-    ko.applyBindings(new ViewModel());
+    var viewModel = new MyViewModel();
+
+    ko.applyBindings(viewModel);
 }(neighborhood.region, neighborhood.locations));
 
 //@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
