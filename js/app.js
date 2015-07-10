@@ -47,7 +47,7 @@ $(document).ready(function(region, locations) {
         // If no tag is active all location items are visible, otherwise only locations with active tag are visible
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
 
-        // Get Googl Street View Image
+        // Get Google Street View image
         this.img = ko.computed(function() {
             return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
         }, this);
@@ -88,15 +88,6 @@ $(document).ready(function(region, locations) {
         return bounds.contains(position);
     }
 
-    // @TODO: DRY Google Maps is initialized here and in 'ko.bindingHandlers.map'
-    // Initialize Google Maps
-    function initialize() {
-     
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-                      (new Region(region)).mapOptions);
-        return map;
-    }
-
     //
     var MyViewModel = function() {
 
@@ -109,19 +100,6 @@ $(document).ready(function(region, locations) {
         // @TODO: Make map region changeable on click
         self.region = region.center["name"].toUpperCase();
         self.weather = ko.observable();
-             
-        // @TODO: DRY 'strictBounds' also in 'ko.bindingHandlers.map'
-        // Get Google Maps region bounds
-/*        var strictBounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(region.bounds[0], region.bounds[1]),
-                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
-
-        // Filter locations that are not within app map bounds
-        initialLocations.forEach(function(location, index) {
-            if (!checkBounds(strictBounds, location)) {
-                initialLocations.splice(index, 1);
-            }
-        });*/
 
         // Sort location list by name property
         initialLocations.sort(function(left, right) {
@@ -133,6 +111,13 @@ $(document).ready(function(region, locations) {
             return new Location(locationItem, "")
         }));
 
+        /**
+         *
+         * APIs start
+         *
+         */
+
+        // @TODO: Check error message
         // Get from Wikipedia API url and title for region info link list 
         self.wikipediaLinks = ko.observableArray();
 
@@ -162,7 +147,8 @@ $(document).ready(function(region, locations) {
                     clearTimeout(wikiRequestTimeout);
                 }
         });
-
+        
+        // @TODO: Check error message
         // Get from Wikipedia API short description for locations
         var wikiRequestTimeout2 = setTimeout(function() {
             // @TODO: DRY + error message handling
@@ -187,6 +173,7 @@ $(document).ready(function(region, locations) {
             });
         });
 
+        // @TODO: Check error message
         // Get from fourSquare API proper location categories
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
@@ -217,6 +204,7 @@ $(document).ready(function(region, locations) {
             });
         });
 
+        // @TODO: Check error message
         // Get from Open Weather Map API current weather description and temperature
         $(document).ready(function(){
             var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
@@ -227,6 +215,12 @@ $(document).ready(function(region, locations) {
                 self.weather(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
             });
         });
+
+        /**
+         *
+         * APIs end
+         *
+         */
      
         // Reverse location list order
         self.reverseList = function() {
@@ -268,13 +262,12 @@ $(document).ready(function(region, locations) {
             self.myMap().forEach(function(location) {
                 location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
                 location.marker.setMap(!self.chosenTagId() || self.chosenTagId() === location.tag ? map : null);
-                //console.log(location.marker);
             });
             
+            // @TODO: How to handle everything map related in the 'Google Maps bindingHandler'?
             // Fit map to new bounds based on all location positions filtered by tag
             var currentBounds = new google.maps.LatLngBounds();
             self.searchResults().forEach(function(location) {
-                //console.log(location.marker.position);
                 currentBounds.extend(location.marker.position);
             });
             map.fitBounds(currentBounds);
@@ -319,7 +312,7 @@ $(document).ready(function(region, locations) {
          });
     };
 
-    // @TODO: Integrate Google Maps with ko binding handlers
+    // Google Maps functionality
     ko.bindingHandlers.map = {
 
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -334,10 +327,19 @@ $(document).ready(function(region, locations) {
             //Create Google Maps info window.
             var infowindow = new google.maps.InfoWindow();
 
+            // Get locations data
             var locations = valueAccessor();
 
+            // Create Google Maps map object
             map = new google.maps.Map(element, (new Region(region)).mapOptions);
-          
+
+            // @TODO: Filter locations that are not within app region bounds
+            /*locations().forEach(function(location, index) {
+                if (!checkBounds(strictBounds, location)) {
+                    locations().splice(index, 1);
+                }
+            });*/
+
             // Create location markers
             locations().forEach(function(location) {
                 marker = new google.maps.Marker({
@@ -347,7 +349,7 @@ $(document).ready(function(region, locations) {
                             location.lng),
                     title:  location.name,
                     animation: google.maps.Animation.DROP,
-                    draggable: true
+                    draggable: false
                 });
 
                 location.marker = marker;
@@ -361,6 +363,8 @@ $(document).ready(function(region, locations) {
                     }
                 }
     
+                // @TODO: Close info window when active marker is clicked
+                // @TODO: Highlight search list item when marker is active
                 // Open Google Maps info window on click
                 google.maps.event.addListener(location.marker, 'click', function() {
  
@@ -383,6 +387,7 @@ $(document).ready(function(region, locations) {
                         infowindow.open(map, location.marker);
                     }, 1000);
 
+                    // Mark visited marker green
                     location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
                 });
             });
@@ -433,6 +438,7 @@ $(document).ready(function(region, locations) {
         }
     };
  
+    // @TODO: Check error message
     // Show error message if google is not defined
     setTimeout(function () {
         try{
@@ -444,9 +450,6 @@ $(document).ready(function(region, locations) {
             $error_elem.text('Sorry, An Error Occured. Google Maps Could Not Be Reached.');
         }
     }, 1000);
-
-    //Initialize Google Maps
-    //google.maps.event.addDomListener(window, "load", map = initialize());
 
     var viewModel = new MyViewModel();
 
