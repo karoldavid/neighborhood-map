@@ -1,8 +1,10 @@
 
+//@ TODO: Load data as json 
 $(document).ready(function(region, locations) {
 
-    var initialLocations = locations,
-        map; // Map object scope
+    // @TODO: Add POI data (Performing Arts locations)
+    var initialLocations = locations, // locations data
+        map; // Set map object scope
 
     // CREDITS: http://learn.knockoutjs.com/
     // Fade message in/ out
@@ -59,7 +61,6 @@ $(document).ready(function(region, locations) {
         this.fs = "-";
     };
 
-
     // Return info string for Google Maps location info window
     getInfoString = function(location) {
 
@@ -93,13 +94,13 @@ $(document).ready(function(region, locations) {
 
         var self = this;
 
-        self.query = ko.observable("");
-        self.chosenTagId = ko.observable("");
-        self.chosenLocationId = ko.observable("");
+        self.query = ko.observable(""); // Search box query string
+        self.chosenTagId = ko.observable(""); // Selected tag in tag cloud
+        self.chosenLocationId = ko.observable(""); // Selected location item in locations item list
 
         // @TODO: Make map region changeable on click
-        self.region = region.center["name"].toUpperCase();
-        self.weather = ko.observable();
+        self.region = region.center["name"].toUpperCase(); // Map region string for header app info
+        self.weather = ko.observable(); // Current weather string for header app info
 
         // Sort location list by name property
         initialLocations.sort(function(left, right) {
@@ -174,6 +175,7 @@ $(document).ready(function(region, locations) {
         });
 
         // @TODO: Check error message
+        // @TODO: Retrieve POI data 
         // Get from fourSquare API proper location categories
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
