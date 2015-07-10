@@ -112,12 +112,12 @@ $(document).ready(function(region, locations) {
              
         // @TODO: DRY 'strictBounds' also in 'ko.bindingHandlers.map'
         // Get Google Maps region bounds
-        /*var strictBounds = new google.maps.LatLngBounds(
+/*        var strictBounds = new google.maps.LatLngBounds(
                 new google.maps.LatLng(region.bounds[0], region.bounds[1]),
-                new google.maps.LatLng(region.bounds[2], region.bounds[3]));*/
+                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
 
         // Filter locations that are not within app map bounds
-       /* initialLocations.forEach(function(location, index) {
+        initialLocations.forEach(function(location, index) {
             if (!checkBounds(strictBounds, location)) {
                 initialLocations.splice(index, 1);
             }
