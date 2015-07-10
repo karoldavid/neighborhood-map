@@ -143,15 +143,6 @@ header .weather {
     z-index: 0; /* Set z-index to 0 as it will be on a layer below search form */
 }
 
-.region-map {
-    position: absolute; 
-    top: 0; 
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 0; /* Set z-index to 0 as it will be on a layer below search form */
-}
-
 #wikipedia {
 	position: relative; 
     z-index: 1; /* The z-index should be higher than Google Maps */

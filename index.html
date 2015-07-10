@@ -23,8 +23,6 @@
       </div>
     </header>
 
-    <!--<div id="map-canvas" class="region-map"></div>-->
-
     <div id="map-canvas" data-bind="map:myMap"></div>
     
     <main>
@@ -85,7 +83,7 @@
 
   <!-- search result list -->
   <script type="text/html" id="result"> 
-    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, click: $root.show_marker"></li>
+    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation"></li>
   </script>
 
   <script type="text/html" id="wikipediaList"> 
