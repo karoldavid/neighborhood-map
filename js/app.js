@@ -123,25 +123,15 @@ $(document).ready(function(region, locations) {
             }
         });
 
-        // @TODO: DRY self.locationList() and self.myMap() are more or less the same
-        // Build location list
-        self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
-            return new Location(locationItem, "")
-        }));
-
         // Sort location list by name property
-        self.locationList().sort(function(left, right) {
+        initialLocations.sort(function(left, right) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
-        })
+        });
 
         // Initialize Google Maps Markers
-        self.myMap = ko.observableArray(ko.utils.arrayMap(self.locationList(), function(locationItem) {
-            return locationItem
+        self.myMap = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
+            return new Location(locationItem, "")
         }));
-        
-        /*self.myMap().forEach(function(i) {
-            console.log(i);
-        });*/
 
         // Get Wikipedia data for Wikipedia region info link list 
         self.wikipediaLinks = ko.observableArray();
@@ -191,7 +181,7 @@ $(document).ready(function(region, locations) {
                 dataType: dt,
                 success: function(response){
                     var description = response[2][0] || "-";
-                    self.locationList()[i].description = description;
+                    self.myMap()[i].description = description;
                     clearTimeout(wikiRequestTimeout2);
                 }
             });
@@ -222,7 +212,7 @@ $(document).ready(function(region, locations) {
                 success: function(data) {
                     var venue = data.response.hasOwnProperty("venues") ? data.response.venues[0] : "";
                     var category = venue && venue.hasOwnProperty("categories") ? venue.categories[0].name : "-";
-                    self.locationList()[i].fs = category;
+                    self.myMap()[i].fs = category;
                 }
             });
         });
@@ -254,7 +244,7 @@ $(document).ready(function(region, locations) {
         
         // Retrieve only unique tags form the location list
         self.uniqueSelect = function() {
-            var tags = ko.utils.arrayMap(self.locationList(), function(item) {
+            var tags = ko.utils.arrayMap(self.myMap(), function(item) {
                 return item.tag;
             })
             return ko.utils.arrayGetDistinctValues(tags).sort();
