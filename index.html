@@ -23,7 +23,9 @@
       </div>
     </header>
 
-    <div id="map-canvas" class="map"></div>
+    <div id="map-canvas" class="region-map"></div>
+
+    <<div id="map" data-bind="style:{width:'300px',height:'300px'}, map:myMap"></div>
     
     <main>
       <div class="row">
@@ -34,7 +36,7 @@
             <form action="#"> 
               <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
               <button class="button" data-bind="click: reverseList"><></button>
-              <button class="button" data-bind="click: resetList">x</button>
+              <button class="button" data-bind="click: resetSearch">x</button>
               <!--<button class="button" onclick="toggleVisibility('tag-cloud');">tags</button>-->
             </form>
           </div>

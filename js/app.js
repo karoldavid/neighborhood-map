@@ -254,7 +254,7 @@ $(document).ready(function(region, locations) {
         }
         
         // Reset complete search
-        self.resetList = function() {
+        self.resetSearch = function() {
             self.query("");
             self.chosenTagId("");
             self.chosenLocationId("");
@@ -275,16 +275,15 @@ $(document).ready(function(region, locations) {
             return tag
         });
 
-        // Highlight selected search tag as active
+        // Highlight selected search tag as active and filter location list accordingly
         self.goToTag = function(tag) {
             self.chosenTagId(tag != self.chosenTagId() ? tag : "");
 
             // Reset current search
-            infowindow.close();
             self.query("");
             self.chosenLocationId("");
 
-            // Get current tag clicked on and set only respective locations to visible
+            // Set only according locations to visible
             self.locationList().forEach(function(location) {
                 location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
             });
@@ -398,14 +397,6 @@ $(document).ready(function(region, locations) {
             });
 
         });
-
-       /* self.visibleMapMarkers = ko.observable(function() {
-            var bounds = new google.maps.LatLngBounds();
-            self.locationList().forEach(function(location) {
-                bounds.extend(location.marker.getPosition());
-            });
-            map.fitBounds(bounds);
-        });*/
 
         //Filter location list and return search result
         self.searchResults = ko.computed(function() {
