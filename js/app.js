@@ -1,10 +1,11 @@
 
 $(document).ready(function(region, locations) {
 
-    var initialLocations = locations;
-    var map;
+    var initialLocations = locations,
+        map; // Map object scope
 
     // CREDITS: http://learn.knockoutjs.com/
+    // Fade message in/ out
     ko.bindingHandlers.fadeVisible = {
         init: function(element, valueAccessor) {
             // Start visible/invisible according to initial value
@@ -18,6 +19,7 @@ $(document).ready(function(region, locations) {
         } 
     };
 
+    // Set Google Maps 'mapOptions' to region definded in app data object
     var Region = function(data) {
         this.mapOptions = {
             center: {lat: data.center["coord"].lat, lng: data.center["coord"].lng},
@@ -57,6 +59,8 @@ $(document).ready(function(region, locations) {
         this.fs = "-";
     };
 
+
+    // Return info string for Google Maps location info window
     getInfoString = function(location) {
 
         var infoString = '<div id="iw-container">' +
@@ -84,6 +88,7 @@ $(document).ready(function(region, locations) {
         return bounds.contains(position);
     }
 
+    // @TODO: DRY Google Maps is initialized here and in 'ko.bindingHandlers.map'
     // Initialize Google Maps
     function initialize() {
      
@@ -92,6 +97,7 @@ $(document).ready(function(region, locations) {
         return map;
     }
 
+    //
     var MyViewModel = function() {
 
         var self = this;
@@ -104,23 +110,20 @@ $(document).ready(function(region, locations) {
         self.region = region.center["name"].toUpperCase();
         self.weather = ko.observable();
              
+        // @TODO: DRY 'strictBounds' also in 'ko.bindingHandlers.map'
         // Get Google Maps region bounds
         var strictBounds = new google.maps.LatLngBounds(
                 new google.maps.LatLng(region.bounds[0], region.bounds[1]),
                 new google.maps.LatLng(region.bounds[2], region.bounds[3]));
 
-        var bounds = new google.maps.LatLngBounds();
-
-        //Create Google Maps info window.
-        var infowindow = new google.maps.InfoWindow();
-
-        // Filter locations that are not within bounds
+        // Filter locations that are not within app map bounds
         initialLocations.forEach(function(location, index) {
             if (!checkBounds(strictBounds, location)) {
                 initialLocations.splice(index, 1);
             }
         });
 
+        // @TODO: DRY self.locationList() and self.myMap() are more or less the same
         // Build location list
         self.locationList = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
             return new Location(locationItem, "")
@@ -131,24 +134,14 @@ $(document).ready(function(region, locations) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
         })
 
-        self.myMap = ko.observable({
-            lat: ko.observable(region.center['coord'].lat),
-            lng: ko.observable(region.center['coord'].lng),
-            name: region.center['name']
-        });
-
-        self.locationList().forEach(function(location) {
-            //console.log(location.name);
-            self.myMap = ko.observable({
-                lat: ko.observable(location.lat),
-                lng: ko.observable(location.lng),
-                name: location.name
-            });
-        });
-
-        //map = self.myMap().googleMap;
-
-        //console.log(self.myMap());
+        // Initialize Google Maps Markers
+        self.myMap = ko.observableArray(ko.utils.arrayMap(self.locationList(), function(locationItem) {
+            return locationItem
+        }));
+        
+        /*self.myMap().forEach(function(i) {
+            console.log(i);
+        });*/
 
         // Get Wikipedia data for Wikipedia region info link list 
         self.wikipediaLinks = ko.observableArray();
@@ -186,7 +179,7 @@ $(document).ready(function(region, locations) {
             console.log('failed to get Wikipedia resources for locations short description');
         }, 8000);
 
-        self.locationList().forEach(function(location, i) {
+        self.myMap().forEach(function(location, i) {
 
             var wikiQuery = location.name,
                 dt = 'jsonp',
@@ -209,10 +202,7 @@ $(document).ready(function(region, locations) {
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
             version = 20150705;
 
-        self.locationList().forEach(function(location,i) {
-
-            // @TODO: CORRECT RESPONSE ALWAyS ONE ACTIVE ITEM TOO LATE
-            // @TODO: FOURSUQARE NEEDS PROPER KNOCkOUT INTEGRATION
+        self.myMap().forEach(function(location,i) {
 
             var latlng = [location.lat, location.lng],
                 query = location.name;
@@ -250,10 +240,10 @@ $(document).ready(function(region, locations) {
      
         // Reverse location list order
         self.reverseList = function() {
-            self.locationList.reverse();
+            self.myMap.reverse();
         }
         
-        // Reset complete search
+        // Reset search
         self.resetSearch = function() {
             self.query("");
             self.chosenTagId("");
@@ -277,6 +267,7 @@ $(document).ready(function(region, locations) {
 
         // Highlight selected search tag as active and filter location list accordingly
         self.goToTag = function(tag) {
+            // Make sure the tag clicked on is not active
             self.chosenTagId(tag != self.chosenTagId() ? tag : "");
 
             // Reset current search
@@ -284,9 +275,18 @@ $(document).ready(function(region, locations) {
             self.chosenLocationId("");
 
             // Set only according locations to visible
-            self.locationList().forEach(function(location) {
+            self.myMap().forEach(function(location) {
                 location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
+                location.marker.setMap(!self.chosenTagId() || self.chosenTagId() === location.tag ? map : null);
             });
+            
+            // Fit map to new bounds based on all location positions filtered by tag
+            var currentBounds = new google.maps.LatLngBounds();
+            self.searchResults().forEach(function(location) {
+                //console.log(location.marker.position);
+                currentBounds.extend(location.marker.position);
+            });
+            map.fitBounds(currentBounds);
         };
 
         // Highlight active search result list item
@@ -295,47 +295,79 @@ $(document).ready(function(region, locations) {
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
         };
 
-        // Open Google Maps info window when location list item is clicked
+        // Trigger Google Maps info window on click
         self.show_marker = function(location) {
             google.maps.event.trigger(location.marker,'click');
         }
 
-        //Set map markers and define info window
-        self.locationList().forEach(function(location, index) {
-            marker = new google.maps.Marker({
-                            setter: index,
-                            position: new google.maps.LatLng(location.lat, location.lng),
-                            map: map,
-                            title: location.name,
-                            animation: google.maps.Animation.DROP
-                        });
+        //Filter location list and return search result
+        self.searchResults = ko.computed(function() {
+            var search = self.query().toLowerCase();
+            return ko.utils.arrayFilter(self.myMap(), function(location) {
+                return location.title().toLowerCase().indexOf(search) >= 0 && location.visible();
+            });
+        });
+        
+        //Filter location list and display only matching locations as markers on the map
+      /*  self.mapMarkers = ko.computed(function() {
+            var search = self.query().toLowerCase();
+            ko.utils.arrayFilter(self.locationList(), function(location) {
+                location.marker.setMap((location.title().toLowerCase().indexOf(search) >= 0 && location.visible()) ? map : null);
+            });
+         });*/
+    };
 
-            location.marker = marker;
+    // @TODO: Integrate Google Maps with ko binding handlers
+    ko.bindingHandlers.map = {
 
-            bounds.extend(location.marker.position);
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            
+            // Get Google Maps app region bounds
+            var strictBounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(region.bounds[0], region.bounds[1]),
+                    new google.maps.LatLng(region.bounds[2], region.bounds[3]));
 
-            function toggleBounce() {
-                if(location.marker.getAnimation() != null) {
-                    location.marker.setAnimation(null);
-                } else {
-                    location.marker.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            }
+            var bounds = new google.maps.LatLngBounds();
 
-            google.maps.event.addListener(location.marker, 'click', function() {
+            //Create Google Maps info window.
+            var infowindow = new google.maps.InfoWindow();
 
-                // Close infowindow immediately on click if any is open
-                infowindow.close();
+            var locations = valueAccessor();
 
-                google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
-                    marker.setMap(null);
-                    // Deactivate currentyl activated location list item
-                    self.chosenLocationId("");
+            //map = new google.maps.Map(element, (new Region(region)).mapOptions);
+          
+            // Create location markers
+            locations().forEach(function(location) {
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: new google.maps.LatLng(
+                            location.lat, 
+                            location.lng),
+                    title:  location.name,
+                    animation: google.maps.Animation.DROP,
+                    draggable: true
                 });
 
-                self.chosenLocationId(location != self.chosenLocationId() ? location : "");
+                location.marker = marker;
+                bounds.extend(location.marker.position);
 
-                if (self.chosenLocationId()) {
+                function toggleBounce() {
+                    if( location.marker.getAnimation() != null) {
+                        location.marker.setAnimation(null);
+                    } else {
+                        location.marker.setAnimation(google.maps.Animation.BOUNCE);
+                    }
+                }
+    
+                // Open Google Maps info window on click
+                google.maps.event.addListener(location.marker, 'click', function() {
+ 
+                    // Close infowindow immediately on click if any is open
+                    infowindow.close();
+  
+                    google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
+                        marker.setMap(null);
+                    });
 
                     map.panTo(location.marker.getPosition());
 
@@ -350,20 +382,7 @@ $(document).ready(function(region, locations) {
                     }, 1000);
 
                     location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
-                }
-            });
-            
-            map.fitBounds(bounds);
-            // map.panToBounds(bounds);
-
-            // map.setCenter(location.marker.getPosition());
-            
-            map.panTo(map.getCenter());
-
-            // @TODO: Check functionality
-            var listener = google.maps.event.addListener(map, "idle", function () {
-                map.setZoom(region.zoom.initial);
-                google.maps.event.removeListener(listener);
+                });
             });
 
             // Limit the zoom level according to region data object
@@ -375,10 +394,23 @@ $(document).ready(function(region, locations) {
                 }
             });
 
+            // @TODO: Check functionality
+            var listener = google.maps.event.addListener(map, "idle", function () {
+                map.setZoom(region.zoom.initial);
+                google.maps.event.removeListener(listener);
+            });
+
+            // Limit the zoom level according to app region data object
+            google.maps.event.addListener(map, "zoom_changed", function () {
+                if (map.getZoom() < region.zoom.min) {
+                    map.setZoom(region.zoom.min);
+                } else if (map.getZoom() > region.zoom.max) {
+                    map.setZoom(region.zoom.max);
+                }
+            });
+
             // Make sure, that bounds of Google Maps region are never left
             // CREDIT TO: http://jsfiddle.net/cse_tushar/9d4jy4ye/
-
-            // Listen for the dragend event
             google.maps.event.addListener(map, 'dragend', function () {
                 if (strictBounds.contains(map.getCenter())) return
                 // We're out of bounds - Move the map back within the bounds
@@ -396,75 +428,6 @@ $(document).ready(function(region, locations) {
                 map.setCenter(new google.maps.LatLng(y, x));
             });
 
-        });
-
-        //Filter location list and return search result
-        self.searchResults = ko.computed(function() {
-            var search = self.query().toLowerCase();
-            return ko.utils.arrayFilter(self.locationList(), function(location) {
-                return location.title().toLowerCase().indexOf(search) >= 0 && location.visible();
-            });
-        });
-        
-        //Filter location list and display only matching locations as markers on the map
-        self.mapMarkers = ko.computed(function() {
-            var search = self.query().toLowerCase();
-            ko.utils.arrayFilter(self.locationList(), function(location) {
-                location.marker.setMap((location.title().toLowerCase().indexOf(search) >= 0 && location.visible()) ? map : null);
-            });
-
-            // Fit map to new bounds based on all location positions filtered by tag
-            var currentBounds = new google.maps.LatLngBounds();
-            self.searchResults().forEach(function(location) {
-                currentBounds.extend(location.marker.position);
-            });
-            map.fitBounds(currentBounds);
-         });
-
-        // @TODO: Is this even listener realy needed?
-        google.maps.event.addDomListener(window, "resize", function() {
-            var center = map.getCenter();
-                google.maps.event.trigger(map, "resize");
-                map.setCenter(center); 
-        });
-
-    };
-
-    ko.bindingHandlers.map = {
-
-        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            this.mapObj = ko.utils.unwrapObservable(valueAccessor());
-            var latLng = new google.maps.LatLng(
-                ko.utils.unwrapObservable(this.mapObj.lat),
-                ko.utils.unwrapObservable(this.mapObj.lng));
-            var name = ko.utils.unwrapObservable(this.mapObj.name);
-
-            this.mapObj.googleMap = new google.maps.Map(element, (new Region(region)).mapOptions);
-          
-           /* mapObj.marker = new google.maps.Marker({
-                map: mapObj.googleMap,
-                position: latLng,
-                title: name,
-                draggable: true
-            });*/
-        },
-        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-            var newLocation = ko.utils.unwrapObservable(valueAccessor());
-            var latLng = new google.maps.LatLng(
-                ko.utils.unwrapObservable(newLocation.lat),
-                ko.utils.unwrapObservable(newLocation.lng));
-            var name = ko.utils.unwrapObservable(newLocation.name);
-            
-
-            //console.log(newLocation);
-            //console.log(this.mapObj.googleMap);
-
-            newLocation.marker = new google.maps.Marker({
-                map: this.mapObj.googleMap,
-                position: latLng,
-                title: name,
-                draggable: true
-            });
         }
     };
  
