@@ -112,16 +112,16 @@ $(document).ready(function(region, locations) {
              
         // @TODO: DRY 'strictBounds' also in 'ko.bindingHandlers.map'
         // Get Google Maps region bounds
-        var strictBounds = new google.maps.LatLngBounds(
+        /*var strictBounds = new google.maps.LatLngBounds(
                 new google.maps.LatLng(region.bounds[0], region.bounds[1]),
-                new google.maps.LatLng(region.bounds[2], region.bounds[3]));
+                new google.maps.LatLng(region.bounds[2], region.bounds[3]));*/
 
         // Filter locations that are not within app map bounds
-        initialLocations.forEach(function(location, index) {
+       /* initialLocations.forEach(function(location, index) {
             if (!checkBounds(strictBounds, location)) {
                 initialLocations.splice(index, 1);
             }
-        });
+        });*/
 
         // Sort location list by name property
         initialLocations.sort(function(left, right) {
@@ -133,7 +133,7 @@ $(document).ready(function(region, locations) {
             return new Location(locationItem, "")
         }));
 
-        // Get Wikipedia data for Wikipedia region info link list 
+        // Get from Wikipedia API url and title for region info link list 
         self.wikipediaLinks = ko.observableArray();
 
         var wikiQuery = region.center["name"],
@@ -187,7 +187,7 @@ $(document).ready(function(region, locations) {
             });
         });
 
-        // Ajax request to fourSquare API to get proper location categories
+        // Get from fourSquare API proper location categories
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
             version = 20150705;
@@ -242,7 +242,7 @@ $(document).ready(function(region, locations) {
             self.goToLocation("");
         }
         
-        // Retrieve only unique tags form the location list
+        // Retrieve only unique tags form locations data
         self.uniqueSelect = function() {
             var tags = ko.utils.arrayMap(self.myMap(), function(item) {
                 return item.tag;
@@ -250,7 +250,7 @@ $(document).ready(function(region, locations) {
             return ko.utils.arrayGetDistinctValues(tags).sort();
         };
         
-        // Build search tag array for the tag cloud in the view
+        // Build search tag array for the tag cloud in the View
         self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
             return tag
         });
@@ -268,6 +268,7 @@ $(document).ready(function(region, locations) {
             self.myMap().forEach(function(location) {
                 location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
                 location.marker.setMap(!self.chosenTagId() || self.chosenTagId() === location.tag ? map : null);
+                //console.log(location.marker);
             });
             
             // Fit map to new bounds based on all location positions filtered by tag
@@ -283,11 +284,20 @@ $(document).ready(function(region, locations) {
         self.goToLocation = function(location) {
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
+            if (self.chosenLocationId()) {
+                self.show_marker(location);
+            }
         };
 
         // Trigger Google Maps info window on click
         self.show_marker = function(location) {
             google.maps.event.trigger(location.marker,'click');
+        }
+
+        // @TODO:
+        // Trigger Google Maps info window close
+        self.hide_marker = function(location) {
+            //google.maps.event.trigger(location.marker,'click');
         }
 
         //Filter location list and return search result
@@ -299,12 +309,14 @@ $(document).ready(function(region, locations) {
         });
         
         //Filter location list and display only matching locations as markers on the map
-      /*  self.mapMarkers = ko.computed(function() {
+        self.mapMarkers = ko.computed(function() {
             var search = self.query().toLowerCase();
-            ko.utils.arrayFilter(self.locationList(), function(location) {
-                location.marker.setMap((location.title().toLowerCase().indexOf(search) >= 0 && location.visible()) ? map : null);
-            });
-         });*/
+            if (search) {
+                ko.utils.arrayFilter(self.myMap(), function(location) {
+                    location.marker.setMap((location.title().toLowerCase().indexOf(search) >= 0 && location.visible()) ? map : null);
+                });
+            }
+         });
     };
 
     // @TODO: Integrate Google Maps with ko binding handlers
@@ -324,7 +336,7 @@ $(document).ready(function(region, locations) {
 
             var locations = valueAccessor();
 
-            //map = new google.maps.Map(element, (new Region(region)).mapOptions);
+            map = new google.maps.Map(element, (new Region(region)).mapOptions);
           
             // Create location markers
             locations().forEach(function(location) {
@@ -434,7 +446,7 @@ $(document).ready(function(region, locations) {
     }, 1000);
 
     //Initialize Google Maps
-    google.maps.event.addDomListener(window, "load", map = initialize());
+    //google.maps.event.addDomListener(window, "load", map = initialize());
 
     var viewModel = new MyViewModel();
 
