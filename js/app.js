@@ -1,6 +1,6 @@
 
 //@ TODO: Load data as json 
-$(document).ready(function(region, locations) {
+$(document).ready(function(region, locations, styles) {
 
     // @TODO: Add POI data (Performing Arts locations)
     var initialLocations = locations, // locations data
@@ -25,7 +25,10 @@ $(document).ready(function(region, locations) {
     var Region = function(data) {
         this.mapOptions = {
             center: {lat: data.center["coord"].lat, lng: data.center["coord"].lng},
-            zoom: data.zoom.initial
+            zoom: data.zoom.initial,
+            mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+            }
         };
     };
 
@@ -61,34 +64,6 @@ $(document).ready(function(region, locations) {
         this.fs = "-";
     };
 
-    // Return info string for Google Maps location info window
-    getInfoString = function(location) {
-
-        var infoString = '<div id="iw-container">' +
-                         '<h2 class="iw-title">' + location.name + '</h2>'+
-                         '<div class="iw-body">' +
-                         '<h3>Info</h3>' +
-                         '<p>' + location.description + '</p>' +
-                         '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
-                         '<a href="' + location.website + '" title="Go to ' + location.website +
-                         '" target="_blank">Click to visit Website</a>' + '<hr>' +
-                         '<p>' + location.address + '</p>'+ '<hr>' +
-                         '<p>' + location.fs + '</p>' +
-                         '</div>' +
-                         //'<div class="iw-footer">' +
-                         //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
-                         //'</div>' + 
-                         '</div>';
-
-        return infoString;
-    }
-    
-    // Check whether location is in map bounds
-    checkBounds = function(bounds, location) {
-        var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
-        return bounds.contains(position);
-    }
-
     //
     var MyViewModel = function() {
 
@@ -118,59 +93,63 @@ $(document).ready(function(region, locations) {
          *
          */
 
+        var wikiRequestTimeout = setTimeout(function() {
+            var $wikiElem = $('#wikipedia');
+                $wikiElem.text('failed to get Wikipedia resources');
+                //alert('failed to get Wikipedia resources');
+            }, 5000);
+
         // @TODO: Check error message
         // Get from Wikipedia API url and title for region info link list 
         self.wikipediaLinks = ko.observableArray();
 
-        var wikiQuery = region.center["name"],
-        dt = 'jsonp',
-        wikiBase = 'http://en.wikipedia.org/w/api.php',
-        wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
-
-        var wikiRequestTimeout = setTimeout(function() {
-            var $wikiElem = $('#wikipedia');
-            $wikiElem.text('failed to get Wikipedia resources');
-            //alert('failed to get Wikipedia resources');
-        }, 8000);
+        self.getWikipediaLinks = ko.computed(function() {
+            var wikiQuery = region.center["name"],
+            dt = 'jsonp',
+            wikiBase = 'http://en.wikipedia.org/w/api.php',
+            wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
         
-        $.ajax({
-                url: wikiUrl,
-                dataType: dt,
-                success: function(response){
-                    var titleList = response[1];
+            $.ajax({
+                    url: wikiUrl,
+                    dataType: dt,
+                    success: function(response){
+                        var titleList = response[1];
 
-                    for (var i = 0; i < titleList.length; i++) {
-                        var titleStr = titleList[i],
-                            urlStr = 'http://en.wikipedia.org/wiki/' + titleStr;
-                        self.wikipediaLinks.push({url: urlStr, title: titleStr});
-                    };
-
+                        for (var i = 0; i < titleList.length; i++) {
+                            var titleStr = titleList[i],
+                                urlStr = 'http://en.wikipedia.org/wiki/' + titleStr;
+                            self.wikipediaLinks.push({url: urlStr, title: titleStr});
+                        };
                     clearTimeout(wikiRequestTimeout);
                 }
+            });
         });
         
         // @TODO: Check error message
         // Get from Wikipedia API short description for locations
-        var wikiRequestTimeout2 = setTimeout(function() {
-            // @TODO: DRY + error message handling
-            console.log('failed to get Wikipedia resources for locations short description');
-        }, 8000);
+        self.getWikipediaDescription = ko.computed(function() {
+        
+            var wikiRequestTimeout2 = setTimeout(function() {
+                // @TODO: DRY + error message handling
+                console.log('failed to get Wikipedia resources for locations short description');
+            }, 8000);
 
-        self.myMap().forEach(function(location, i) {
+            self.myMap().forEach(function(location, i) {
 
-            var wikiQuery = location.name,
-                dt = 'jsonp',
-                wikiBase = 'http://en.wikipedia.org/w/api.php',
-                wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
+                var wikiQuery = location.name,
+                    dt = 'jsonp',
+                    wikiBase = 'http://en.wikipedia.org/w/api.php',
+                    wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
    
-            $.ajax({
-                url: wikiUrl,
-                dataType: dt,
-                success: function(response){
-                    var description = response[2][0] || "-";
-                    self.myMap()[i].description = description;
-                    clearTimeout(wikiRequestTimeout2);
-                }
+                $.ajax({
+                    url: wikiUrl,
+                    dataType: dt,
+                    success: function(response) {
+                        var description = response[2][0] || "-";
+                        self.myMap()[i].description = description;
+                        clearTimeout(wikiRequestTimeout2);
+                    }
+                });
             });
         });
 
@@ -279,13 +258,14 @@ $(document).ready(function(region, locations) {
         self.goToLocation = function(location) {
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
+
             if (self.chosenLocationId()) {
-                self.show_marker(location);
+                self.show_info(location);
             }
         };
 
         // Trigger Google Maps info window on click
-        self.show_marker = function(location) {
+        self.show_info = function(location) {
             google.maps.event.trigger(location.marker,'click');
         }
 
@@ -314,10 +294,46 @@ $(document).ready(function(region, locations) {
          });
     };
 
+    // Return info string for Google Maps location info window
+    getInfoString = function(location) {
+
+        var infoString = '<div id="iw-container">' +
+                         '<h2 class="iw-title">' + location.name + '</h2>'+
+                         '<div class="iw-body">' +
+                         '<h3>Info</h3>' +
+                         '<p>' + location.description + '</p>' +
+                         '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
+                         '<a href="' + location.website + '" title="Go to ' + location.website +
+                         '" target="_blank">Click to visit Website</a>' + '<hr>' +
+                         '<p>' + location.address + '</p>'+ '<hr>' +
+                         '<p>' + location.fs + '</p>' +
+                         '</div>' +
+                         //'<div class="iw-footer">' +
+                         //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
+                         //'</div>' + 
+                         '</div>';
+
+        return infoString;
+    }
+    
+    // Check whether location is in map bounds
+    checkBounds = function(bounds, location) {
+        var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
+        return bounds.contains(position);
+    }
+
     // Google Maps functionality
     ko.bindingHandlers.map = {
 
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+              // SOURCE: https://developers.google.com/maps/documentation/javascript/styling?csw=1
+              // Create an array of styles.
+
+            // Create a new StyledMapType object, passing it the array of styles,
+            // as well as the name to be displayed on the map type control.
+            var styledMap = new google.maps.StyledMapType(styles,
+            {name: "Styled Map"});
             
             // Get Google Maps app region bounds
             var strictBounds = new google.maps.LatLngBounds(
@@ -334,6 +350,10 @@ $(document).ready(function(region, locations) {
 
             // Create Google Maps map object
             map = new google.maps.Map(element, (new Region(region)).mapOptions);
+
+            //Associate the styled map with the MapTypeId and set it to display.
+            map.mapTypes.set('map_style', styledMap);
+            map.setMapTypeId('map_style');
 
             // @TODO: Filter locations that are not within app region bounds
             /*locations().forEach(function(location, index) {
@@ -373,10 +393,10 @@ $(document).ready(function(region, locations) {
                     // Close infowindow immediately on click if any is open
                     infowindow.close();
   
-                    google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
+/*                    google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
                         marker.setMap(null);
                     });
-
+*/
                     map.panTo(location.marker.getPosition());
 
                     var infoString = getInfoString(location);
@@ -456,7 +476,7 @@ $(document).ready(function(region, locations) {
     var viewModel = new MyViewModel();
 
     ko.applyBindings(viewModel);
-}(neighborhood.region, neighborhood.locations));
+}(neighborhood.region, neighborhood.locations, styles));
 
 //@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
 //@TODO: Searchbox Text updates item list and map markers instantly when user types
