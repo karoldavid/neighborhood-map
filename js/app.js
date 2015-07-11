@@ -93,17 +93,18 @@ $(document).ready(function(region, locations, styles) {
          *
          */
 
-        var wikiRequestTimeout = setTimeout(function() {
-            var $wikiElem = $('#wikipedia');
-                $wikiElem.text('failed to get Wikipedia resources');
-                //alert('failed to get Wikipedia resources');
-            }, 5000);
-
         // @TODO: Check error message
         // Get from Wikipedia API url and title for region info link list 
         self.wikipediaLinks = ko.observableArray();
 
         self.getWikipediaLinks = ko.computed(function() {
+
+            var wikiRequestLinksTimeout = setTimeout(function() {
+                    var $wikiElem = $('#wikipedia');
+                    $wikiElem.text('failed to get Wikipedia resources');
+                    console.log('failed to get Wikipedia resources');
+                }, 5000);
+
             var wikiQuery = region.center["name"],
             dt = 'jsonp',
             wikiBase = 'http://en.wikipedia.org/w/api.php',
@@ -120,7 +121,7 @@ $(document).ready(function(region, locations, styles) {
                                 urlStr = 'http://en.wikipedia.org/wiki/' + titleStr;
                             self.wikipediaLinks.push({url: urlStr, title: titleStr});
                         };
-                    clearTimeout(wikiRequestTimeout);
+                    clearTimeout(wikiRequestLinksTimeout);
                 }
             });
         });
@@ -129,7 +130,7 @@ $(document).ready(function(region, locations, styles) {
         // Get from Wikipedia API short description for locations
         self.getWikipediaDescription = ko.computed(function() {
         
-            var wikiRequestTimeout2 = setTimeout(function() {
+            var wikiRequestDescriptionTimeout = setTimeout(function() {
                 // @TODO: DRY + error message handling
                 console.log('failed to get Wikipedia resources for locations short description');
             }, 8000);
@@ -147,7 +148,7 @@ $(document).ready(function(region, locations, styles) {
                     success: function(response) {
                         var description = response[2][0] || "-";
                         self.myMap()[i].description = description;
-                        clearTimeout(wikiRequestTimeout2);
+                        clearTimeout(wikiRequestDescriptionTimeout);
                     }
                 });
             });
@@ -259,20 +260,18 @@ $(document).ready(function(region, locations, styles) {
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
 
-            if (self.chosenLocationId()) {
+          /*  if (self.chosenLocationId()) {
                 self.show_info(location);
-            }
+            }*/
         };
 
         // Trigger Google Maps info window on click
         self.show_info = function(location) {
-            google.maps.event.trigger(location.marker,'click');
-        }
-
-        // @TODO:
-        // Trigger Google Maps info window close
-        self.hide_marker = function(location) {
-            //google.maps.event.trigger(location.marker,'click');
+            if (location != self.chosenLocationId()) {
+                google.maps.event.trigger(location.marker,'click');
+            } else {
+                location.marker.setMap(null);
+            }
         }
 
         //Filter location list and return search result
@@ -384,7 +383,7 @@ $(document).ready(function(region, locations, styles) {
                         location.marker.setAnimation(google.maps.Animation.BOUNCE);
                     }
                 }
-    
+
                 // @TODO: Close info window when active marker is clicked
                 // @TODO: Highlight search list item when marker is active
                 // Open Google Maps info window on click
@@ -392,11 +391,7 @@ $(document).ready(function(region, locations, styles) {
  
                     // Close infowindow immediately on click if any is open
                     infowindow.close();
-  
-/*                    google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
-                        marker.setMap(null);
-                    });
-*/
+
                     map.panTo(location.marker.getPosition());
 
                     var infoString = getInfoString(location);
@@ -411,6 +406,10 @@ $(document).ready(function(region, locations, styles) {
 
                     // Mark visited marker green
                     location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+                });
+
+                google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
+                    marker.setMap(null);
                 });
             });
 
