@@ -27,6 +27,17 @@ $(document).ready(function(region, poi, locations, styles) {
         this.mapOptions = {
             center: {lat: data.center["coord"].lat, lng: data.center["coord"].lng},
             zoom: data.zoom.initial,
+            panControl: false,
+            zoomControl: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL,
+                position: google.maps.ControlPosition.RIGHT_BOTTOM
+            },
+            scaleControl: true,
+            streetViewControl: true,
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_BOTTOM
+            },
             mapTypeControlOptions: {
                 mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
             }
@@ -357,10 +368,12 @@ $(document).ready(function(region, poi, locations, styles) {
                 }
             });*/
 
-            var pinColors = {"default": "1B58BA", "custom": "BA1B62", "visited": "1BBA82"};
+            // Generate map markers with different colors
+            var pinColors = {"default": "5CB3FF", "custom": "FFFFCC", "visited": "3EA99F"};
 
             var pinImages = [];
 
+            // @CREDITS: https://stackoverflow.com/posts/7686977/revisions
             for (color in pinColors) {
                 pinImages.push(new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColors[color],
                     new google.maps.Size(21, 34),
@@ -368,7 +381,6 @@ $(document).ready(function(region, poi, locations, styles) {
                     new google.maps.Point(10, 34))
                 );
             }
-
 
             // Create location markers
             locations().forEach(function(location) {
