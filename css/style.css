@@ -162,7 +162,7 @@ header .weather {
 }
 
 #wikipedia ul {
-    list-style: none;
+  list-style: none;
 	margin: 0;
 	padding: 0;
 	height: auto;
@@ -186,14 +186,20 @@ header .weather {
 	color: #000;
 }
 
-
+#description {
+  position: relative; 
+  z-index: 1; /* The z-index should be higher than Google Maps */
+  background: black;
+  height: auto;
+  opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
+  color: white;
+}
 
 /**
  *
  * Search Elements
  *
  */
-
 
 .search-items {
 
