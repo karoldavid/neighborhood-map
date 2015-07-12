@@ -4,7 +4,8 @@ $(document).ready(function(region, locations, styles) {
 
     // @TODO: Add POI data (Performing Arts locations)
     var initialLocations = locations, // locations data
-        map; // Set map object scope
+        map, // Set map object scope
+        selectedInfoWindow;
 
     // CREDITS: http://learn.knockoutjs.com/
     // Fade message in/ out
@@ -259,19 +260,13 @@ $(document).ready(function(region, locations, styles) {
         self.goToLocation = function(location) {
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
-
-          /*  if (self.chosenLocationId()) {
-                self.show_info(location);
-            }*/
+            if (selectedInfoWindow) {selectedInfoWindow.close()};
+            if (self.chosenLocationId()) {self.show_info(location);}
         };
 
         // Trigger Google Maps info window on click
         self.show_info = function(location) {
-            if (location != self.chosenLocationId()) {
-                google.maps.event.trigger(location.marker,'click');
-            } else {
-                location.marker.setMap(null);
-            }
+            google.maps.event.trigger(location.marker,'click');
         }
 
         //Filter location list and return search result
@@ -343,6 +338,7 @@ $(document).ready(function(region, locations, styles) {
 
             //Create Google Maps info window.
             var infowindow = new google.maps.InfoWindow();
+                //selectedInfoWindow = infowindow;
 
             // Get locations data
             var locations = valueAccessor();
@@ -390,28 +386,43 @@ $(document).ready(function(region, locations, styles) {
                 google.maps.event.addListener(location.marker, 'click', function() {
  
                     // Close infowindow immediately on click if any is open
-                    infowindow.close();
 
-                    map.panTo(location.marker.getPosition());
+                    // Open the infowindow on marker click
+                    //Check if there some info window selected and if is opened then close it
+                        if (infowindow.isOpen() && infowindow === selectedInfoWindow) {
+                            infowindow.close();
+                            selectedInfoWindow = null;
+                        }
 
-                    var infoString = getInfoString(location);
+                        if (!infowindow.isOpen() && infowindow != selectedInfoWindow) {
+               
+                        map.panTo(location.marker.getPosition());
+                        
+                        var infoString = getInfoString(location);
 
-                    toggleBounce();
-                    setTimeout(toggleBounce, 2000);
+                        toggleBounce();
+                        setTimeout(toggleBounce, 2000);
 
-                    setTimeout(function() {
-                        infowindow.setContent(infoString);
-                        infowindow.open(map, location.marker);
-                    }, 1000);
+                        setTimeout(function() {
+                            infowindow.setContent(infoString);
+                            selectedInfoWindow = infowindow;
+                            selectedInfoWindow.open(map, location.marker);
+                        }, 1000);
 
-                    // Mark visited marker green
-                    location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+                        // Mark visited marker green
+                        location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+                   }
                 });
 
-                google.maps.event.addListenerOnce(infowindow, 'closeclick', function() {
+                google.maps.event.addListener(infowindow, 'closeclick', function() {
                     marker.setMap(null);
                 });
             });
+
+            google.maps.InfoWindow.prototype.isOpen = function(){
+                var map = infowindow.getMap();
+                return (map !== null && typeof map !== "undefined");
+            }
 
             // Limit the zoom level according to region data object
             google.maps.event.addListener(map, "zoom_changed", function () {
@@ -456,6 +467,11 @@ $(document).ready(function(region, locations, styles) {
                 map.setCenter(new google.maps.LatLng(y, x));
             });
 
+            google.maps.event.addDomListener(window, "resize", function() {
+                var center = map.getCenter();
+                google.maps.event.trigger(map, "resize");
+                map.setCenter(center); 
+            });
         }
     };
  

@@ -83,8 +83,7 @@
 
   <!-- search result list -->
   <script type="text/html" id="result"> 
-    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation">
-      <span data-bind="text: title, click: $root.show_info"></span></li>
+    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation"></li>
   </script>
 
   <!-- Wikipedia map region link list -->
