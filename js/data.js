@@ -10,6 +10,7 @@
 			zoom: {initial: 14, min: 12, max: 20}, 
 			bounds: [52.152227, 20.955794, 52.283899, 21.157324]
 		},
+        poi: ["Performing Arts"],
 	    locations: [
 	    {   
 	    	name: "Muzeum Narodowe",
@@ -40,7 +41,6 @@
 	    	coord: {lat: 52.232408, lng: 21.002608},
 	    	website: "http://warsaw.intercontinental.com/",
 	    	tag: "Hotel"
-
 	    },
 	    {
 	    	name: "RADISSON BLU SOBIESKI HOTEL",
