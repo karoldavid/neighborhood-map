@@ -394,7 +394,7 @@ $(document).ready(function(region, locations, styles) {
                             selectedInfoWindow = null;
                         }
 
-                        if (!infowindow.isOpen() && infowindow != selectedInfoWindow) {
+
                
                         map.panTo(location.marker.getPosition());
                         
@@ -411,7 +411,6 @@ $(document).ready(function(region, locations, styles) {
 
                         // Mark visited marker green
                         location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
-                   }
                 });
 
                 google.maps.event.addListener(infowindow, 'closeclick', function() {
