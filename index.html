@@ -33,8 +33,8 @@
           <div class="item-1 search" id="searchbar">
             <form action="#"> 
               <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
-              <button class="button" data-bind="click: reverseList"><></button>
-              <button class="button" data-bind="click: resetSearch">x</button>
+              <button class="reverse" data-bind="click: reverseList"><></button>
+              <button class="reset" data-bind="click: resetSearch">x</button>
               <!--<button class="button" onclick="toggleVisibility('tag-cloud');">tags</button>-->
             </form>
           </div>
@@ -104,8 +104,14 @@
     	var elem = document.getElementById(id);
     	elem.style.display = ((elem.style.display!='none') ? 'none' : 'block');
     }
+
+    function hideElement(id) {
+    	var elem = document.getElementById(id);
+        elem.style.display = ('none');
+    }
     
     // Hide wikipedia list
+    toggleVisibility('wikipedia-links');
     /*toggleVisibility('tag-cloud');*/
 
   </script>

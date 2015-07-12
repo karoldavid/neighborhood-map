@@ -357,7 +357,7 @@ a:hover {
  * CREDITS: https://css-tricks.com/examples/ButtonMaker/;
  */
 
-.button {
+button {
    border-top: 1px solid #a688a6;
    background: #b4d6ed;
    background: -webkit-gradient(linear, left top, left bottom, from(#c7c7c7), to(#b4d6ed));
@@ -379,14 +379,14 @@ a:hover {
    vertical-align: middle;
 }
 
-.button:hover {
+button:hover {
    border-top-color: #3b474f;
    background: #3b474f;
    color: #d6bcd6;
    cursor: pointer;
 }
 
-.button:active {
+button:active {
    border-top-color: #1b435e;
    background: #1b435e;
 }
@@ -499,7 +499,7 @@ footer {
       width: 100%;
 	}
 
-  header p {
+  header .item-2 {
   		display: none;
   }
 
@@ -512,7 +512,7 @@ footer {
   		display: none;
   }
 
-  .button,
+  .reverse,
   #tag-cloud,
   #search-results {
   		display: none;
