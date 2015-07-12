@@ -470,6 +470,7 @@ $(document).ready(function(region, locations, styles) {
             google.maps.event.addDomListener(window, "resize", function() {
                 var center = map.getCenter();
                 google.maps.event.trigger(map, "resize");
+                map.fitBounds(bounds);
                 map.setCenter(center); 
             });
         }
