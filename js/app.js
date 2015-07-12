@@ -236,7 +236,7 @@ $(document).ready(function(region, locations, styles) {
         self.goToTag = function(tag) {
             // Make sure the tag clicked on is not active
             self.chosenTagId(tag != self.chosenTagId() ? tag : "");
-
+            if (selectedInfoWindow) {selectedInfoWindow.close()};
             // Reset current search
             self.query("");
             self.chosenLocationId("");
@@ -389,16 +389,16 @@ $(document).ready(function(region, locations, styles) {
 
                     // Open the infowindow on marker click
                     //Check if there some info window selected and if is opened then close it
-                        if (infowindow.isOpen() && infowindow === selectedInfoWindow) {
+                        if (infowindow.isOpen()) {
                             infowindow.close();
                             selectedInfoWindow = null;
                         }
-
-
                
                         map.panTo(location.marker.getPosition());
                         
                         var infoString = getInfoString(location);
+
+                        viewModel.chosenLocationId(location);
 
                         toggleBounce();
                         setTimeout(toggleBounce, 2000);
@@ -415,6 +415,7 @@ $(document).ready(function(region, locations, styles) {
 
                 google.maps.event.addListener(infowindow, 'closeclick', function() {
                     marker.setMap(null);
+                    viewModel.chosenLocationId("");
                 });
             });
 
