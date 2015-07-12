@@ -493,29 +493,29 @@ footer {
   		justify-content: flex-start;
   		align-items: flex-start;
   		margin: 0 0.5em;
-  	}
+  }
 
 	header {
-        width: 100%;
+      width: 100%;
 	}
 
-  	header p {
+  header p {
   		display: none;
-  	}
+  }
 
-  	.search {
+  .search {
   		margin: 0;
-  	}
+  }
 
-  	.col-2,
-  	.col-3 {
+  .col-2,
+  .col-3 {
   		display: none;
-  	}
+  }
 
-    .button {
-  	#tag-cloud,
-  	#search-results {
+  .button,
+  #tag-cloud,
+  #search-results {
   		display: none;
-  	}
+  }
 
 }
