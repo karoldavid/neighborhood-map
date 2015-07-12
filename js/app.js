@@ -1,6 +1,6 @@
 
 //@ TODO: Load data as json 
-$(document).ready(function(region, locations, styles) {
+$(document).ready(function(region, poi, locations, styles) {
 
     // @TODO: Add POI data (Performing Arts locations)
     var initialLocations = locations, // locations data
@@ -59,7 +59,7 @@ $(document).ready(function(region, locations, styles) {
         }, this);
 
         // Wikipedia API
-        this.description = "-";
+        this.description = "";
         
         // fourSquare API
         this.fs = "-";
@@ -87,6 +87,8 @@ $(document).ready(function(region, locations, styles) {
         self.myMap = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
             return new Location(locationItem, "")
         }));
+
+        self.currentLocationDescription = ko.observable("");
 
         /**
          *
@@ -260,6 +262,8 @@ $(document).ready(function(region, locations, styles) {
         self.goToLocation = function(location) {
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
+            self.currentLocationDescription(self.chosenLocationId());
+            console.log(self.currentLocationDescription().description);
             if (selectedInfoWindow) {selectedInfoWindow.close()};
             if (self.chosenLocationId()) {self.show_info(location);}
         };
@@ -294,17 +298,13 @@ $(document).ready(function(region, locations, styles) {
         var infoString = '<div id="iw-container">' +
                          '<h2 class="iw-title">' + location.name + '</h2>'+
                          '<div class="iw-body">' +
-                         '<h3>Info</h3>' +
-                         '<p>' + location.description + '</p>' +
-                         '<img class="iw-img" src="' + location.img() + '">' + '<br>' +
-                         '<a href="' + location.website + '" title="Go to ' + location.website +
-                         '" target="_blank">Click to visit Website</a>' + '<hr>' +
+                         //'<h3>Info</h3>' +
+                        // '<p>' + location.description + '</p>' +
+                         '<img class="iw-img" src="' + location.img() + '">' + '<hr>' +
                          '<p>' + location.address + '</p>'+ '<hr>' +
-                         '<p>' + location.fs + '</p>' +
-                         '</div>' +
-                         //'<div class="iw-footer">' +
-                         //'<a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>' +
-                         //'</div>' + 
+                         '<p>' + location.fs + ' ' + '<a href="' + location.website + '" title="Go to ' + location.website +
+                         '" target="_blank">Visit Website</a>' + '</p>' + 
+                         '</div>' + 
                          '</div>';
 
         return infoString;
@@ -357,6 +357,19 @@ $(document).ready(function(region, locations, styles) {
                 }
             });*/
 
+            var pinColors = {"default": "1B58BA", "custom": "BA1B62", "visited": "1BBA82"};
+
+            var pinImages = [];
+
+            for (color in pinColors) {
+                pinImages.push(new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColors[color],
+                    new google.maps.Size(21, 34),
+                    new google.maps.Point(0,0),
+                    new google.maps.Point(10, 34))
+                );
+            }
+
+
             // Create location markers
             locations().forEach(function(location) {
                 marker = new google.maps.Marker({
@@ -365,12 +378,17 @@ $(document).ready(function(region, locations, styles) {
                             location.lat, 
                             location.lng),
                     title:  location.name,
+                    icon: pinImages[location.tag === poi ? 1 : 0],
                     animation: google.maps.Animation.DROP,
                     draggable: false
                 });
 
                 location.marker = marker;
                 bounds.extend(location.marker.position);
+            });
+            
+            // Add events to markers
+            locations().forEach(function(location) {
 
                 function toggleBounce() {
                     if( location.marker.getAnimation() != null) {
@@ -390,7 +408,7 @@ $(document).ready(function(region, locations, styles) {
                     // Open the infowindow on marker click
                     //Check if there some info window selected and if is opened then close it
                         if (infowindow.isOpen()) {
-                            infowindow.close();
+                            selectedInfoWindow.close();
                             selectedInfoWindow = null;
                         }
                
@@ -401,16 +419,17 @@ $(document).ready(function(region, locations, styles) {
                         viewModel.chosenLocationId(location);
 
                         toggleBounce();
-                        setTimeout(toggleBounce, 2000);
+                        setTimeout(toggleBounce, 500);
 
                         setTimeout(function() {
                             infowindow.setContent(infoString);
                             selectedInfoWindow = infowindow;
                             selectedInfoWindow.open(map, location.marker);
-                        }, 1000);
+                        }, 750);
 
                         // Mark visited marker green
-                        location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
+                        location.marker.setIcon(pinImages[2]);
+                        //location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
                 });
 
                 google.maps.event.addListener(infowindow, 'closeclick', function() {
@@ -492,7 +511,7 @@ $(document).ready(function(region, locations, styles) {
     var viewModel = new MyViewModel();
 
     ko.applyBindings(viewModel);
-}(neighborhood.region, neighborhood.locations, styles));
+}(neighborhood.region, neighborhood.poi[0], neighborhood.locations, styles));
 
 //@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
 //@TODO: Searchbox Text updates item list and map markers instantly when user types
