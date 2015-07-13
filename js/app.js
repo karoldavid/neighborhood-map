@@ -160,7 +160,7 @@ $(document).ready(function(region, poi, locations, styles) {
                     url: wikiUrl,
                     dataType: dt,
                     success: function(response) {
-                        var description = response[2][0] || "-";
+                        var description = response[2][0] || "";
                         self.myMap()[i].description = description;
                         clearTimeout(wikiRequestDescriptionTimeout);
                     }
@@ -337,6 +337,7 @@ $(document).ready(function(region, poi, locations, styles) {
 
             // Create a new StyledMapType object, passing it the array of styles,
             // as well as the name to be displayed on the map type control.
+
             var styledMap = new google.maps.StyledMapType(styles,
             {name: "Styled Map"});
             
@@ -423,7 +424,9 @@ $(document).ready(function(region, poi, locations, styles) {
                             selectedInfoWindow.close();
                             selectedInfoWindow = null;
                         }
-               
+
+                        //map.setZoom(16);
+
                         map.panTo(location.marker.getPosition());
                         
                         var infoString = getInfoString(location);
@@ -449,6 +452,20 @@ $(document).ready(function(region, poi, locations, styles) {
                     viewModel.chosenLocationId("");
                 });
             });
+
+                        
+            var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
+
+            var panoramaOptions = {
+                position: wawaCenter,
+                pov: {
+                    heading: 34,
+                    pitch: 10
+                }
+            };
+
+           //var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+           //map.setStreetView(panorama);
 
             google.maps.InfoWindow.prototype.isOpen = function(){
                 var map = infowindow.getMap();
