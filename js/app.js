@@ -313,10 +313,18 @@ $(document).ready(function(region, poi, locations, styles) {
         self.goToLocation = function(location) {
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
-            self.currentLocation(self.chosenLocationId());
-            if (selectedInfoWindow) {selectedInfoWindow.close()};
             if (self.chosenLocationId()) {self.show_info(location);}
         };
+
+        self.getSelectedLocation = ko.computed(function() {
+            self.currentLocation(self.chosenLocationId());
+        });
+
+        self.closeInfoWindow = ko.computed(function() {
+            if (!self.chosenLocationId()) {
+                if (selectedInfoWindow) {selectedInfoWindow.close()};
+            }
+        });
 
         // Trigger Google Maps info window on click
         self.show_info = function(location) {
