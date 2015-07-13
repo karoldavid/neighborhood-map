@@ -123,11 +123,25 @@
             tag: "Restaurant"
         },
         {
-        	name: "Teatr Dramatyczny im. G. Holoubka",
+        	name: "Teatr Dramatyczny",
         	address: "Plac Defilad 1, Warszawa - Polska",
         	coord: {lat: 52.231755, lng: 21.006482},
         	website: "http://teatrdramatyczny.pl/",
         	tag: "Performing Arts"
+        },
+        {  
+            name: "Warszawska Opera Kameralna",
+            address: "Aleja Solidarności 76b, Warszawa - Poland",
+            coord: {lat: 52.243887, lng: 20.997488},
+            website: "http://www.operakameralna.pl/",
+            tag: "Performing Arts"
+        },
+        {
+            name: "National Theatre",
+            address: "Plac Teatralny 3, Warszawa - Poland",
+            coord: {lat: 52.243349, lng: 21.009372},
+            website: "http://www.narodowy.pl/",
+            tag: "Performing Arts"
         },
         {   
             name: "Łazienki Królewskie w Warszawie",
@@ -135,6 +149,14 @@
             coord: {lat: 52.2152, lng: 21.035},
             website: "http://www.lazienki-krolewskie.pl/pl",
             tag:"Park"
+        },
+        {   
+            name: "Fryderyk Chopin Museum",
+            address: "Okólnik 1, Warszawa - Poland",
+            coord: {lat: 52.236468, lng: 21.023129},
+            website: "http://chopin.museum/en",
+            tag: "Museum"
+
         },
         {   
             name: "Lotnisko Chopina",
@@ -194,6 +216,20 @@
         	tag: "Performing Arts"
         },
         {
+            name: "Teatr Żydowski im. Estery Rachel i Idy Kamińskich",
+            address: "Plac Grzybowski 12/16, 00-104 Warszawa - Poland",
+            coord: {lat: 52.235887, lng: 21.002230},
+            website: "http://www.teatr-zydowski.art.pl/",
+            tag: "Performing Arts"
+        },
+        {
+            name: "Och-Teatr",
+            address: "Grójecka 65, Warszawa - Poland",
+            coord: {lat: 52.214188, lng: 20.979965},
+            website: "http://ochteatr.com.pl/",
+            tag: "Performing Arts"
+        },
+        {
             name: "Arkadia",
             address: "Aleja Jana Pawła II 82, 00-175 Warszawa Polska",
             coord: {lat: 52.257119, lng: 20.984434},
@@ -214,6 +250,48 @@
         	coord: {lat: 52.243516, lng: 21.010438},
         	website: "http://teatrwielki.pl/",
         	tag: "Performing Arts"
+        },
+        {
+            name: "Teatr Studio",
+            address: "Plac Defilad 1, Warszawa - Polska",
+            coord: {lat: 52.231832, lng: 21.005982},
+            website: "http://www.teatrstudio.pl/",
+            tag: "Performing Arts"
+        },
+        {
+            name: "Teatr Polski im. Arnolda Szyfmana w Warszawie",
+            address: "Kazimierza Karasia 2, Warszawa - Polska",
+            coord: {lat: 52.238474, lng: 21.019542},
+            website: "http://www.teatrpolski.waw.pl/",
+            tag: "Performing Arts"
+        },
+        {
+            name: "Capitol",
+            address: "Marszałkowska 115, Warszawa - Polska",
+            coord: {lat: 52.241321, lng: 21.003455},
+            website: "http://www.scenacapitol.pl/teatr/",
+            tag: "Performing Arts"
+        },
+        {
+           name: "Teatr Ateneum im. Stefana Jaracza",
+           address: "Stefana Jaracza 2, Warszawa - Polska",
+           coord: {lat: 52.237316, lng: 21.032791},
+           website: "http://teatrateneum.pl/",
+           tag: "Performing Arts"
+        },
+        {
+            name: "Teatr Sabat Małgorzaty Potockiej",
+            address: "Foksal 16, 00-372 Warszawa - Poland",
+            coord: {lat: 52.233873, lng: 21.021230},
+            website: "http://teatr-sabat.pl/",
+            tag: "Performing Arts"
+        },
+        {
+            name: "Studio Buffo",
+            address: "Marii Konopnickiej 6, Warszawa - Polska",
+            coord: {lat: 52.228151, lng: 21.026095},
+            website: "http://studiobuffo.com.pl/",
+            tag: "Performing Arts"
         },
         {
         	name: "Biblioteka Uniwersytecka",
@@ -358,3 +436,5 @@ var styles = [
         ]
     }
 ];
+
+//http://www.classicalmusiclover.co.uk/
