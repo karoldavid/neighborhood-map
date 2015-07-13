@@ -213,7 +213,7 @@ $(document).ready(function(region, poi, locations, styles) {
         // Get from fourSquare API venue photos
         self.fsPhotos = ko.computed(function() {
             self.myMap().forEach(function(location,i) {
-                if (location.fs_id()) {
+                if (location.tag === poi && location.fs_id()) {
                     var VENUE_ID = location.fs_id();
 
                     $.ajax({
@@ -417,7 +417,7 @@ $(document).ready(function(region, poi, locations, styles) {
             });*/
 
             // Generate map markers with different colors
-            var pinColors = {"default": "5CB3FF", "custom": "FFFFCC", "visited": "3EA99F"};
+            var pinColors = {"default": "5CB3FF", "custom": "3EA99F", "visited": "FFFFCC"};
 
             var pinImages = [];
 
