@@ -60,6 +60,7 @@
         <div class="col-2"></div>
        
         <div class="col-3">
+            <!--<div id="pano"></div>-->
             <div id="wikipedia">
                 <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
             </div>
@@ -87,7 +88,7 @@
 
   <!-- search result list -->
   <script type="text/html" id="result"> 
-    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation"></li>
+    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}"></li>
   </script>
 
   <!-- Wikipedia map region link list -->
