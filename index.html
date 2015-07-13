@@ -83,7 +83,7 @@
 
   <!-- tag cloud -->
   <script type="text/html" id="cloud"> 
-    <span class="tag" data-bind="text: $data, css: { selected: $data == $root.chosenTagId() }, click: $root.goToTag"</span>
+    <span class="tag" data-bind="text: $data, css: { selected: $data == $root.chosenTagId() }, click: $root.goToTag, attr: {title: $data}"</span>
   </script> 
 
   <!-- search result list -->
