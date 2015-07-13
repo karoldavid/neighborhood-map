@@ -73,7 +73,9 @@ $(document).ready(function(region, poi, locations, styles) {
         this.description = "";
         
         // fourSquare API
-        this.fs = "-";
+        this.fs_cat = "";
+        this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
+        this.fs_photos = ko.observableArray([]);
     };
 
     //
@@ -99,7 +101,7 @@ $(document).ready(function(region, poi, locations, styles) {
             return new Location(locationItem, "")
         }));
 
-        self.currentLocationDescription = ko.observable("");
+        self.currentLocation = ko.observable("");
 
         /**
          *
@@ -168,6 +170,7 @@ $(document).ready(function(region, poi, locations, styles) {
             });
         });
 
+        // @TODO: Cach venue details (for up to 30 days)
         // @TODO: Check error message
         // @TODO: Retrieve POI data 
         // Get from fourSquare API proper location categories
@@ -183,7 +186,7 @@ $(document).ready(function(region, poi, locations, styles) {
             $.ajax({
                 url: 'https://api.foursquare.com/v2/venues/search',
                 dataType: 'json',
-                data: 'limit=1' + 
+                data: 'limit=1' +
                       '&ll=' + latlng +
                       '&query=' + query +
                       '&client_id=' + CLIENT_ID +
@@ -193,9 +196,46 @@ $(document).ready(function(region, poi, locations, styles) {
                 async: true,
 
                 success: function(data) {
+                    var response = data.response ? data.response : "";
                     var venue = data.response.hasOwnProperty("venues") ? data.response.venues[0] : "";
-                    var category = venue && venue.hasOwnProperty("categories") ? venue.categories[0].name : "-";
-                    self.myMap()[i].fs = category;
+                    var category = venue && venue.hasOwnProperty("categories") ? venue.categories[0].name : "";
+                    var id = venue ? venue.id : "";
+                    self.myMap()[i].fs_cat = category;
+                    self.myMap()[i].fs_id(id);
+                }
+            });
+        });
+
+
+        // @TODO: Cach venue details (for up to 30 days)
+        // @TODO: Check error message
+        // @TODO: Retrieve POI data
+        // Get from fourSquare API venue photos
+        self.fsPhotos = ko.computed(function() {
+            self.myMap().forEach(function(location,i) {
+                if (location.fs_id()) {
+                    var VENUE_ID = location.fs_id();
+
+                    $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/'+ VENUE_ID +'/photos',
+                        dataType: 'json',
+                        data: '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "";
+                            var photos = response.hasOwnProperty("photos") ? data.response.photos.items : "";
+                            
+                            photos.forEach(function(photo, i) {
+                                if (i < 10) {
+                                    location.fs_photos.push(photo.prefix + 'width' + photo.width + photo.suffix);
+                                }
+                            });
+                        }
+                    });
                 }
             });
         });
@@ -273,8 +313,7 @@ $(document).ready(function(region, poi, locations, styles) {
         self.goToLocation = function(location) {
             // Make sure the list item clicked on is not active
             self.chosenLocationId(location != self.chosenLocationId() ? location : "");
-            self.currentLocationDescription(self.chosenLocationId());
-            console.log(self.currentLocationDescription().description);
+            self.currentLocation(self.chosenLocationId());
             if (selectedInfoWindow) {selectedInfoWindow.close()};
             if (self.chosenLocationId()) {self.show_info(location);}
         };
@@ -313,7 +352,7 @@ $(document).ready(function(region, poi, locations, styles) {
                         // '<p>' + location.description + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<hr>' +
                          '<p>' + location.address + '</p>'+ '<hr>' +
-                         '<p>' + location.fs + ' ' + '<a href="' + location.website + '" title="Go to ' + location.website +
+                         '<p>' + location.fs_cat + ' ' + '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' + '</p>' + 
                          '</div>' + 
                          '</div>';
@@ -421,7 +460,7 @@ $(document).ready(function(region, poi, locations, styles) {
                     // Open the infowindow on marker click
                     //Check if there some info window selected and if is opened then close it
                         if (infowindow.isOpen()) {
-                            selectedInfoWindow.close();
+                            infowindow.close();
                             selectedInfoWindow = null;
                         }
 

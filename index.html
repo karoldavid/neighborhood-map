@@ -64,10 +64,13 @@
             <div id="wikipedia">
                 <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
             </div>
-            <div id="description" data-bind="with: currentLocationDescription">
+            <div id="description" data-bind="with: currentLocation">
                 <p data-bind="text: description"></p>
             </div>
-        </div>
+          
+            <div id="fs-gallery" data-bind="with: currentLocation">
+                <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
+            </div>
 
       </div>   
     </main>
@@ -96,6 +99,15 @@
     <li><a data-bind="attr:{href: url}, text: title" target="_blank"></a></li>
   </script>
 
+  <!-- fs Gallery -->
+  <script type="text/html" id="photo-slider">
+    <li>
+        <a class="thumbs" data-bind="attr: {href: $data}" target="_blank">
+            <img width="100%" data-bind="attr: {src: $data}"/>
+        </a>
+    </li>
+  </script>
+
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
   <script src="js/lib/jquery-1.11.3.js"></script>
   <script src="js/lib/knockout-3.3.0.js"></script>
@@ -117,6 +129,51 @@
     // Hide wikipedia list
     toggleVisibility('wikipedia');
     /*toggleVisibility('tag-cloud');*/
+
+  </script>
+
+  <script>
+      jQuery(document).ready(function ($) {
+
+  
+	var slideCount = $('#slider ul li').length;
+	var slideWidth = $('#slider ul li').width();
+	var slideHeight = $('#slider ul li').height();
+	var sliderUlWidth = slideCount * slideWidth;
+	
+	$('#slider').css({ width: slideWidth, height: slideHeight });
+	
+	$('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
+	
+    $('#slider ul li:last-child').prependTo('#slider ul');
+
+    function moveLeft() {
+        $('#slider ul').animate({
+            left: + slideWidth
+        }, 200, function () {
+            $('#slider ul li:last-child').prependTo('#slider ul');
+            $('#slider ul').css('left', '');
+        });
+    };
+
+    function moveRight() {
+        $('#slider ul').animate({
+            left: - slideWidth
+        }, 200, function () {
+            $('#slider ul li:first-child').appendTo('#slider ul');
+            $('#slider ul').css('left', '');
+        });
+    };
+
+    $('a.control_prev').click(function () {
+        moveLeft();
+    });
+
+    $('a.control_next').click(function () {
+        moveRight();
+    });
+
+});   
 
   </script>
 </body>
