@@ -419,7 +419,9 @@ $(document).ready(function(region, focus, locations, styles) {
             });*/
 
             // Generate map markers with different colors
-            var pinColors = {"default": "5CB3FF", "custom": "3EA99F", "visited": "FFFFCC"};
+            // EEB211 (Yellow) => Transportation
+            // 009925(GREEN) => ???
+            var pinColors = {"default": "5CB3FF", "custom": "D50F25", "visited": "666666"};
 
             var pinImages = [];
 
