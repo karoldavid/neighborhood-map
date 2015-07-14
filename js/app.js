@@ -51,7 +51,7 @@ $(document).ready(function(region, focus, locations, styles) {
         this.marker;
         this.address = data.address;
         this.options = data.options;
-        this.website = data.website;
+        this.website = data.website || "http://#";
         this.tag = data.tag;
 
         // Create string for search list
@@ -109,7 +109,7 @@ $(document).ready(function(region, focus, locations, styles) {
         self.region = region.center["name"].toUpperCase(); // Map region string for header app info
         self.distance = Math.round(getDistanceFromLatLonInKm(region.center["coord"].lat, region.center["coord"].lng, 37.362517, -122.03476)) +
                         ' km to Silicon Valley';
-        console.log(self.distance);
+
         self.weather = ko.observable(); // Current weather string for header app info
 
         // Sort location list by name property
@@ -375,14 +375,16 @@ $(document).ready(function(region, focus, locations, styles) {
     // Return info string for Google Maps location info window
     getInfoString = function(location) {
 
+        var locationCategory = location.fs_cat || location.tag;
+
         var infoString = '<div id="iw-container">' +
                          '<h2 class="iw-title">' + location.name + '</h2>'+
                          '<div class="iw-body">' +
                          //'<h3>Info</h3>' +
                         // '<p>' + location.description + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + '<hr>' +
-                         '<p>' + location.address + '</p>'+ '<hr>' +
-                         '<p>' + location.fs_cat + ' ' + '<a href="' + location.website + '" title="Go to ' + location.website +
+                         //'<p>' + location.address + '</p>'+ '<hr>' +
+                         '<p>' + locationCategory + ' ' + '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' + '</p>' + 
                          '</div>' + 
                          '</div>';
@@ -618,9 +620,10 @@ $(document).ready(function(region, focus, locations, styles) {
 //@TODO: Markers are clickable, and change styling to indicate their selected state
 //@TODO: Markers bounce on click
 //@TODO: SHOW GOOGLE MAPS ERROR MESSAGE WHEN RESPONSE FAILS
-//QTODO: When list item is clicked, highlight marker/ open marker info window
+//@TODO: When list item is clicked, highlight marker/ open marker info window
 //@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
 //       (ex. Yelp reviews, Wikipedia, Flickr images, Kayak, etc).
+//@TODO: Integrate https://www.firebase.com/ to Exceed Specifications
 
 //@TODO: Additional 3rd party API
 //@TODO: Optimmize Performance
