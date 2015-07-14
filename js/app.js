@@ -110,6 +110,7 @@ $(document).ready(function(region, poi, locations, styles) {
          */
 
         // @TODO: Check error message
+        // @TODO: Fetch data on click only
         // Get from Wikipedia API url and title for region info link list 
         self.wikipediaLinks = ko.observableArray();
 
