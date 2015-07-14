@@ -66,7 +66,7 @@
 	    	name: "Kino Femina",
 	        address: "Aleja Solidarności 115 Warszawa - Polska",
 	        coord: {lat: 52.241984, lng: 20.994493},
-	        website: "#",
+	        website: "",
 	        tag: "Cinema"
 
 	    },
@@ -100,7 +100,7 @@
             coord: {lat : 52.234173, lng: 21.018673},
             options: "Lunch",
             video: "http://news.bbc.co.uk/1/hi/programmes/fast_track/9714943.stm",
-            website: "#",
+            website: "",
             tag: "Restaurant"
         },
         {
