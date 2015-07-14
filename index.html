@@ -33,9 +33,9 @@
         <p data-bind="text: weather"></p>
       </div>
     </header>
-
-    <div id="map-canvas" data-bind="map:myMap"></div>
-    
+    <div class="map-container">
+        <div id="map-canvas" data-bind="map:myMap"></div>
+    </div>
     <main>
       <div class="row">
     
@@ -52,7 +52,7 @@
               <ul data-bind="template: {name: 'cloud', foreach: searchTags}"></ul>
           </div>
 
-          <div class="item-4 search-element" id="search-results">
+          <div class="item-4 search-element content" id="search-results">
               <!-- @TODO: Scroll to activated list item -->
               <ul data-bind="template: {name: 'result', foreach: searchResults}">
                   <!-- @TODO: not working properly-->
