@@ -29,17 +29,18 @@ $(document).ready(function(region, focus, locations, styles) {
             zoom: data.zoom.initial,
             panControl: false,
             zoomControl: true,
+            scaleControl: true,
+            streetViewControl: true,
+            mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style'],
+                position: google.maps.ControlPosition.BOTTOM_CENTER
+            },
             zoomControlOptions: {
                 style: google.maps.ZoomControlStyle.SMALL,
                 position: google.maps.ControlPosition.RIGHT_BOTTOM
             },
-            scaleControl: true,
-            streetViewControl: true,
             streetViewControlOptions: {
                 position: google.maps.ControlPosition.RIGHT_BOTTOM
-            },
-            mapTypeControlOptions: {
-                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
             }
         };
     };
