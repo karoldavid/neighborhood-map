@@ -18,8 +18,18 @@
         <h1 data-bind="text: region"></h1>
         <p>cityZoom</p>
       </div>
-      <div class="item-3 info weather">
-        <button class="button" title="info" onclick="toggleVisibility('wikipedia');">i</button>
+      <div class="item-2" id="searchbar">
+        <form action="#">
+          <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
+          <button class="reset" title="reset" data-bind="click: resetSearch">X</button>
+          <button class="reverse" title="reverse" data-bind="click: reverseList"><></button>
+        </form>
+      </div>
+      <div class="item-3 info">
+        <button class="button" title="Wikipedia" onclick="toggleVisibility('wikipedia');">W</button>
+        <button class="button" title="Help">?</button>
+      </div>
+      <div class="item-4 weather">
         <p data-bind="text: weather"></p>
       </div>
     </header>
@@ -29,31 +39,25 @@
     <main>
       <div class="row">
     
-        <div class="col-1 search-items">
-      
-          <div class="item-1 search" id="searchbar">
-            <form action="#"> 
-              <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
-              <button class="reverse" title="reverse" data-bind="click: reverseList"><></button>
-              <button class="reset" title="reset" data-bind="click: resetSearch">x</button>
-              <!--<button class="button" onclick="toggleVisibility('tag-cloud');">tags</button>-->
-            </form>
+        <div class="col-1" id="search">
+
+          <div class="item-2 search-element" id="search-suggestions">
+            <button title="Point of Interest" data-bind="">POI</button>
+            <button title="Transportation" data-bind="">Transportation</button>
+            <button title="City" data-bind="">City Info</button>
+            <button title="Recommendation" data-bind="">Recommended</button>
           </div>
 
-          <div class="item-2" id="tag-cloud">
-            <div class="content search">
+          <div class="item-3 search-element" id="tag-cloud">
               <ul data-bind="template: {name: 'cloud', foreach: searchTags}"></ul>
-            </div>
           </div>
 
-          <div class="item-3 search" id="search-results">
-            <div class="content">
+          <div class="item-4 search-element" id="search-results">
               <!-- @TODO: Scroll to activated list item -->
               <ul data-bind="template: {name: 'result', foreach: searchResults}">
                   <!-- @TODO: not working properly-->
                   <li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>
               </ul>
-            </div>
           </div>
         </div>
 
@@ -64,17 +68,14 @@
             <div id="wikipedia">
                 <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
             </div>
-            
-            <!--<div id="description" data-bind="with: currentLocation">
-                <p data-bind="text: description"></p>
-            </div>-->
           
             <div id="fs-gallery" data-bind="with: currentLocation">
                 <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
             </div>
 
-      </div>   
-    </main>
+      </div>
+    </div>
+  </main>
 
    <!--  <footer>
       <div class="contact">
@@ -95,12 +96,12 @@
     <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}"></li>
   </script>
 
-  <!-- Wikipedia map region link list -->
+  <!-- Wikipedia map region info link list -->
   <script type="text/html" id="wikipediaList"> 
     <li><a data-bind="attr:{href: url}, text: title" target="_blank"></a></li>
   </script>
 
-  <!-- fs Gallery -->
+  <!-- FourSquare Gallery -->
   <script type="text/html" id="photo-slider">
     <li>
         <a class="thumbs" data-bind="attr: {href: $data}" target="_blank">
