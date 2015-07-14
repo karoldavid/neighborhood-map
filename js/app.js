@@ -1,6 +1,6 @@
 
 //@ TODO: Load data as json 
-$(document).ready(function(region, poi, locations, styles) {
+$(document).ready(function(region, focus, locations, styles) {
 
     // @TODO: Add POI data (Performing Arts locations)
     var initialLocations = locations, // locations data
@@ -80,7 +80,7 @@ $(document).ready(function(region, poi, locations, styles) {
 
     //
     var MyViewModel = function() {
-
+        console.log(focus['poi'][0]);
         var self = this;
 
         self.query = ko.observable(""); // Search box query string
@@ -214,7 +214,7 @@ $(document).ready(function(region, poi, locations, styles) {
         // Get from fourSquare API venue photos
         self.fsPhotos = ko.computed(function() {
             self.myMap().forEach(function(location,i) {
-                if (location.tag === poi && location.fs_id()) {
+                if (location.tag === focus['poi'][0] && location.fs_id()) {
                     var VENUE_ID = location.fs_id();
 
                     $.ajax({
@@ -439,7 +439,7 @@ $(document).ready(function(region, poi, locations, styles) {
                             location.lat, 
                             location.lng),
                     title:  location.name,
-                    icon: pinImages[location.tag === poi ? 1 : 0],
+                    icon: pinImages[location.tag === focus['poi'][0] ? 1 : 0],
                     animation: google.maps.Animation.DROP,
                     draggable: false
                 });
@@ -512,7 +512,7 @@ $(document).ready(function(region, poi, locations, styles) {
                 }
             };
 
-           //var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+           //var panorama = new google.maps.StreetViewPanorama(document.getElementById('panorama'), panoramaOptions);
            //map.setStreetView(panorama);
 
             google.maps.InfoWindow.prototype.isOpen = function(){
@@ -588,7 +588,7 @@ $(document).ready(function(region, poi, locations, styles) {
     var viewModel = new MyViewModel();
 
     ko.applyBindings(viewModel);
-}(neighborhood.region, neighborhood.poi[0], neighborhood.locations, styles));
+}(neighborhood.region, neighborhood.focus, neighborhood.locations, styles));
 
 //@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
 //@TODO: Searchbox Text updates item list and map markers instantly when user types
