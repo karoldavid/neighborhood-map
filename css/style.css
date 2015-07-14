@@ -321,7 +321,7 @@ header p {
 /* Tag Cloud */
 
 #tag-cloud {
-  
+
 }
 
 #tag-cloud ul {
@@ -466,6 +466,7 @@ button:active {
 
 #iw-container {
     font-family: 'Architects Daughter', cursive;
+    /*background-color: #d3d3d3;*/
 }
 
 #iw-container .iw-body h2,
@@ -476,18 +477,24 @@ button:active {
 }
 
 #iw-container .iw-title {
-   font-size: 1.5em;
-   font-weight: 400;
+   font-size: 1.2em;
+   font-weight: bold;
    padding: 0.5em;
    background-color: #3369E8; /*#48b5e9;*/
-   color: white;
+   color: #fff;
    margin: 1px;
    border-radius: 2px 2px 0 0;
 }
 
 #iw-container .iw-body {
-	padding: 1em;
+  /*background-color: #d3d3d3;*/
+	padding: 0.5em 0.25em;
 	font-size: 1em;
+}
+
+#iw-container .iw-body p{
+  padding: 0 0 0 0.5em;
+  font-size: 1em;
 }
 
 #iw-container .iw-body .iw-img {
