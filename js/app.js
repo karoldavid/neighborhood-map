@@ -486,7 +486,7 @@ $(document).ready(function(region, focus, locations, styles) {
             // Generate map markers with different colors
             // EEB211 (Yellow) => Transportation
             // 009925(GREEN) => ???
-            var pinColors = {"Transportation": "eeb211", "City": "5cb3ff", "Recommended": "FF7563", "POI": "d50f25", "visited": "666666"};
+            var pinColors = {"Transportation": "eeb211", "City": "5cb3ff", "Recommended": "ff7563", "POI": "d50f25", "visited": "666666"};
 
             var pinImages = {};
 
