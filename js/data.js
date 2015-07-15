@@ -348,7 +348,7 @@ var styles = [
                 "lightness": 51
             },
             {
-                "visibility": "simplified"
+                "visibility": "off"
             }
         ]
     },
