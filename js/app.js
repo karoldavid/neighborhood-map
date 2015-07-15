@@ -78,7 +78,8 @@ $(document).ready(function(region, focus, locations, styles) {
 
         // Get Google Street View image
         this.img = ko.computed(function() {
-            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
+            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng
+            // || 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.name
         }, this);
 
         // Wikipedia API
@@ -424,9 +425,9 @@ $(document).ready(function(region, focus, locations, styles) {
                          '<div class="iw-body">' +
                          //'<h3>Info</h3>' +
                         // '<p>' + location.description + '</p>' +
-                         '<img class="iw-img" src="' + location.img() + '">' + '<hr>' +
+                         '<img class="iw-img" src="' + location.img() + '">' + //'<hr>' +
                          //'<p>' + location.address + '</p>'+ '<hr>' +
-                         '<p>' + locationCategory + ' ' + '<a href="' + location.website + '" title="Go to ' + location.website +
+                         '<p>' + locationCategory + " " + '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' + '</p>' + 
                          '</div>' + 
                          '</div>';
