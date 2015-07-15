@@ -486,16 +486,16 @@ $(document).ready(function(region, focus, locations, styles) {
             // Generate map markers with different colors
             // EEB211 (Yellow) => Transportation
             // 009925(GREEN) => ???
-            var pinColors = {"default": "5CB3FF", "custom": "D50F25", "visited": "666666"};
+            var pinColors = {"Transportation": "eeb211", "City": "5cb3ff", "Recommended": "FF7563", "POI": "d50f25", "visited": "666666"};
 
-            var pinImages = [];
+            var pinImages = {};
 
             // @CREDITS: https://stackoverflow.com/posts/7686977/revisions
             for (color in pinColors) {
-                pinImages.push(new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColors[color],
+                pinImages[color] = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColors[color],
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0,0),
-                    new google.maps.Point(10, 34))
+                    new google.maps.Point(10, 34)
                 );
             }
 
@@ -507,7 +507,7 @@ $(document).ready(function(region, focus, locations, styles) {
                             location.lat, 
                             location.lng),
                     title:  location.name,
-                    icon: pinImages[location.tag === focus['POI'][0] ? 1 : 0],
+                    icon: pinImages[location.focus()],
                     animation: google.maps.Animation.DROP,
                     draggable: false
                 });
@@ -559,7 +559,7 @@ $(document).ready(function(region, focus, locations, styles) {
                         }, 750);
 
                         // Mark visited marker green
-                        location.marker.setIcon(pinImages[2]);
+                        location.marker.setIcon(pinImages["visited"]);
                         //location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
                 });
 
