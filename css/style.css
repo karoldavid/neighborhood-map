@@ -490,11 +490,18 @@ button.selected {
 }
 
 .suggestButton {
-  background: #900;
+  /*background: #900;*/
   font-size: 8pt;
   width: 3em;
   height: 3em;  
 }
+
+/* Different Colors for suggestButtons */
+/* @TODO: Get this colors dynamically*/
+li:nth-child(1) button { background: #eeb211; }
+li:nth-child(2) button { background: #5cb3ff; }
+li:nth-child(3) button { background: #ff7563; }
+li:nth-child(4) button { background: #d50f25; }
 
 .functionButton {
   background: #5cb3ff;
@@ -509,6 +516,8 @@ button.selected {
   width: 2em;
   height: 2em;   
 }
+
+
 
 
 /**
