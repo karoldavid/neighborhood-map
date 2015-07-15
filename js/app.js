@@ -88,7 +88,10 @@ $(document).ready(function(region, focus, locations, styles) {
         // fourSquare API
         this.fs_cat = "";
         this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
-        this.fs_photos = ko.observableArray([]);
+        if (this.focus() === "POI") {
+            this.fs_photos = ko.observableArray([]);
+            this.fs_restaurants = ko.observableArray([]);
+        }
     };
 
     // @CREDITS: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
@@ -248,7 +251,7 @@ $(document).ready(function(region, focus, locations, styles) {
         // Get from fourSquare API venue photos
         self.fsPhotos = ko.computed(function() {
             self.myMap().forEach(function(location,i) {
-                if (location.tag === focus['POI'][0] && location.fs_id()) {
+                if (location.focus() === "POI" && location.fs_id()) {
                     var VENUE_ID = location.fs_id();
 
                     $.ajax({
@@ -269,6 +272,43 @@ $(document).ready(function(region, focus, locations, styles) {
                                     location.fs_photos.push(photo.prefix + 'width' + photo.width + photo.suffix);
                                 }
                             });
+                        }
+                    });
+                }
+            });
+        });
+
+        // @TODO: Cach nearBy details (for up to 30 days)
+        // @TODO: Check error message
+        // Get from fourSquare API POI nearyBy data
+        self.fsNearyBy = ko.computed(function() {
+            self.myMap().forEach(function(location,i) {
+                if (location.focus() === "POI") {
+                    var latlng = [location.lat, location.lng],
+                        query = "food";
+
+                    $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/explore',
+                        dataType: 'json',
+                        data: '&limit=10' + 
+                              '&ll=' + latlng +
+                              '&radius=250'+
+                              '&query=' + query +
+                              '&sortByDistance=1' +
+                              '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "",
+                                groups = response.groups ? response.groups : "",
+                                items = groups[0].items ? groups[0].items : "";
+                    
+                            items.forEach(function(item) {
+                                location.fs_restaurants.push(item.venue.name);
+                            });  
                         }
                     });
                 }

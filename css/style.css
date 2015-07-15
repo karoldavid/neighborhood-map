@@ -226,8 +226,8 @@ header p {
   padding: 0;
   height: 200px;
   max-height: 300px;
-  overflow:hidden;
-  overflow-y:scroll;
+  overflow: hidden;
+  overflow-y: scroll;
   background: #ccc;
 }
 
@@ -239,6 +239,58 @@ header p {
 
 #fs-gallery ul li img {
   width: 180px;
+}
+
+/**
+ *
+ *
+ *
+ */
+
+ #fs-nearby {
+  margin: 2em;
+  padding: 0;
+  position: relative; 
+  z-index: 1;
+  background: #000;
+  width: 200px;
+  opacity: 0.65;
+  color: #fff;
+}
+
+#fs-nearby ul {
+  margin: 0;
+  padding: 0.25em;
+  height: 200px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#fs-nearby ul li {
+  display: block;
+  list-style-type: none;
+  background: none;   
+  -webkit-transition: all 0.5s ease-out;
+  border-bottom: 1px solid #eee;
+}
+
+#fs-nearby li:last-child {
+  border-bottom: none;
+}
+
+#fs-nearby li:hover {
+  background: #ccc;
+  cursor: pointer;
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #000;
+}
+
+#fs-nearby li.selected {
+  background: #191970; /*#3369E8; #191970;*/
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #fff;
 }
 
 /**
