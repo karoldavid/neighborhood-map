@@ -74,7 +74,7 @@
             </div>
           
             <div id="fs-gallery" data-bind="with: currentLocation">
-                <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
+                <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
             </div>
 
       </div>
