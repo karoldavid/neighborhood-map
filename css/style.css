@@ -458,6 +458,11 @@ button:active {
    background: #1b435e;
 }
 
+button.selected {
+   border-top-color: #1b435e;
+   background: #1b435e;
+}
+
 /**
  *
  * Google Maps
