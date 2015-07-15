@@ -88,10 +88,10 @@ $(document).ready(function(region, focus, locations, styles) {
         // fourSquare API
         this.fs_cat = "";
         this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
-        if (this.focus() === "POI") {
+        //if (this.focus() === "POI") {
             this.fs_photos = ko.observableArray([]);
             this.fs_restaurants = ko.observableArray([]);
-        }
+        //}
     };
 
     // @CREDITS: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
