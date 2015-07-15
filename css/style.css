@@ -486,6 +486,23 @@ button.selected {
    background: #1b435e;
 }
 
+/* @CREDITS: http://jsfiddle.net/TJcGc/ */
+.myButton {
+  background: #900;
+  color: White;
+  font-family: Verdana;
+  font-weight: bold;
+  font-size: 8pt;
+  width: 3em;
+  height: 3em;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  margin-bottom:5px;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;     
+}
+
 /**
  *
  * Google Maps
