@@ -59,6 +59,17 @@ $(document).ready(function(region, focus, locations, styles) {
             return this.name + ", " + this.address + ", " + this.tag;
         }, this);
 
+        this.focus = ko.computed(function() {
+
+            for (group in focus) {
+                if (focus[group].indexOf(this.tag) >= 0) {
+                    return group
+                }
+            }
+            return ""; // fallback
+
+        }, this);
+
         this.lat = data.coord.lat;
         this.lng = data.coord.lng;
         
@@ -104,6 +115,8 @@ $(document).ready(function(region, focus, locations, styles) {
         self.query = ko.observable(""); // Search box query string
         self.chosenTagId = ko.observable(""); // Selected tag in tag cloud
         self.chosenLocationId = ko.observable(""); // Selected location item in locations item list
+
+        self.chosenFocusId = ko.observable("");
 
         // @TODO: Make map region changeable on click
         self.region = region.center["name"].toUpperCase(); // Map region string for header app info
@@ -228,14 +241,13 @@ $(document).ready(function(region, focus, locations, styles) {
             });
         });
 
-
         // @TODO: Cach venue details (for up to 30 days)
         // @TODO: Check error message
         // @TODO: Retrieve POI data
         // Get from fourSquare API venue photos
         self.fsPhotos = ko.computed(function() {
             self.myMap().forEach(function(location,i) {
-                if (location.tag === focus['poi'][0] && location.fs_id()) {
+                if (location.tag === focus['POI'][0] && location.fs_id()) {
                     var VENUE_ID = location.fs_id();
 
                     $.ajax({
@@ -306,6 +318,36 @@ $(document).ready(function(region, focus, locations, styles) {
         self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
             return tag
         });
+
+        self.focusButtons = function() {
+            var groups = [];
+            for (group in focus) {
+                groups.push(group)
+            }
+            return groups;
+        };
+
+        self.goToFocus = function(focus) {
+            self.chosenFocusId(focus != self.chosenFocusId() ? focus : "");
+            if (selectedInfoWindow) {selectedInfoWindow.close()};
+            // Reset current search
+            self.query("");
+            self.chosenLocationId("");
+
+            // Set only according locations to visible
+            self.myMap().forEach(function(location) {
+                location.visible(!self.chosenFocusId() || self.chosenFocusId() === location.focus() ? true : false);
+                location.marker.setMap(!self.chosenFocusId() || self.chosenFocusId() === location.focus() ? map : null);
+            });
+            
+            // @TODO: How to handle everything map related in the 'Google Maps bindingHandler'?
+            // Fit map to new bounds based on all location positions filtered by tag
+            var currentBounds = new google.maps.LatLngBounds();
+            self.searchResults().forEach(function(location) {
+                currentBounds.extend(location.marker.position);
+            });
+            map.fitBounds(currentBounds);
+        };
 
         // Highlight selected search tag as active and filter location list accordingly
         self.goToTag = function(tag) {
@@ -464,7 +506,7 @@ $(document).ready(function(region, focus, locations, styles) {
                             location.lat, 
                             location.lng),
                     title:  location.name,
-                    icon: pinImages[location.tag === focus['poi'][0] ? 1 : 0],
+                    icon: pinImages[location.tag === focus['POI'][0] ? 1 : 0],
                     animation: google.maps.Animation.DROP,
                     draggable: false
                 });
