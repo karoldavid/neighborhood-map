@@ -169,7 +169,7 @@ header p {
   padding: 0.75em;
   background: #000;
   height: auto;
-  opacity: .45;
+  opacity: 0.45;
   color: #fff;
 }
 
@@ -211,39 +211,34 @@ header p {
  */
 
  #fs-gallery {
-  position: relative;
-  overflow: hidden;
-  margin: 20px auto 0 auto;
+  margin: 2em;
   border-radius: 4px;
+  position: relative; 
   z-index: 1;
   background: #000;
+  opacity: 0.75;
   color: #fff;
+  width: 200px;
 }
 
 #fs-gallery ul {
-  position: relative;
-  z-index: 1;
   margin: 0;
   padding: 0;
   height: 200px;
-  list-style: none;
   max-height: 300px;
   overflow:hidden;
   overflow-y:scroll;
+  background: #ccc;
 }
 
 #fs-gallery ul li {
-  z-index: 1;
-  position: relative;
-  display: block;
-  float: left;
-  margin: 0;
-  padding: 0.25em;
-  width: 500px;
-  height: 300px;
-  background: #ccc;
-  text-align: center;
-  line-height: 300px;
+  display: inline;
+  list-style-type: none;
+  height: auto;
+}
+
+#fs-gallery ul li img {
+  width: 180px;
 }
 
 /**
