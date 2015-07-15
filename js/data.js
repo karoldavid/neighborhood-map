@@ -164,23 +164,23 @@
 
         },
         {   
-            name: "Lotnisko Chopina",
+            name: "Lotnisko Chopina w Warszawie",
             address: "Żwirki i Wigury 1, Warszawa - Polska",
-            coord: {lat: 52.167232, lng: 20.967891},
+            coord: {lat: 52.167230, lng: 20.968035},
             website: "http://www.lotnisko-chopina.pl/en/index.html",
             tag: "Airport"
         },
         {
             name: "Lotnisko Warszawa-Babice",
             address: "Gen. Bryg. Sylwestra Kaliskiego 57, 01-476 Warszawa - Polska",
-            coord: {lat: 52.270196, lng: 20.907568},
+            coord: {lat: 52.270079, lng: 20.907559},
             website: "http://www.lotnisko-babice.pl/",
             tag: "Airport"
         }, 
         {   name: "Warszawa Centralna",
             address: "00-844, Warszawa - Polska",
-            coord: {lat:52.228729, lng: 21.003268},
-            website: "http://rozklad-pkp.pl/pl/terminal/warszawa-centralna",
+            coord: {lat: 52.228336, lng: 21.003576},
+            website: "http://intercity.pl/pl/",
             tag: "Train Station"
         },
         {
