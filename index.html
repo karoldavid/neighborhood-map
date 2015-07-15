@@ -18,6 +18,7 @@
         <h1 data-bind="text: region, attr: {title: distance}"></h1>
         <p>cityZoom</p>
       </div>
+
       <div class="item-2" id="searchbar">
         <form action="#">
           <input placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
@@ -25,14 +26,17 @@
           <button class="reverse" title="reverse" data-bind="click: reverseList"><></button>
         </form>
       </div>
+
       <div class="item-3 info">
         <button class="button" title="Wikipedia" onclick="toggleVisibility('wikipedia');">W</button>
         <button class="button" title="Help">?</button>
       </div>
+
       <div class="item-4 weather">
         <p data-bind="text: weather"></p>
       </div>
     </header>
+
     <div class="map-container">
         <div id="map-canvas" data-bind="map:myMap"></div>
     </div>
@@ -42,7 +46,7 @@
         <div class="col-1" id="search">
 
           <div class="item-1 search-element" id="search-suggestions">
-              <div data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></div>
+              <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
           </div>
 
 <!--           <div class="item-2 search-element" id="tag-cloud">
@@ -56,6 +60,7 @@
                   <li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>
               </ul>
           </div>
+
         </div>
 
         <div class="col-2"></div>
@@ -85,7 +90,7 @@
 
   <!-- focusGoup buttons -->
   <script type="text/html" id="focusGroup"> 
-     <button class="focus-group" data-bind="text: $data, css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"</button>
+     <li><button class="focus-group" data-bind="text: $data, css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
   </script>
 
   <!-- tag cloud -->
