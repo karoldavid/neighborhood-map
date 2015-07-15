@@ -11,10 +11,10 @@
 			bounds: [52.152227, 20.955794, 52.283899, 21.157324]
 		},
         focus: {
-            "transportation" : ["Airport", "Train Station"],
-            "city" : ["City Center", "Historic Center", "Cultural Center", "Museum", "Park", "Library", "Arts Gallery", "Mall"],
-            "recommended" : ["Club", "Restaurant", "Hotel", "Cinema"],
-            "poi" : ["Performing Arts"]
+            "Transportation" : ["Airport", "Train Station"],
+            "City" : ["City Center", "Historic Center", "Cultural Center", "Museum", "Park", "Library", "Arts Gallery", "Mall"],
+            "Recommended" : ["Club", "Restaurant", "Hotel", "Cinema"],
+            "POI" : ["Performing Arts"]
         },
 	    locations: [
 	    {   
