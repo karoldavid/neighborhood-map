@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
+  <html lang="en">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Neighborhood Map Application">
@@ -57,7 +57,7 @@
 
           <div class="item-2 search-element content" id="search-results">
               <!-- @TODO: Scroll to activated list item -->
-              <ul data-bind="template: {name: 'result', foreach: searchResults}">
+              <ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}">
                   <!-- @TODO: not working properly-->
                   <!--<li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>-->
               </ul>
@@ -154,6 +154,49 @@
     toggleVisibility('wikipedia');
     /*toggleVisibility('tag-cloud');*/
 
+   /* $('select').scrollTop(30);
+    $('#locList').click(function(){
+           var selected = $('ul #locList > li.selected').text();
+           alert(selected);
+     });*/
+
+      $('.selected').on('#locList', function (e) {
+      	alert(e);
+      }); 
+
+      $(function() {
+      	$('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                if (target.length) {
+                  $('html,body').animate({
+                  scrollTop: target.offset().top
+                }, 1000);
+                return false;
+           }
+        }
+      });
+    });
+
+/*      fizzBuzz = function() {
+	    for(var i = 1; i < 101; i++) {
+	      console.log(i % 3 === 0 || i % 5 === 0 ? ((i % 3) === 0 ? "fizz" : "") + ((i % 5) === 0 ? "buzz" : "")  : i);
+        }
+      }
+
+      fizzBuzz();
+*/
+
+     
+     
   </script> 
 </body>
 </html>
+
+function myFunction() {
+    var elmnt = document.getElementById("myDIV");
+    var x = elmnt.scrollLeft;
+    var y = elmnt.scrollTop;
+    document.getElementById ("demo").innerHTML = "Horizontally: " + x + "px<br>Vertically: " + y + "px";
+}

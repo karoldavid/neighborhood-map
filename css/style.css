@@ -653,10 +653,10 @@ footer {
 }
 
 .contact {
-	text-align: right;
-    margin: 0.2em;
-    padding: 0.2em;
-    font-size: 1.2em;
+	text-align: center;
+  margin: auto;
+  padding: 0.2em;
+  font-size: 1.2em;
 }
 
 /**
