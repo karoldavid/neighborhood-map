@@ -91,7 +91,42 @@ $(document).ready(function(region, focus, locations, styles) {
         //if (this.focus() === "POI") {
             this.fs_photos = ko.observableArray([]);
             this.fs_restaurants = ko.observableArray([]);
-        //}
+        //Fetching 3rd party data only on click/ demand?}
+    };
+
+    var GetWikiLinks = function() {
+        var self = this;
+
+        this.links = ko.observableArray();
+
+        this.getLinks = ko.computed(function() {
+
+            var wikiRequestLinksTimeout = setTimeout(function() {
+                    var $wikiElem = $('#wikipedia');
+                    $wikiElem.text('failed to get Wikipedia resources');
+                    console.log('failed to get Wikipedia resources');
+                }, 5000);
+
+            var wikiQuery = region.center["name"],
+            dt = 'jsonp',
+            wikiBase = 'http://en.wikipedia.org/w/api.php',
+            wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
+        
+            $.ajax({
+                    url: wikiUrl,
+                    dataType: dt,
+                    success: function(response){
+                        var titleList = response[1];
+
+                        for (var i = 0; i < titleList.length; i++) {
+                            var titleStr = titleList[i],
+                                urlStr = 'http://en.wikipedia.org/wiki/' + titleStr;
+                            self.links.push({url: urlStr, title: titleStr});
+                        };
+                    clearTimeout(wikiRequestLinksTimeout);
+                }
+            });
+        });
     };
 
     // @CREDITS: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
@@ -150,36 +185,11 @@ $(document).ready(function(region, focus, locations, styles) {
         // @TODO: Check error message
         // @TODO: Fetch data on click only
         // Get from Wikipedia API url and title for region info link list 
-        self.wikipediaLinks = ko.observableArray();
 
-        self.getWikipediaLinks = ko.computed(function() {
+        /*var data = functionThatGetsAPIData();
+        this.thing = ko.mapping.fromJS(data);*/
 
-            var wikiRequestLinksTimeout = setTimeout(function() {
-                    var $wikiElem = $('#wikipedia');
-                    $wikiElem.text('failed to get Wikipedia resources');
-                    console.log('failed to get Wikipedia resources');
-                }, 5000);
-
-            var wikiQuery = region.center["name"],
-            dt = 'jsonp',
-            wikiBase = 'http://en.wikipedia.org/w/api.php',
-            wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
-        
-            $.ajax({
-                    url: wikiUrl,
-                    dataType: dt,
-                    success: function(response){
-                        var titleList = response[1];
-
-                        for (var i = 0; i < titleList.length; i++) {
-                            var titleStr = titleList[i],
-                                urlStr = 'http://en.wikipedia.org/wiki/' + titleStr;
-                            self.wikipediaLinks.push({url: urlStr, title: titleStr});
-                        };
-                    clearTimeout(wikiRequestLinksTimeout);
-                }
-            });
-        });
+        self.wikipediaLinks = new GetWikiLinks().links;
         
         // @TODO: Check error message
         // Get from Wikipedia API short description for locations
@@ -589,6 +599,9 @@ $(document).ready(function(region, focus, locations, styles) {
 
                         viewModel.chosenLocationId(location);
 
+                        var selected = $('ul #locList > li.selected');
+                        console.log(selected);
+
                         toggleBounce();
                         setTimeout(toggleBounce, 500);
 
@@ -709,7 +722,7 @@ $(document).ready(function(region, focus, locations, styles) {
 //@TODO: Integrate https://www.firebase.com/ to Exceed Specifications
 
 //@TODO: Additional 3rd party API
-//@TODO: Optimmize Performance
+//@TODO: Optimize Performance
 
 //@NOTES: KNOCKOUTJS: MODEL VIEW VIEW MODEL Pattern
 //@NOTES: RESPONSIVE Design
