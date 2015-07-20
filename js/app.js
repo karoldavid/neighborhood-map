@@ -129,6 +129,21 @@ $(document).ready(function(region, focus, locations, styles) {
         });
     };
 
+
+    var GetWeather = function() {
+        var self = this;
+        
+        self.weatherStr = ko.observable("");
+
+        var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
+                      'lat=' + region.center["coord"].lat +
+                      '&lon=' + region.center["coord"].lng;
+
+        $.getJSON(weather, function(response) {
+            self.weatherStr(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
+        });
+    };
+
     // @CREDITS: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
     function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
         var R = 6371; // Radius of the earth in km
@@ -162,8 +177,6 @@ $(document).ready(function(region, focus, locations, styles) {
         self.distance = Math.round(getDistanceFromLatLonInKm(region.center["coord"].lat, region.center["coord"].lng, 37.362517, -122.03476)) +
                         ' km to Silicon Valley';
 
-        self.weather = ko.observable(); // Current weather string for header app info
-
         // Sort location list by name property
         initialLocations.sort(function(left, right) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
@@ -182,42 +195,18 @@ $(document).ready(function(region, focus, locations, styles) {
          *
          */
 
+        /*var data = functionThatGetsAPIData();
+        this.thing = ko.mapping.fromJS(data);*/
+
+        // @TODO: Check error message
+        // Get from Open Weather Map API current weather description and temperature
+        self.weather = new GetWeather().weatherStr; // Current weather string for header app info
+
         // @TODO: Check error message
         // @TODO: Fetch data on click only
         // Get from Wikipedia API url and title for region info link list 
 
-        /*var data = functionThatGetsAPIData();
-        this.thing = ko.mapping.fromJS(data);*/
-
         self.wikipediaLinks = new GetWikiLinks().links;
-        
-        // @TODO: Check error message
-        // Get from Wikipedia API short description for locations
-        self.getWikipediaDescription = ko.computed(function() {
-        
-            var wikiRequestDescriptionTimeout = setTimeout(function() {
-                // @TODO: DRY + error message handling
-                console.log('failed to get Wikipedia resources for locations short description');
-            }, 8000);
-
-            self.myMap().forEach(function(location, i) {
-
-                var wikiQuery = location.name,
-                    dt = 'jsonp',
-                    wikiBase = 'http://en.wikipedia.org/w/api.php',
-                    wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
-   
-                $.ajax({
-                    url: wikiUrl,
-                    dataType: dt,
-                    success: function(response) {
-                        var description = response[2][0] || "";
-                        self.myMap()[i].description = description;
-                        clearTimeout(wikiRequestDescriptionTimeout);
-                    }
-                });
-            });
-        });
 
         // @TODO: Cach venue details (for up to 30 days)
         // @TODO: Check error message
@@ -322,18 +311,6 @@ $(document).ready(function(region, focus, locations, styles) {
                         }
                     });
                 }
-            });
-        });
-
-        // @TODO: Check error message
-        // Get from Open Weather Map API current weather description and temperature
-        $(document).ready(function(){
-            var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
-                          'lat=' + region.center["coord"].lat +
-                          '&lon=' + region.center["coord"].lng;
-
-            $.getJSON(weather, function(response) {
-                self.weather(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
             });
         });
 
