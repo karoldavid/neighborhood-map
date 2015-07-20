@@ -192,6 +192,7 @@ header p {
   height: auto;
   opacity: 0.45;
   color: #fff;
+  max-width: 180px;
 }
 
 #wikipedia h3 {

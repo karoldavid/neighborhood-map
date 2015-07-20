@@ -352,7 +352,7 @@ $(document).ready(function(region, focus, locations, styles) {
                             var response = data.response ? data.response : "",
                                 groups = response.groups ? response.groups : "",
                                 items = groups[0].items ? groups[0].items : "";
-                            console.log(items);
+                  
                             items.forEach(function(item) {
                                 location.fs_hotels.push(item.venue.name);
                             });  
