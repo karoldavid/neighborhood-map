@@ -640,7 +640,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 });
 
                 google.maps.event.addListener(infowindow, 'closeclick', function() {
-                    marker.setMap(null);
+                    //marker.setMap(null);
                     viewModel.chosenLocationId("");
                 });
             });
