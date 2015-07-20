@@ -199,6 +199,16 @@ $(document).ready(function(region, focus, locations, styles) {
         /*var data = functionThatGetsAPIData();
         this.thing = ko.mapping.fromJS(data);*/
 
+        /*var apiCall = $.get('http://example.com/api');
+        
+        apiCall.done(function(data) {
+          // success
+        });  
+
+        apiCall.fail(function(xhr, err) {
+          // failure
+        }); */
+
         // @TODO: Check error message
         // Get from Open Weather Map API current weather description and temperature
         self.weather = new GetWeather().weatherStr; // Current weather string for header app info
@@ -342,7 +352,7 @@ $(document).ready(function(region, focus, locations, styles) {
                             var response = data.response ? data.response : "",
                                 groups = response.groups ? response.groups : "",
                                 items = groups[0].items ? groups[0].items : "";
-                    
+                            console.log(items);
                             items.forEach(function(item) {
                                 location.fs_hotels.push(item.venue.name);
                             });  
@@ -351,7 +361,6 @@ $(document).ready(function(region, focus, locations, styles) {
                 }
             });
         });
-
 
         /**
          *
