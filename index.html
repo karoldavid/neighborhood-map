@@ -77,8 +77,12 @@
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
             </div>
 
-            <div id="fs-nearby" data-bind="with: currentLocation">
-                <ul data-bind="visible: focus() === 'POI', template: {name: 'nearBy', foreach: fs_restaurants}"></ul>
+            <div id="fs-nearbyFood" data-bind="with: currentLocation">
+                <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
+            </div>
+
+            <div id="fs-nearbyHotels" data-bind="with: currentLocation">
+                <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
             </div>
 
       </div>
@@ -128,9 +132,15 @@
   </script>
 
   <!-- FourSquare nearBy POI Restaurant List -->
-  <script type="text/html" id="nearBy">
+  <script type="text/html" id="nearByFood">
     <li data-bind="text: $data"></li>
   </script>
+
+  <!-- FourSquare nearBy POI Hotel List -->
+  <script type="text/html" id="nearByHotels">
+    <li data-bind="text: $data"></li>
+  </script>
+
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
   <script src="js/lib/jquery-1.11.3.js"></script>

@@ -247,7 +247,7 @@ header p {
  *
  */
 
- #fs-nearby {
+#fs-nearbyFood {
   margin: 2em;
   padding: 0;
   position: relative; 
@@ -258,7 +258,7 @@ header p {
   color: #fff;
 }
 
-#fs-nearby ul {
+#fs-nearbyFood ul {
   margin: 0;
   padding: 0.25em;
   height: 200px;
@@ -266,7 +266,7 @@ header p {
   overflow-y: scroll;
 }
 
-#fs-nearby ul li {
+#fs-nearbyFood ul li {
   display: block;
   list-style-type: none;
   background: none;   
@@ -274,11 +274,11 @@ header p {
   border-bottom: 1px solid #eee;
 }
 
-#fs-nearby li:last-child {
+#fs-nearbyFood li:last-child {
   border-bottom: none;
 }
 
-#fs-nearby li:hover {
+#fs-nearbyFood li:hover {
   background: #ccc;
   cursor: pointer;
   -webkit-transition: all 0.1s;
@@ -287,6 +287,52 @@ header p {
 }
 
 #fs-nearby li.selected {
+  background: #191970; /*#3369E8; #191970;*/
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #fff;
+}
+
+#fs-nearbyHotels {
+  margin: 2em;
+  padding: 0;
+  position: relative; 
+  z-index: 1;
+  background: #000;
+  width: 200px;
+  opacity: 0.65;
+  color: #fff;
+}
+
+#fs-nearbyHotels ul {
+  margin: 0;
+  padding: 0.25em;
+  height: 200px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#fs-nearbyHotels ul li {
+  display: block;
+  list-style-type: none;
+  background: none;   
+  -webkit-transition: all 0.5s ease-out;
+  border-bottom: 1px solid #eee;
+}
+
+#fs-nearbyHotels li:last-child {
+  border-bottom: none;
+}
+
+#fs-nearbyHotels li:hover {
+  background: #ccc;
+  cursor: pointer;
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #000;
+}
+
+#fs-nearbyHotels li.selected {
   background: #191970; /*#3369E8; #191970;*/
   -webkit-transition: all 0.1s;
   font-weight: bold;
@@ -524,31 +570,12 @@ button {
   -webkit-border-radius:6px;     
 }
 
-button:hover {
-   border-top-color: #3b474f;
-   background: #3b474f;
-   color: #d6bcd6;
-   cursor: pointer;
-}
-
-button.selected {
-   border-top-color: #1b435e;
-   background: #1b435e;
-}
-
 .suggestButton {
   /*background: #900;*/
   font-size: 8pt;
   width: 3em;
   height: 3em;  
 }
-
-/* Different Colors for suggestButtons */
-/* @TODO: Get this colors dynamically*/
-li:nth-child(1) button { background: #eeb211; }
-li:nth-child(2) button { background: #5cb3ff; }
-li:nth-child(3) button { background: #ff7563; }
-li:nth-child(4) button { background: #d50f25; }
 
 .functionButton {
   background: #5cb3ff;
@@ -564,8 +591,26 @@ li:nth-child(4) button { background: #d50f25; }
   height: 2em;   
 }
 
+/* Different Colors for suggestButtons */
+/* @TODO: Get this colors dynamically*/
+li:nth-child(1) button { background: #eeb211; }
+li:nth-child(2) button { background: #5cb3ff; }
+li:nth-child(3) button { background: #ff7563; }
+li:nth-child(4) button { background: #d50f25; }
 
+button:hover,
+.suggestButton:hover {
+   border-top-color: #3b474f;
+   background: #3b474f;
+   color: #d6bcd6;
+   cursor: pointer;
+}
 
+button.selected,
+.suggestButton.selected {
+   border-top-color: #1b435e;
+   background: #1b435e;
+}
 
 /**
  *

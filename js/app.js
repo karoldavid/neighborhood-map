@@ -91,6 +91,7 @@ $(document).ready(function(region, focus, locations, styles) {
         //if (this.focus() === "POI") {
             this.fs_photos = ko.observableArray([]);
             this.fs_restaurants = ko.observableArray([]);
+            this.fs_hotels = ko.observableArray([]);
         //Fetching 3rd party data only on click/ demand?}
     };
 
@@ -249,7 +250,7 @@ $(document).ready(function(region, focus, locations, styles) {
         // @TODO: Retrieve POI data
         // Get from fourSquare API venue photos
         self.fsPhotos = ko.computed(function() {
-            self.myMap().forEach(function(location,i) {
+            self.myMap().forEach(function(location, i) {
                 if (location.focus() === "POI" && location.fs_id()) {
                     var VENUE_ID = location.fs_id();
 
@@ -314,6 +315,44 @@ $(document).ready(function(region, focus, locations, styles) {
             });
         });
 
+        // @TODO: Cach nearBy details (for up to 30 days)
+        // @TODO: Check error message
+        // Get from fourSquare API POI nearyBy data
+        self.fsNearyBy = ko.computed(function() {
+            self.myMap().forEach(function(location,i) {
+                if (location.focus() === "POI") {
+                    var latlng = [location.lat, location.lng],
+                        query = "hotel";
+
+                    $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/explore',
+                        dataType: 'json',
+                        data: '&limit=10' + 
+                              '&ll=' + latlng +
+                              '&radius=500'+
+                              '&query=' + query +
+                              '&sortByDistance=1' +
+                              '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "",
+                                groups = response.groups ? response.groups : "",
+                                items = groups[0].items ? groups[0].items : "";
+                    
+                            items.forEach(function(item) {
+                                location.fs_hotels.push(item.venue.name);
+                            });  
+                        }
+                    });
+                }
+            });
+        });
+
+
         /**
          *
          * APIs end
@@ -334,7 +373,7 @@ $(document).ready(function(region, focus, locations, styles) {
             self.goToLocation("");
         }
         
-        // Retrieve only unique tags form locations data
+        // Retrieve only unique tags from locations data
         self.uniqueSelect = function() {
             var tags = ko.utils.arrayMap(self.myMap(), function(item) {
                 return item.tag;
@@ -473,11 +512,10 @@ $(document).ready(function(region, focus, locations, styles) {
 
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
-              // SOURCE: https://developers.google.com/maps/documentation/javascript/styling?csw=1
-              // Create an array of styles.
-
+            // SOURCE: https://developers.google.com/maps/documentation/javascript/styling?csw=1
+            // Create an array of styles
             // Create a new StyledMapType object, passing it the array of styles,
-            // as well as the name to be displayed on the map type control.
+            // as well as the name to be displayed on the map type control
 
             var styledMap = new google.maps.StyledMapType(styles,
             {name: "Styled Map"});
@@ -511,8 +549,6 @@ $(document).ready(function(region, focus, locations, styles) {
             });*/
 
             // Generate map markers with different colors
-            // EEB211 (Yellow) => Transportation
-            // 009925(GREEN) => ???
             var pinColors = {"Transportation": "eeb211", "City": "5cb3ff", "Recommended": "ff7563", "POI": "d50f25", "visited": "666666"};
 
             var pinImages = {};
@@ -576,8 +612,9 @@ $(document).ready(function(region, focus, locations, styles) {
 
                         viewModel.chosenLocationId(location);
 
-                        var selected = $('ul #locList > li.selected');
-                        console.log(selected);
+                        // @TODO: Scroll to active location list item
+                        // var selected = $('ul #locList > li.selected');
+                        // console.log(selected);
 
                         toggleBounce();
                         setTimeout(toggleBounce, 500);
