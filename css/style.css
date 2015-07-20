@@ -485,6 +485,11 @@ header p {
   fill: #e0e0e0;
 }
 
+.header-menu svg:hover {
+  cursor: pointer;
+  opacity: 0.45;
+}
+
 .list {
     z-index: 10;
     position: absolute;
