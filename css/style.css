@@ -81,6 +81,10 @@ main {
   order: 4;
 }
 
+.item-5 {
+  order: 5;
+}
+
 /**
  *
  * Header
@@ -202,141 +206,6 @@ header p {
 	-webkit-transition: all 0.1s;
 	font-weight: bold;
 	color: #000;
-}
-
-/**
- *
- * FourSquare Gallery
- *
- */
-
- #fs-gallery {
-  margin: 2em;
-  border-radius: 4px;
-  position: relative; 
-  z-index: 1;
-  background: #000;
-  opacity: 0.75;
-  color: #fff;
-  width: 200px;
-}
-
-#fs-gallery ul {
-  margin: 0;
-  padding: 0;
-  height: 200px;
-  max-height: 300px;
-  overflow: hidden;
-  overflow-y: scroll;
-  background: #ccc;
-}
-
-#fs-gallery ul li {
-  display: inline;
-  list-style-type: none;
-  height: auto;
-}
-
-#fs-gallery ul li img {
-  width: 180px;
-}
-
-/**
- *
- *
- *
- */
-
-#fs-nearbyFood {
-  margin: 2em;
-  padding: 0;
-  position: relative; 
-  z-index: 1;
-  background: #000;
-  width: 200px;
-  opacity: 0.65;
-  color: #fff;
-}
-
-#fs-nearbyFood ul {
-  margin: 0;
-  padding: 0.25em;
-  height: 200px;
-  overflow: hidden;
-  overflow-y: scroll;
-}
-
-#fs-nearbyFood ul li {
-  display: block;
-  list-style-type: none;
-  background: none;   
-  -webkit-transition: all 0.5s ease-out;
-  border-bottom: 1px solid #eee;
-}
-
-#fs-nearbyFood li:last-child {
-  border-bottom: none;
-}
-
-#fs-nearbyFood li:hover {
-  background: #ccc;
-  cursor: pointer;
-  -webkit-transition: all 0.1s;
-  font-weight: bold;
-  color: #000;
-}
-
-#fs-nearby li.selected {
-  background: #191970; /*#3369E8; #191970;*/
-  -webkit-transition: all 0.1s;
-  font-weight: bold;
-  color: #fff;
-}
-
-#fs-nearbyHotels {
-  margin: 2em;
-  padding: 0;
-  position: relative; 
-  z-index: 1;
-  background: #000;
-  width: 200px;
-  opacity: 0.65;
-  color: #fff;
-}
-
-#fs-nearbyHotels ul {
-  margin: 0;
-  padding: 0.25em;
-  height: 200px;
-  overflow: hidden;
-  overflow-y: scroll;
-}
-
-#fs-nearbyHotels ul li {
-  display: block;
-  list-style-type: none;
-  background: none;   
-  -webkit-transition: all 0.5s ease-out;
-  border-bottom: 1px solid #eee;
-}
-
-#fs-nearbyHotels li:last-child {
-  border-bottom: none;
-}
-
-#fs-nearbyHotels li:hover {
-  background: #ccc;
-  cursor: pointer;
-  -webkit-transition: all 0.1s;
-  font-weight: bold;
-  color: #000;
-}
-
-#fs-nearbyHotels li.selected {
-  background: #191970; /*#3369E8; #191970;*/
-  -webkit-transition: all 0.1s;
-  font-weight: bold;
-  color: #fff;
 }
 
 /**
@@ -468,6 +337,164 @@ header p {
 	-webkit-transition: all 0.1s;
 	font-weight: bold;
 	color: #fff;
+}
+
+/**
+ *
+ * FourSquare
+ *
+ */
+
+#fs-all {
+
+}
+
+#fs-gallery {
+  margin: 2em;
+  position: relative; 
+  z-index: 1;
+  background: #000;
+  /*opacity: 0.75;*/
+  color: #fff;
+  width: 200px;
+}
+
+#fs-gallery ul {
+  margin: 0;
+  padding: 0;
+  height: 200px;
+  overflow: hidden;
+  overflow-y: scroll;
+  background: #ccc;
+}
+
+#fs-gallery ul li {
+  display: inline;
+  list-style-type: none;
+  height: auto;
+}
+
+#fs-gallery ul li img {
+  width: 180px;
+}
+
+#fs-nearbyFood {
+  margin: 2em;
+  padding: 0;
+  position: relative; 
+  z-index: 1;
+  background: #000;
+  width: 200px;
+  opacity: 0.65;
+  color: #fff;
+}
+
+#fs-nearbyFood ul {
+  margin: 0;
+  padding: 0.25em;
+  max-height: 150px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#fs-nearbyFood ul li {
+  display: block;
+  list-style-type: none;
+  background: none;   
+  -webkit-transition: all 0.5s ease-out;
+  border-bottom: 1px solid #eee;
+}
+
+#fs-nearbyFood li:last-child {
+  border-bottom: none;
+}
+
+#fs-nearbyFood li:hover {
+  background: #ccc;
+  cursor: pointer;
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #000;
+}
+
+#fs-nearby li.selected {
+  background: #191970; /*#3369E8; #191970;*/
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #fff;
+}
+
+#fs-nearbyHotels {
+  margin: 2em;
+  padding: 0;
+  position: relative; 
+  z-index: 1;
+  background: #000;
+  width: 200px;
+  opacity: 0.65;
+  color: #fff;
+}
+
+#fs-nearbyHotels ul {
+  margin: 0;
+  padding: 0.25em;
+  max-height: 150px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#fs-nearbyHotels ul li {
+  display: block;
+  list-style-type: none;
+  background: none;   
+  -webkit-transition: all 0.5s ease-out;
+  border-bottom: 1px solid #eee;
+}
+
+#fs-nearbyHotels li:last-child {
+  border-bottom: none;
+}
+
+#fs-nearbyHotels li:hover {
+  background: #ccc;
+  cursor: pointer;
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #000;
+}
+
+#fs-nearbyHotels li.selected {
+  background: #191970; /*#3369E8; #191970;*/
+  -webkit-transition: all 0.1s;
+  font-weight: bold;
+  color: #fff;
+}
+
+/**
+ *
+ *
+ *
+ */
+
+.header-menu {
+  display: inline-block;
+}
+
+.header-menu svg {
+  width: 32px;
+  fill: #e0e0e0;
+}
+
+.list {
+    z-index: 10;
+    position: absolute;
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    transition: transform 0.3s ease;
+  }
+.list.close {
+    -webkit-transform: translate(-500px, 0);
+    transform: translate(-500px, 0);
 }
 
 /**

@@ -3,9 +3,9 @@
   <html lang="en">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Neighborhood Map Application">
+  <meta name="description" content="Performing Arts Map Application">
   <meta name="author" content="Karol Zyskowski">
-  <title>Neighborhood Map</title>
+  <title>Performing Arts Map</title>
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Architects+Daughter">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
@@ -37,6 +37,14 @@
       <div class="item-4 weather">
         <p data-bind="text: weather"></p>
       </div>
+
+      <div class="item-5">
+        <a id="menu" class="header-menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
+          </svg>
+        </a>
+      </div>
     </header>
 
     <div class="map-container">
@@ -45,7 +53,7 @@
     <main>
       <div class="row">
     
-        <div class="col-1" id="search">
+        <div class="col-1 list" id="search">
 
           <div class="item-1 search-element" id="search-suggestions">
               <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
@@ -72,19 +80,20 @@
             <div id="wikipedia">
                 <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
             </div>
-          
-            <div id="fs-gallery" data-bind="with: currentLocation">
+
+            <div id="fs-all">
+              <div id="fs-gallery" data-bind="with: currentLocation">
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
-            </div>
+              </div>
 
-            <div id="fs-nearbyFood" data-bind="with: currentLocation">
+              <div id="fs-nearbyFood" data-bind="with: currentLocation">
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
-            </div>
+              </div>
 
-            <div id="fs-nearbyHotels" data-bind="with: currentLocation">
+              <div id="fs-nearbyHotels" data-bind="with: currentLocation">
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
+              </div>
             </div>
-
       </div>
     </div>
   </main>
@@ -164,11 +173,22 @@
     toggleVisibility('wikipedia');
     /*toggleVisibility('tag-cloud');*/
 
-   /* $('select').scrollTop(30);
-    $('#locList').click(function(){
-           var selected = $('ul #locList > li.selected').text();
-           alert(selected);
-     });*/
+    /* Open the drawer when the menu icon is clicked */
+    var menu = document.querySelector('#menu');
+    var main = document.querySelector('main');
+    var drawer = document.querySelector('.list');
+
+    menu.addEventListener('click', function(e) {
+      drawer.classList.toggle('close');
+      e.stopPropagation();
+    });
+    
+    main.addEventListener('click', function() {
+      drawer.classList.remove('close');
+    });
+
+    /* @TODO: Does not function */
+    /* Scroll to active location list item*/
 
       $('.selected').on('#locList', function (e) {
       	alert(e);
