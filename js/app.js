@@ -740,6 +740,12 @@ $(document).ready(function(region, focus, locations, styles) {
 //@TODO: Markers bounce on click
 //@TODO: SHOW GOOGLE MAPS ERROR MESSAGE WHEN RESPONSE FAILS
 //@TODO: When list item is clicked, highlight marker/ open marker info window
+//@TODO: Add print option for selected locations
+//@TODO: Add Google Street View Image to link list
+//@TODO: Open InfoWindow on location list item or marker hover
+//@TODO: Add address to info window
+//@TODO: Add fs image gallery to poi info window
+//@TODO: Add Yelp Review to POI, additionally nearby fs food and hotel search
 //@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
 //       (ex. Yelp reviews, Wikipedia, Flickr images, Kayak, etc).
 //@TODO: Integrate https://www.firebase.com/ to Exceed Specifications

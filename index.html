@@ -31,7 +31,7 @@
         <!-- onclick="toggleVisibility('wikipedia');" -->
         <button class="func functionButton" title="Wikipedia">W</button>
         <button class="func functionButton" title="Info">i</button>
-        <button class="func functionButton" title="Help">?</button>
+        <button class="func functionButton" title="About">?</button>
         <button class="myButton"><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></button>
       </div>
 
@@ -89,10 +89,10 @@
               <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
             </div>
             <div id="info" class="info-text">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce</p>
+              <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
             </div>
-            <div id="help" class="help-text">
-              <p>Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus.</p>
+            <div id="about" class="about-text">
+              <p>Idea & Programming by<br>Karol Zyskowski<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
             </div> 
       </div>
     </div>
@@ -170,7 +170,7 @@
     // Hide Wikipedia link list
     hideElement('wiki');
     hideElement('info');
-    hideElement('help');
+    hideElement('about');
 
     /* Close the drawer when the menu icon is clicked */
     var menu = document.querySelector('#menu');

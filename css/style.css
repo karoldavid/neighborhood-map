@@ -496,14 +496,14 @@ header p {
  }
 
  .info-text,
- .help-text {
+ .about-text {
   background: #000;
   color: #fff;
   opacity: 0.65;
  }
 
  .info-text p,
- .help-text p {
+ .about-text p {
   margin: 0;
   padding: 0.5em;
  }
