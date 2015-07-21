@@ -12,75 +12,64 @@ body {
 
 /**
  *
- * Flexbox
+ * FLEXBOX
  *
  */
 
 .flex-container {
-
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    /*max-width: 1600px;*/
-    /*border: 1px solid black;*/
+  margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 main {
-
   margin-top: 50px;
   display: block;
 }
 
 .row {
-    display: -webkit-flex;
-    display:         flex;
-    -webkit-flex-flow: row;
-            flex-flow: row;
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-flex-flow: row;
+          flex-flow: row;
 }
 
 .col-1 {
-    position: absolute;
-      width: 350px;
-      height: 100%;
-    
-      /*
-        This is a trick to improve performance on newer versions of Chrome
-        #perfmatters
-      */
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
+  position: absolute;
+  width: 500px;
+  height: 100%;
 
-      -webkit-transition: -webkit-transform 0.4s ease-out;
-      transition: transform 0.4s ease-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+ 
+  -webkit-transition: -webkit-transform 0.4s ease-out;
+  transition: transform 0.4s ease-out;
     
-      z-index: 1;
+  z-index: 1;
 
-           /*
-      Using translate3d as a trick to improve performance on older versions of Chrome
-      See: http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/
-      #perfmatters
-      */
-      -webkit-transform: translate(0,0);
-      transform: translate(0,0);
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+ 
+  /* @TODO: MAKE COLUMN 1 STRETCH FROM TOP TO BOTTOM */
+  /* background: #000;
+     opacity: 0.65;*/
 }
 
 .col-2 {
-      width: 100%;
-      position: absolute;
-
+  width: 100%;
+  position: absolute;
 }
 
 .col-3 {
-      width: 100%;
-      position: absolute;
-      width: 500px;
+  width: 100%;
+  position: absolute;
+  width: 500px;
 }
 
 .col-1.close {
-      -webkit-transform: translate(-250px,0);
-      transform: translate(-250px,0);
+  -webkit-transform: translate(-500px,0);
+  transform: translate(-500px,0);
 }
-
 
 .item-1 {
 	order: 1;
@@ -104,7 +93,7 @@ main {
 
 /**
  *
- * Header
+ * HEADER
  *
  */
 
@@ -129,7 +118,8 @@ header {
   color: #fff;
 }
 
-header h1, header p {
+header h1,
+header p {
   display: inline;
   vertical-align: center;
 }
@@ -144,6 +134,20 @@ header p {
   font-size: 1.2em;
 }
 
+.header-menu {
+  display: inline-block;
+}
+
+.header-menu svg {
+  width: 32px;
+  fill: #e0e0e0;
+}
+
+.header-menu svg:hover {
+  cursor: pointer;
+  opacity: 0.45;
+}
+
 /**
  *
  * APIS
@@ -155,24 +159,17 @@ header p {
 /* CREDITS: http://jsfiddle.net/X5r8r/927/ */
 
 .map-container {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
 #map-canvas {
-    width: 100%;
-    height: 100%;
-}
-
-.content {
-    position: absolute;
-    z-index: 1;
-    top:0;
-    left:0;
+  width: 100%;
+  height: 100%;
 }
 
 #panorama {
@@ -186,13 +183,13 @@ header p {
 #wikipedia {
 	position: relative; 
   z-index: 1;
-  margin: 0 0 1em 0;
-  padding: 0.75em;
+  margin: 0.25em;
+  padding: 0.25em;
   background: #000;
   height: auto;
-  opacity: 0.45;
+  opacity: 0.65;
   color: #fff;
-  max-width: 180px;
+  max-width: 190px;
 }
 
 #wikipedia h3 {
@@ -226,142 +223,7 @@ header p {
 	color: #000;
 }
 
-/**
- *
- * Search Elements
- *
- */
-
- .flex {
-  padding: 0;
-  margin: 0;
-  -ms-box-orient: horizontal;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  justify-content: center;
-  align-items: space-around;
-  -webkit-flex-wrap: nowrap;
-  flex-wrap: nowrap;
- }
-
-#search {
-  position: relative; 
-  z-index: 1;
-  margin: 0;
-  padding: 0.75em;
-  background: #000;
-  opacity: 0.65;
-  color: #fff;
-}
-
-.search-element {
-
-}
-
-/* Search Suggestions */
-
-#search-suggestions {
-  width: 100%;
-}
-
-#search-suggestions ul {
-  list-style: none;
-  margin: 0.5em 0;
-  padding: 0;
-}
-
-#search-suggestions ul li {
-  margin: 0 auto;
-  padding: 0;
-}
-
-.focus-group {
-  font-size: 1em;
-}
-
-/* Search Results */
-
-#search-results {
-  position: relative;
-}
-
-#search-results ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#search-results li {
-	background: none;   
-	-webkit-transition: all 0.5s ease-out;
-	border-bottom: 1px solid #eee;
-}
-
-#search-results li:last-child {
-	border-bottom: none;
-}
-
-#search-results li:hover {
-	background: #ccc;
-	cursor: pointer;
-	-webkit-transition: all 0.1s;
-	font-weight: bold;
-	color: #000;
-}
-
-#search-results li.selected {
-	background: #191970; /*#3369E8; #191970;*/
-	-webkit-transition: all 0.1s;
-	font-weight: bold;
-	color: #fff;
-}
-
-/* Tag Cloud */
-
-#tag-cloud {
-
-}
-
-#tag-cloud ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#tag-cloud span {
-	margin: 0.25em;
-	padding: 0;
-	text-decoration: none;
-	border: none;
-	background: none;   
-	-webkit-transition: all 0.5s ease-out;
-}
-
-#tag-cloud span:hover {
-	background: #ccc;
-	cursor: pointer;
-	-webkit-transition: all 0.1s;
-	font-weight: bold;
-	color: #000;
-}
-
-#tag-cloud span.selected {
-	background: #191970;
-	cursor: pointer;
-	-webkit-transition: all 0.1s;
-	font-weight: bold;
-	color: #fff;
-}
-
-/**
- *
- * FourSquare
- *
- */
+/* FourSquare */
 
 #fs-all {
 
@@ -490,117 +352,116 @@ header p {
 
 /**
  *
- *
- *
- */
-
-.header-menu {
-  display: inline-block;
-}
-
-.header-menu svg {
-  width: 32px;
-  fill: #e0e0e0;
-}
-
-.header-menu svg:hover {
-  cursor: pointer;
-  opacity: 0.45;
-}
-
-.list {
-    z-index: 10;
-    position: absolute;
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
-    transition: transform 0.3s ease;
-  }
-.list.close {
-    -webkit-transform: translate(-500px, 0);
-    transform: translate(-500px, 0);
-}
-
-/**
- *
- * 
+ * SEARCH ELEMENTS
  *
  */
 
-.message ul {
-  list-style: none;
-  margin: 0;
+ .flex {
   padding: 0;
-  height: auto;
-}
-
-.message li {
-  background: none;   
-  -webkit-transition: all 0.5s ease-out;
-}
-
-/**
- *
- *
- *
- */
-
-a {
-	text-decoration: none;
-    color: #ccc;
-}
-
-a:hover {
-    color: #000;
-}
-
-.fade {
-	opacity: 1;
-    transition: opacity .25s ease-in-out;
-    -moz-transition: opacity .25s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
+  margin: 0;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: space-around;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
  }
 
-.fade:hover {
-	opacity: 0.5;
+#search {
+  position: relative; 
+  z-index: 1;
+  margin: 0;
+  padding: 0.75em;
+  background: #000;
+  opacity: 0.65;
+  color: #fff;
 }
+
+.search-element {
+
+}
+
+/* Search Suggestion Groups such as Transportation, Recommended, POI, etc... */
+
+#search-suggestions {
+  width: 100%;
+}
+
+#search-suggestions ul {
+  list-style: none;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+#search-suggestions ul li {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.focus-group {
+  font-size: 1em;
+}
+
+/* Search Results List */
+
+#search-results {
+  position: relative;
+}
+
+#search-results ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#search-results li {
+	background: none;   
+	-webkit-transition: all 0.5s ease-out;
+	border-bottom: 1px solid #eee;
+}
+
+#search-results li:last-child {
+	border-bottom: none;
+}
+
+#search-results li:hover {
+	background: #ccc;
+	cursor: pointer;
+	-webkit-transition: all 0.1s;
+	font-weight: bold;
+	color: #000;
+}
+
+#search-results li.selected {
+	background: #191970; /*#3369E8; #191970;*/
+	-webkit-transition: all 0.1s;
+	font-weight: bold;
+	color: #fff;
+}
+
 
 /**
  *
- * Navigation
+ *
  *
  */
 
-.nav-fade li {
-    background: #fff;
-    padding: 3px 8px;
-    display: inline-block;
-    transition: background .25s ease-in-out;
-    -moz-transition: background .25s ease-in-out;
-    -webkit-transition: background .25s ease-in-out;
-}
-
-.nav-fade li:hover {
-    background: #ddd;
+.rounded-corners {
+  border-radius: 10px;
+  border: 2px solid #fff;
+  padding: auto 0.25em;
+  height: 2em;
+  width: 15em;
 }
 
 /**
  *
- *
- *
- */
-
- .rounded-corners {
-    border-radius: 10px;
-    border: 2px solid #fff;
-    padding: auto 0.25em;
-    height: 2em;
-    width: 15em;
-  }
-
-
-/**
- *
- * Buttons
+ * BUTTONS
  *
  * @CREDITS: https://css-tricks.com/examples/ButtonMaker/
  * @CREDITS: http://jsfiddle.net/TJcGc/
@@ -664,7 +525,7 @@ button.selected,
 
 /**
  *
- * Google Maps
+ * GOOGLE MAPS INFO WINDOW
  *
  */
 
@@ -738,12 +599,12 @@ button.selected,
 footer {
 	flex: none;
 	position: relative; 
-    z-index: 1; /* The z-index should be higher than Google Maps */
-    background: black;
-    height: auto;
-    width: 100%;
-    opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
-    color: white;
+  z-index: 1; /* The z-index should be higher than Google Maps */
+  background: black;
+  height: auto;
+  width: 100%;
+  opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
+  color: white;
 	border-top: 1px solid #ccc;
 }
 
@@ -756,45 +617,95 @@ footer {
 
 /**
  *
- * Media Queries
+ * MESSAGES 
  *
  */
 
+.message ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: auto;
+}
 
-/* Portrait */
-@media only screen and (max-width: 568px) and (orientation: portrait) {
+.message li {
+  background: none;   
+  -webkit-transition: all 0.5s ease-out;
+}
 
+/**
+ *
+ *
+ *
+ */
+
+a {
+  text-decoration: none;
+    color: #ccc;
+}
+
+a:hover {
+    color: #000;
+}
+
+/**
+ *
+ * MEDIA QUERIES
+ *
+ */
+
+@media only screen and (max-width: 800px) {
 	body {
 		margin: 0;
 	}
-
 	.flex-container {
-  		justify-content: flex-start;
-  		align-items: flex-start;
-  		margin: 0 0.5em;
+  	justify-content: flex-start;
+  	align-items: flex-start;
+  	margin: 0 0.5em;
   }
-
-	header {
-      width: 100%;
-	}
-
-  header .item-2 {
-  		display: none;
-  }
-
   .search {
-  		margin: 0;
+  	margin: 0;
   }
-
   .col-2,
   .col-3 {
-  		display: none;
+  	display: none;
   }
-
-  .reverse,
-  #tag-cloud,
-  #search-results {
-  		display: none;
+  header .item-3,
+  header .item-4{
+  	display: none;
   }
+}
 
+/* @CREDITS: https://developers.google.com/web/fundamentals/layouts/rwd-patterns/off-canvas?hl=en */
+@media (min-width: 500px) {
+  .flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+  }
+  .col-1 {
+  /*position: relative;
+    -webkit-transition: none 0s ease-out;
+    transition: none 0s ease-out;
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);*/
+  }
+  .col-2 {
+    position: static;
+  }
+}
+
+@media (min-width: 800px) {
+  body {
+    overflow-x: auto;
+  }
+  .col-3 {
+    position: relative;
+    left: auto;
+    -webkit-transition: none 0s ease-out;
+    transition: none 0s ease-out;
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);
+  }
 }

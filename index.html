@@ -48,39 +48,30 @@
     </header>
 
     <div class="map-container">
-        <div id="map-canvas" data-bind="map:myMap"></div>
+      <div id="map-canvas" data-bind="map:myMap"></div>
     </div>
     <main>
       <div class="row">
-    
-        <div class="col-1 list" id="search">
 
+        <div class="col-1" id="search">
           <div class="item-1 search-element" id="search-suggestions">
               <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
           </div>
 
-<!--           <div class="item-2 search-element" id="tag-cloud">
-              <ul data-bind="template: {name: 'cloud', foreach: searchTags}"></ul>
-          </div> -->
-
-          <div class="item-2 search-element content" id="search-results">
+          <div class="item-2 search-element" id="search-results">
               <!-- @TODO: Scroll to activated list item -->
               <ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}">
                   <!-- @TODO: not working properly-->
                   <!--<li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>-->
               </ul>
           </div>
-
         </div>
 
-        <div class="col-2"></div>
-       
-        <div class="col-3">
-            <!--<div id="pano"></div>-->
+        <div class="col-2">
             <div id="wikipedia">
                 <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
             </div>
-
+        
             <div id="fs-all">
               <div id="fs-gallery" data-bind="with: currentLocation">
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
@@ -94,6 +85,10 @@
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
               </div>
             </div>
+        </div>
+       
+        <div class="col-3">
+          <!--<div id="panorama"></div>-->
       </div>
     </div>
   </main>
@@ -107,17 +102,12 @@
 
   </div>
 
-  <!-- focusGoup buttons -->
+  <!-- Search Suggestion Group buttons -->
   <script type="text/html" id="focusGroup"> 
-     <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
+    <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
   </script>
 
-  <!-- tag cloud -->
-  <script type="text/html" id="cloud"> 
-    <span class="tag" data-bind="text: $data, css: { selected: $data == $root.chosenTagId() }, click: $root.goToTag, attr: {title: $data}"></span>
-  </script> 
-
-  <!-- search result list -->
+  <!-- Search Results list -->
   <!-- @TODO: 1 item only, click on expands search list length -->
   <script type="text/html" id="result"> 
     <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}">
@@ -131,25 +121,24 @@
     </li>
   </script>
 
-  <!-- FourSquare Gallery -->
+  <!-- FourSquare POI Gallery -->
   <script type="text/html" id="photo-slider">
     <li>
-        <a class="thumbs" data-bind="attr: {href: $data}" target="_blank">
-            <img title="Source: FourSquare" width="100%" data-bind="attr: {src: $data}"/>
-        </a>
+      <a class="thumbs" data-bind="attr: {href: $data}" target="_blank">
+        <img title="Source: FourSquare" width="100%" data-bind="attr: {src: $data}"/>
+      </a>
     </li>
   </script>
 
-  <!-- FourSquare nearBy POI Restaurant List -->
+  <!-- FourSquare POI nearBy Restaurants List -->
   <script type="text/html" id="nearByFood">
     <li data-bind="text: $data"></li>
   </script>
 
-  <!-- FourSquare nearBy POI Hotel List -->
+  <!-- FourSquare POI nearBy Hotels List -->
   <script type="text/html" id="nearByHotels">
     <li data-bind="text: $data"></li>
   </script>
-
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
   <script src="js/lib/jquery-1.11.3.js"></script>
@@ -157,8 +146,7 @@
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 
-  <script>
-    
+  <script>    
     function toggleVisibility(id) {
     	var elem = document.getElementById(id);
     	elem.style.display = ((elem.style.display!='none') ? 'none' : 'block');
@@ -169,11 +157,10 @@
         elem.style.display = ('none');
     }
     
-    // Hide wikipedia list
+    // Hide Wikipedia link list
     toggleVisibility('wikipedia');
-    /*toggleVisibility('tag-cloud');*/
 
-    /* Open the drawer when the menu icon is clicked */
+    /* Close the drawer when the menu icon is clicked */
     var menu = document.querySelector('#menu');
     var main = document.querySelector('main');
     var drawer = document.querySelector('.col-1');
