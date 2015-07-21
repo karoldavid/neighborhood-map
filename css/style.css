@@ -8,6 +8,7 @@ body {
 body {
 	font-family: 'Architects Daughter', cursive;
   font-size: 1em;
+  overflow-x: hidden;
 }
 
 /**
@@ -199,11 +200,11 @@ header p {
 
 /*Wikipedia*/
 
-#wikipedia {
+.wikipedia {
 	position: relative; 
   z-index: 1;
-  margin: 0.25em;
-  padding: 0.25em;
+  margin: 0;
+  padding: 0.5em;
   background: #000;
   height: auto;
   opacity: 0.65;
@@ -212,30 +213,30 @@ header p {
   max-width: 100%;
 }
 
-#wikipedia h3 {
+.wikipedia h3 {
 	margin: 0;
 	padding: 0;
 	color: white;
 }
 
-#wikipedia ul {
+.wikipedia ul {
   list-style: none;
 	margin: 0;
 	padding: 0;
 	height: auto;
 }
 
-#wikipedia ul li {
+.wikipedia ul li {
 	background: none;   
 	-webkit-transition: all 0.5s ease-out;
 	border-bottom: 1px solid #fff;
 }
 
-#wikipedia ul li:last-child {
+.wikipedia ul li:last-child {
 	border-bottom: none;
 }
 
-#wikipedia ul li:hover {
+.wikipedia ul li:hover {
 	background: #ccc;
 	cursor: pointer;
 	-webkit-transition: all 0.1s;
@@ -480,6 +481,32 @@ header p {
     display: block;
 }
 
+/**
+ *
+ *
+ *
+ */
+
+ #wiki,
+ #info,
+ #help {
+  -webkit-transition: all .25s ease;
+     -moz-transition: all .25s ease;
+          transition: all .25s ease;
+ }
+
+ .info-text,
+ .help-text {
+  background: #000;
+  color: #fff;
+  opacity: 0.65;
+ }
+
+ .info-text p,
+ .help-text p {
+  margin: 0;
+  padding: 0.5em;
+ }
 
 /**
  *
@@ -776,7 +803,7 @@ a:hover {
 
 @media (min-width: 800px) {
   body {
-    overflow-x: auto;
+   
   }
  /* .col-3 {
     position: relative;
