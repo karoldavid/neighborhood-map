@@ -110,8 +110,8 @@
   <!-- Search Results list -->
   <!-- @TODO: 1 item only, click on expands search list length -->
   <script type="text/html" id="result"> 
-    <li data-bind="text: title, css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}">
-    </li>
+    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}">
+    <span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
   </script>
 
   <!-- Wikipedia map region info link list -->

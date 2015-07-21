@@ -501,7 +501,7 @@ $(document).ready(function(region, focus, locations, styles) {
                          //'<h3>Info</h3>' +
                         // '<p>' + location.description + '</p>' +
                          '<img class="iw-img" src="' + location.img() + '">' + //'<hr>' +
-                         //'<p>' + location.address + '</p>'+ '<hr>' +
+                         '<p class="address">' + location.address + '</p>'+ //'<hr>' +
                          '<p>' + locationCategory + " " + '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' + '</p>' + 
                          '</div>' + 
