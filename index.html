@@ -28,7 +28,8 @@
       </div>
 
       <div class="item-3 info">
-        <button class="functionButton" title="Wikipedia" onclick="toggleVisibility('wikipedia');">W</button>
+        <!-- onclick="toggleVisibility('wikipedia');" -->
+        <button id="wiki" class="functionButton" title="Wikipedia">W</button>
         <button class="functionButton" title="Info">i</button>
         <button class="functionButton" title="Help">?</button>
         <button class="myButton"><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></button>
@@ -68,10 +69,6 @@
         </div>
 
         <div class="col-2">
-            <div id="wikipedia">
-                <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
-            </div>
-        
             <div id="fs-all">
               <div id="fs-gallery" data-bind="with: currentLocation">
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
@@ -88,7 +85,9 @@
         </div>
        
         <div class="col-3">
-          <!--<div id="panorama"></div>-->
+            <div id="wikipedia">
+              <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
+            </div>        
       </div>
     </div>
   </main>
@@ -158,7 +157,7 @@
     }
     
     // Hide Wikipedia link list
-    toggleVisibility('wikipedia');
+    //toggleVisibility('wikipedia');
 
     /* Close the drawer when the menu icon is clicked */
     var menu = document.querySelector('#menu');
@@ -172,6 +171,20 @@
     
     main.addEventListener('click', function() {
       drawer.classList.remove('close');
+    });
+
+        /* Close the drawer when the menu icon is clicked */
+    var wiki = document.querySelector('#wiki');
+    var main2 = document.querySelector('main');
+    var wikiDrawer = document.querySelector('.col-3');
+
+    wiki.addEventListener('click', function(e) {
+      wikiDrawer.classList.toggle('open');
+      e.stopPropagation();
+    });
+    
+    main2.addEventListener('click', function() {
+      wikiDrawer.classList.remove('open');
     });
 
     /* @TODO: Does not function */

@@ -44,15 +44,36 @@ main {
  
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
-    
-  z-index: 1;
 
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
+
+  z-index: 1;
  
   /* @TODO: MAKE COLUMN 1 STRETCH FROM TOP TO BOTTOM */
   /* background: #000;
      opacity: 0.65;*/
+}
+
+.col-3 {
+  position: absolute;
+  width: 250px;
+  height: 100%;
+        
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden; 
+
+  -webkit-transition: -webkit-transform 0.4s ease-out;
+  transition: transform 0.4s ease-out;
+
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+        
+  z-index: 1;
+}
+
+.col-3 {
+  left: 100%;
 }
 
 .col-2 {
@@ -60,15 +81,14 @@ main {
   position: absolute;
 }
 
-.col-3 {
-  width: 100%;
-  position: absolute;
-  width: 500px;
-}
-
 .col-1.close {
   -webkit-transform: translate(-500px,0);
   transform: translate(-500px,0);
+}
+
+.col-3.open {
+  -webkit-transform: translate(-250px,0);
+  transform: translate(-250px,0);
 }
 
 .item-1 {
@@ -154,7 +174,6 @@ header p {
  *
  */
 
-
 /*Google Maps*/
 /* CREDITS: http://jsfiddle.net/X5r8r/927/ */
 
@@ -189,7 +208,8 @@ header p {
   height: auto;
   opacity: 0.65;
   color: #fff;
-  max-width: 190px;
+  width: auto;
+  max-width: 100%;
 }
 
 #wikipedia h3 {
@@ -758,12 +778,12 @@ a:hover {
   body {
     overflow-x: auto;
   }
-  .col-3 {
+ /* .col-3 {
     position: relative;
     left: auto;
     -webkit-transition: none 0s ease-out;
     transition: none 0s ease-out;
     -webkit-transform: translate(0,0);
     transform: translate(0,0);
-  }
+  }*/
 }
