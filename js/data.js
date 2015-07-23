@@ -136,14 +136,14 @@
         },
         {  
             name: "Warszawska Opera Kameralna",
-            address: "Aleja Solidarności 76b, Warszawa - Poland",
+            address: "Aleja Solidarności 76b, Warszawa - Polska",
             coord: {lat: 52.243887, lng: 20.997488},
             website: "http://www.operakameralna.pl/",
             tag: "Performing Arts"
         },
         {
             name: "National Theatre",
-            address: "Plac Teatralny 3, Warszawa - Poland",
+            address: "Plac Teatralny 3, Warszawa - Polska",
             coord: {lat: 52.243349, lng: 21.009372},
             website: "http://www.narodowy.pl/",
             tag: "Performing Arts"
@@ -157,7 +157,7 @@
         },
         {   
             name: "Fryderyk Chopin Museum",
-            address: "Okólnik 1, Warszawa - Poland",
+            address: "Okólnik 1, Warszawa - Polska",
             coord: {lat: 52.236468, lng: 21.023129},
             website: "http://chopin.museum/en",
             tag: "Museum"
@@ -222,14 +222,14 @@
         },
         {
             name: "Teatr Żydowski im. Estery Rachel i Idy Kamińskich",
-            address: "Plac Grzybowski 12/16, 00-104 Warszawa - Poland",
+            address: "Plac Grzybowski 12/16, 00-104 Warszawa - Polska",
             coord: {lat: 52.235887, lng: 21.002230},
             website: "http://www.teatr-zydowski.art.pl/",
             tag: "Performing Arts"
         },
         {
             name: "Och-Teatr",
-            address: "Grójecka 65, Warszawa - Poland",
+            address: "Grójecka 65, Warszawa - Polska",
             coord: {lat: 52.214188, lng: 20.979965},
             website: "http://ochteatr.com.pl/",
             tag: "Performing Arts"
@@ -286,7 +286,7 @@
         },
         {
             name: "Teatr Sabat Małgorzaty Potockiej",
-            address: "Foksal 16, 00-372 Warszawa - Poland",
+            address: "Foksal 16, 00-372 Warszawa - Polska",
             coord: {lat: 52.233873, lng: 21.021230},
             website: "http://teatr-sabat.pl/",
             tag: "Performing Arts"
