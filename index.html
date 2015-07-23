@@ -81,8 +81,7 @@
             <div id="about" class="about-text">
               <p>Idea & Programming by<br>Karol Zyskowski<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
             </div> 
-
-            <div id="fs-all">
+             <div id="fs-all">
               <div id="fs-gallery" data-bind="with: currentLocation">
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
               </div>
@@ -95,6 +94,8 @@
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
               </div>
             </div>
+
+           
       </div>
     </div>
   </main>
@@ -116,7 +117,7 @@
   <!-- Search Results list -->
   <!-- @TODO: 1 item only, click on expands search list length -->
   <script type="text/html" id="result"> 
-    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}"><img data-bind="attr:{src:img()}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
+    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name, class: focus()}"><img data-bind="attr:{src:img()}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
   </script>
 
   <!-- Wikipedia map region info link list -->
@@ -186,7 +187,26 @@
       drawer.classList.remove('close');
     });
 
-    /* Open-Close drawer when info button is clicked */
+    /* Open the right drawer when POI list item is clicked */
+
+    var poi = document.getElementsByClassName("POI");
+    var main = document.querySelector('main');
+    var poiDrawer = document.querySelector('.col-3');
+
+    for(var i=0; i < poi.length; i++){
+        poi[i].addEventListener('click', function(e) {
+        	showElement("fs-all");
+            poiDrawer.classList.toggle('open');
+            e.stopPropagation();
+        });
+    }
+    
+    main.addEventListener('click', function() {
+      poiDrawer.classList.remove('open');
+      hideElement("fs-all");
+    });
+
+    /* Open-Close the right drawer when info button is clicked */
 
     var allDrawer = document.querySelector('.col-3');
 

@@ -420,7 +420,7 @@ $(document).ready(function(region, focus, locations, styles) {
                             tips.forEach(function(tip) {
                                 location.fs_tips.push(tip.text);
                             });
-                            console.log(location.fs_tips());
+                            //console.log(location.fs_tips());
                         }
                     });
                 }

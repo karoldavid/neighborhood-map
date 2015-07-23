@@ -75,6 +75,8 @@ main {
 
 .col-3 {
   left: 100%;
+  /*border: 1px solid red;
+  background: yellow;*/
 }
 
 .col-2 {
@@ -251,13 +253,13 @@ header p {
 }
 
 #fs-gallery {
-  margin: 0.25em;
+  margin: 0;
   position: relative; 
   z-index: 1;
   background: #000;
   /*opacity: 0.75;*/
   color: #fff;
-  width: 200px;
+  /*width: 200px;*/
 }
 
 #fs-gallery ul {
@@ -276,16 +278,16 @@ header p {
 }
 
 #fs-gallery ul li img {
-  width: 180px;
+  /*width: 180px;*/
 }
 
 #fs-nearbyFood {
-  margin: 0.25em;
+  margin: 0;
   padding: 0;
   position: relative; 
   z-index: 1;
   background: #000;
-  width: 200px;
+  /*width: 200px;*/
   opacity: 0.65;
   color: #fff;
 }
@@ -326,12 +328,12 @@ header p {
 }
 
 #fs-nearbyHotels {
-  margin: 0.25em;
+  margin: 0;
   padding: 0;
   position: relative; 
   z-index: 1;
   background: #000;
-  width: 200px;
+  /*width: 200px;*/
   opacity: 0.65;
   color: #fff;
 }
