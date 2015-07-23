@@ -37,7 +37,7 @@ main {
 
 .col-1 {
   position: absolute;
-  width: 500px;
+  width: 700px;
   height: 100%;
 
   -webkit-backface-visibility: hidden;
@@ -442,12 +442,14 @@ header p {
 
 #search-results li {
 	background: none;   
+  padding-bottom: 0.25em;
 	-webkit-transition: all 0.5s ease-out;
 	border-bottom: 1px solid #eee;
 }
 
 #search-results li:last-child {
 	border-bottom: none;
+  margin: 0;
 }
 
 #search-results li:hover {
@@ -463,6 +465,27 @@ header p {
 	-webkit-transition: all 0.1s;
 	font-weight: bold;
 	color: #fff;
+}
+
+
+/*a little bit of reset*/
+#search-results,
+#search-results p,
+#search-results h3,
+#search-results span {
+  list-style: none;
+  margin:0; padding:0;
+}
+
+#search-results ul li {
+  float:left;
+}
+
+#search-results ul li img {
+  display:block;
+  margin-right: 0.25em;
+  float:left;
+  width: 100px;
 }
 
 .title {

@@ -89,9 +89,10 @@ $(document).ready(function(region, focus, locations, styles) {
         this.fs_cat = "";
         this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
         //if (this.focus() === "POI") {
-            this.fs_photos = ko.observableArray([]);
-            this.fs_restaurants = ko.observableArray([]);
-            this.fs_hotels = ko.observableArray([]);
+        this.fs_photos = ko.observableArray([]);
+        this.fs_restaurants = ko.observableArray([]);
+        this.fs_hotels = ko.observableArray([]);
+        this.fs_tips = ko.observableArray([]);
         //Fetching 3rd party data only on click/ demand?}
     };
 
@@ -356,6 +357,70 @@ $(document).ready(function(region, focus, locations, styles) {
                             items.forEach(function(item) {
                                 location.fs_hotels.push(item.venue.name);
                             });  
+                        }
+                    });
+                }
+            });
+        });
+
+        self.fsNearyBy = ko.computed(function() {
+            self.myMap().forEach(function(location,i) {
+                if (location.focus() === "POI") {
+                    var latlng = [location.lat, location.lng],
+                        query = "hotel";
+
+                    $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/explore',
+                        dataType: 'json',
+                        data: '&limit=10' + 
+                              '&ll=' + latlng +
+                              '&radius=500'+
+                              '&query=' + query +
+                              '&sortByDistance=1' +
+                              '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "",
+                                groups = response.groups ? response.groups : "",
+                                items = groups[0].items ? groups[0].items : "";
+                  
+                            items.forEach(function(item) {
+                                location.fs_hotels.push(item.venue.name);
+                            });  
+                        }
+                    });
+                }
+            });
+        });
+
+        //https://api.foursquare.com/v2/venues/VENUE_ID/tips
+        self.fsTips = ko.computed(function() {
+            self.myMap().forEach(function(location, i) {
+                if (location.focus() === "POI" && location.fs_id()) {
+                    var VENUE_ID = location.fs_id();
+
+                    $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/'+ VENUE_ID +'/tips',
+                        dataType: 'json',
+                        data: '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "";
+                            var tips = response.hasOwnProperty("tips") ? data.response.tips.items : "";
+                            
+                            //console.log(tips[0].text);
+                            tips.forEach(function(tip) {
+                                location.fs_tips.push(tip.text);
+                            });
+                            console.log(location.fs_tips());
                         }
                     });
                 }
@@ -751,10 +816,18 @@ $(document).ready(function(region, focus, locations, styles) {
 //@TODO: Integrate https://www.firebase.com/ to Exceed Specifications
 
 //@TODO: Additional 3rd party API
+//@TODO: Better API REQUESTS integration
+//@TODO: ERROR HANDLING and Error Messages
 //@TODO: Optimize Performance
+//@TODO: BUILD PROCESS WITH GULP
+
+//@UI:
+//@TODO: block mouse wheel zoom
+//@TODO: an 'X' on the search list as an additional way to close
+//@TODO: load a placeholder image when the image cannot be retrieved from foursquare
+
 
 //@NOTES: KNOCKOUTJS: MODEL VIEW VIEW MODEL Pattern
 //@NOTES: RESPONSIVE Design
 //@NOTES: USER EXPERIENCE | UI
 //@NOTES: PRODUCTION CODE with grunt/gulp
-

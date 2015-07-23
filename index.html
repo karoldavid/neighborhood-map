@@ -21,7 +21,7 @@
 
       <div class="item-2" id="searchbar">
         <form action="#">
-          <input class="rounded-corners" placeholder="Search…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
+          <input class="rounded-corners" placeholder="Search skyView…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
           <button class="functionButton reset" title="reset" data-bind="click: resetSearch">X</button>
           <button class="functionButton reverse" title="reverse" data-bind="click: reverseList"><></button>
         </form>
@@ -69,6 +69,19 @@
         </div>
 
         <div class="col-2">
+        </div>
+       
+        <div class="col-3">
+            <div id="wiki" class="wikipedia">
+              <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
+            </div>
+            <div id="info" class="info-text">
+              <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
+            </div>
+            <div id="about" class="about-text">
+              <p>Idea & Programming by<br>Karol Zyskowski<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
+            </div> 
+
             <div id="fs-all">
               <div id="fs-gallery" data-bind="with: currentLocation">
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
@@ -82,18 +95,6 @@
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
               </div>
             </div>
-        </div>
-       
-        <div class="col-3">
-            <div id="wiki" class="wikipedia">
-              <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
-            </div>
-            <div id="info" class="info-text">
-              <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
-            </div>
-            <div id="about" class="about-text">
-              <p>Idea & Programming by<br>Karol Zyskowski<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
-            </div> 
       </div>
     </div>
   </main>
@@ -115,8 +116,7 @@
   <!-- Search Results list -->
   <!-- @TODO: 1 item only, click on expands search list length -->
   <script type="text/html" id="result"> 
-    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}">
-    <span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
+    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, attr: {title: name}"><img data-bind="attr:{src:img()}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
   </script>
 
   <!-- Wikipedia map region info link list -->
