@@ -221,7 +221,7 @@
         	tag: "Performing Arts"
         },
         {
-            name: "Teatr Żydowski im. Estery Rachel i Idy Kamińskich",
+            name: "Teatr Żydowski",
             address: "Plac Grzybowski 12/16, 00-104 Warszawa - Polska",
             coord: {lat: 52.235887, lng: 21.002230},
             website: "http://www.teatr-zydowski.art.pl/",
