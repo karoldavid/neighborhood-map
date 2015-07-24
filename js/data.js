@@ -49,7 +49,7 @@
 	    },
 	    {
 	    	name: "RADISSON BLU SOBIESKI HOTEL",
-	    	address: "plac Zawiszy 1, 02-025 Warszawa - Polska",
+	    	address: "Plac Zawiszy 1, 02-025 Warszawa - Polska",
 	    	coord: {lat: 52.224420, lng: 20.989001},
 	    	website: "http://www.radissonblu.com/sobieski-warsaw",
             tag: "Hotel"
@@ -70,8 +70,8 @@
 	        tag: "Cinema"
 
 	    },
-        {   name: "Centrum Warszawy",
-            address:"Warszawa - Polska",
+        {   name: "Centrum",
+            address:"Aleje Jerozolimskie, Warszawa - Polska",
             coord: {lat: 52.231778, lng: 21.006162},
             website: "https://www.google.pl/?gws_rd=ssl#safe=strict&q=centrum+Warszawy",
             tag:"City Center"
@@ -83,7 +83,7 @@
             tag:"Cultural Center"
         },
         {   name: "Stare Miasto w Warszawie",
-            address: "Warszawa - Polska",
+            address: "Plac Zamkowy, Warszawa - Polska",
             coord: {lat: 52.247733, lng:  21.013608},
             website: "http://www.stare-miasto.com/",
             tag: "Historic Center"
@@ -178,14 +178,14 @@
             tag: "Airport"
         }, 
         {   name: "Warszawa Centralna",
-            address: "00-844, Warszawa - Polska",
+            address: "Dworzec, 00-844 Warszawa - Polska",
             coord: {lat: 52.228336, lng: 21.003576},
             website: "http://intercity.pl/pl/",
             tag: "Train Station"
         },
         {
         	name: "Warszawa Wschodnia",
-        	address: "03-802, Warszawa - Polska",
+        	address: "Ul. Kijowska, 03-802 Warszawa - Polska",
         	coord: {lat: 52.251697, lng: 21.054861},
         	website: "http://rozklad-pkp.pl/en/terminal/warszawa-wschodnia",
         	tag: "Train Station"
@@ -193,7 +193,7 @@
         },
         {
         	name: "Polonia Palace Hotel",
-        	address: "Aleje Jerozolimskie 45, 00-692, Warszawa - Polska",
+        	address: "Aleje Jerozolimskie 45, 00-692 Warszawa - Polska",
         	coord: {lat: 52.229239, lng: 21.010275},
         	website: "http://www.poloniapalace.com/default-en.html",
         	tag: "Hotel"
@@ -264,7 +264,7 @@
             tag: "Performing Arts"
         },
         {
-            name: "Teatr Polski im. Arnolda Szyfmana w Warszawie",
+            name: "Teatr Polski im. Arnolda Szyfmana",
             address: "Kazimierza Karasia 2, Warszawa - Polska",
             coord: {lat: 52.238474, lng: 21.019542},
             website: "http://www.teatrpolski.waw.pl/",
