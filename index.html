@@ -27,19 +27,18 @@
         </form>
       </div>
 
-      <div class="item-3 infoBar">
-        <!-- onclick="toggleVisibility('wikipedia');" -->
+<!--       <div class="item-3 infoBar">
         <button class="func functionButton" title="Wikipedia">W</button>
         <button class="func functionButton" title="Info">i</button>
         <button class="func functionButton" title="About">?</button>
         <button class="myButton"><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></button>
-      </div>
+      </div> -->
 
-      <div class="item-4 weather">
+      <div class="item-3 weather">
         <p data-bind="text: weather" title="http://openweathermap.org/"></p>
       </div>
 
-      <div class="item-5">
+      <div class="item-4">
         <a id="menu" class="header-menu">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
@@ -73,15 +72,6 @@
         </div>
        
         <div class="col-3">
-            <div id="wiki" class="wikipedia">
-              <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
-            </div>
-            <div id="info" class="info-text">
-              <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
-            </div>
-            <div id="about" class="about-text">
-              <p>Idea & Programming by<br>Karol Zyskowski<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
-            </div> 
              <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
               <div id="fs-gallery" data-bind="visible: fs_hotels().length > 0">
                 <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
@@ -103,8 +93,34 @@
               </div>
 
             </div>
+      </div>
+      <div class="col-4" id="main-menu">
 
-           
+        <ul data-bind="template: {name: 'focusGroupMainMenu', foreach: focusButtons()}"></ul>
+        <ul>
+          <li><a>Wikipedia</a></li>
+        </ul>
+
+        <ul>
+          <li><a>info</a></li>
+          <li><a>about</a></li>
+          <li><a>contact</a></li>
+           <li><a><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></a></li>
+        </ul>
+
+        <ul>
+          <li><a>disclaimer</a></li>
+        </ul>
+
+        <div id="wiki" class="wikipedia">
+          <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
+        </div>
+        <div id="info" class="info-text">
+          <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
+        </div>
+        <div id="about" class="about-text">
+          <p>Idea & Programming by<br>Karol Zyskowski<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
+        </div> 
       </div>
     </div>
   </main>
@@ -121,6 +137,11 @@
   <!-- Search Suggestion Group buttons -->
   <script type="text/html" id="focusGroup"> 
     <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
+  </script>
+
+  <!-- Search Suggestion Group buttons for Main Menu Explanation-->
+  <script type="text/html" id="focusGroupMainMenu"> 
+    <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button><span data-bind="text: $data"></span></li>
   </script>
 
   <!-- Search Results list -->
@@ -182,7 +203,7 @@
         elem.style.display = ('block');
     }
     
-    // Hide Wikipedia link list
+    
     hideElement('wiki');
     hideElement('info');
     hideElement('about');
@@ -198,13 +219,9 @@
       e.stopPropagation();
     });
 
-    closeList.addEventListener('click', function(e) {
+    closeList.addEventListener('click', function(e) { // @TODO: Needs to get another DOM element to open on click when closed
       drawer.classList.toggle('close');
       e.stopPropagation();
-    });
-    
-    main.addEventListener('click', function() {
-      drawer.classList.remove('close');
     });
 
     /* Open the right drawer when POI list item is clicked */
@@ -226,9 +243,23 @@
       hideElement("fs-all");
     });
 
+    /* Open-Close the right drawer when hamburger icon is clicked */
+    var menu = document.querySelector('#menu');
+    var main = document.querySelector('main');
+    var rightDrawer = document.querySelector('.col-4');
+
+    menu.addEventListener('click', function(e) {
+      rightDrawer.classList.toggle('open');
+      e.stopPropagation();
+    });
+    
+    main.addEventListener('click', function() { // @TODO: Needs to get another DOM element to click on
+      rightDrawer.classList.remove('open');
+    });
+
     /* Open-Close the right drawer when info button is clicked */
 
-    var allDrawer = document.querySelector('.col-3');
+/*    var allDrawer = document.querySelector('.col-3');
 
     $(".func").click(function (event) {
       var current = $(this).index(); // get index of clicked button
@@ -247,7 +278,7 @@
           }
         }
       });
-    });
+    });*/
 
     /* @TODO: Does not function */
     /* Scroll to active location list item*/
