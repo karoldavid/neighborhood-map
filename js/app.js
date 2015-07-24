@@ -54,9 +54,13 @@ $(document).ready(function(region, focus, locations, styles) {
         this.website = data.website || "http://#";
         this.tag = data.tag;
 
+        // Delete City and Country from Address for Search List
+        var x = this.address.lastIndexOf(","),
+            address = this.address.slice(0,x);
+
         // Create string for search list
         this.title = ko.pureComputed(function() {
-            return this.name + ", " + this.address + ", " + this.tag;
+            return this.name + ", " + address + ", " + this.tag;
         }, this);
 
         this.focus = ko.computed(function() {
