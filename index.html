@@ -82,20 +82,26 @@
             <div id="about" class="about-text">
               <p>Idea & Programming by<br>Karol Zyskowski<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
             </div> 
-             <div id="fs-all">
-              <div id="fs-gallery" data-bind="with: currentLocation">
-                <ul data-bind="visible: focus() === 'POI', template: {name: 'photo-slider', foreach: fs_photos}"></ul>
+             <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
+              <div id="fs-gallery" data-bind="visible: fs_hotels().length > 0">
+                <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
               </div>
 
-              <div id="fs-nearbyFood" data-bind="with: currentLocation">
+              <div id="fs-nearbyFood" data-bind="visible: fs_restaurants().length > 0">
                 <h3>Nearby Restaurants</h3>
-                <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
+                <ul data-bind="template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
               </div>
 
-              <div id="fs-nearbyHotels" data-bind="with: currentLocation">
+              <div id="fs-nearbyHotels" data-bind="visible: fs_hotels().length > 0">
                 <h3>Nearby Hotels</h3>
-                <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
+                <ul data-bind="template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
               </div>
+
+              <div id="fs-tips" data-bind="visible: fs_tips().length > 0">
+                <h3>Tips</h3>
+                <ul data-bind="template: {name: 'tips', foreach: fs_tips}"></ul>
+              </div>
+
             </div>
 
            
@@ -146,6 +152,11 @@
 
   <!-- FourSquare POI nearBy Hotels List -->
   <script type="text/html" id="nearByHotels">
+    <li data-bind="text: $data"></li>
+  </script>
+
+  <!-- FourSquare POI tips List -->
+  <script type="text/html" id="tips">
     <li data-bind="text: $data"></li>
   </script>
 

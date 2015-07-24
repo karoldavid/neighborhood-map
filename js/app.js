@@ -29,6 +29,7 @@ $(document).ready(function(region, focus, locations, styles) {
             zoom: data.zoom.initial,
             panControl: false,
             zoomControl: true,
+            scrollwheel: false,
             scaleControl: true,
             streetViewControl: true,
             mapTypeControlOptions: {
@@ -419,12 +420,11 @@ $(document).ready(function(region, focus, locations, styles) {
                         success: function(data) {
                             var response = data.response ? data.response : "";
                             var tips = response.hasOwnProperty("tips") ? data.response.tips.items : "";
-                            
-                            //console.log(tips[0].text);
-                            tips.forEach(function(tip) {
-                                location.fs_tips.push(tip.text);
+                            tips.forEach(function(tip, i) {
+                                if (location.fs_tips()[i] != tip.text) {
+                                    location.fs_tips.push(tip.text);
+                                }
                             });
-                            //console.log(location.fs_tips());
                         }
                     });
                 }
@@ -744,6 +744,8 @@ $(document).ready(function(region, focus, locations, styles) {
 
            //var panorama = new google.maps.StreetViewPanorama(document.getElementById('panorama'), panoramaOptions);
            //map.setStreetView(panorama);
+
+           // map.getStreetView().setVisible(false);
 
             google.maps.InfoWindow.prototype.isOpen = function(){
                 var map = infowindow.getMap();
