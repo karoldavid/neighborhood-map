@@ -55,7 +55,7 @@
       <div class="row">
 
         <div class="col-1" id="search">
-          <a id="close-list" href="#" class="arrow"></a>
+          <div id="close-list" class="arrow"></div>
           <div class="item-1 search-element" id="search-suggestions">
               <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
           </div>
@@ -88,10 +88,12 @@
               </div>
 
               <div id="fs-nearbyFood" data-bind="with: currentLocation">
+                <h3>Nearby Restaurants</h3>
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
               </div>
 
               <div id="fs-nearbyHotels" data-bind="with: currentLocation">
+                <h3>Nearby Hotels</h3>
                 <ul data-bind="visible: focus() === 'POI', template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
               </div>
             </div>
