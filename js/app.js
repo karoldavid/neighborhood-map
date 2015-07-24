@@ -540,6 +540,14 @@ $(document).ready(function(region, focus, locations, styles) {
             google.maps.event.trigger(location.marker,'click');
         }
 
+        self.mouseOverListItem = function(location) {
+            google.maps.event.trigger(location.marker,'mouseover');
+        }
+
+        self.mouseOutListItem = function(location) {
+            google.maps.event.trigger(location.marker,'mouseout');
+        }
+
         //Filter location list and return search result
         self.searchResults = ko.computed(function() {
             var search = self.query().toLowerCase();
@@ -627,7 +635,7 @@ $(document).ready(function(region, focus, locations, styles) {
             });*/
 
             // Generate map markers with different colors
-            var pinColors = {"Transportation": "eeb211", "City": "5cb3ff", "Recommended": "ff7563", "POI": "d50f25", "visited": "666666"};
+            var pinColors = {"Transportation": "eeb211", "City": "5cb3ff", "Recommended": "ff7563", "POI": "d50f25", "hover": "f0ffff", "visited": "666666"};
 
             var pinImages = {};
 
@@ -705,6 +713,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
                         // Mark visited marker green
                         location.marker.setIcon(pinImages["visited"]);
+                        location.visited = true;
                         //location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
                 });
 
@@ -712,9 +721,17 @@ $(document).ready(function(region, focus, locations, styles) {
                     //marker.setMap(null);
                     viewModel.chosenLocationId("");
                 });
-            });
 
-                        
+                google.maps.event.addListener(location.marker, 'mouseover', function (event) {
+                    this.setIcon(pinImages["hover"]);
+                });
+
+                google.maps.event.addListener(location.marker, 'mouseout', function (event) {
+                    this.setIcon(pinImages[location.visited ? "visited" : location.focus()]);
+                });
+
+            });
+                
             var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
 
             var panoramaOptions = {
