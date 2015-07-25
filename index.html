@@ -22,7 +22,7 @@
       <div class="item-2" id="searchbar">
         <form action="#">
           <input class="rounded-corners" placeholder="Search skyView…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
-          <button class="functionButton reset" title="reset" data-bind="click: resetSearch">X</button>
+          <button id="resetButton" class="functionButton reset" title="reset" data-bind="click: resetSearch">X</button>
           <button class="functionButton reverse" title="reverse" data-bind="click: reverseList"><></button>
         </form>
       </div>
@@ -54,7 +54,7 @@
       <div class="row">
 
         <div class="col-1" id="search">
-          <div id="close-list" class="arrow" title="close"></div>
+          <div id="close-list" class="arrow" title="hide"></div>
           <div class="item-1 search-element" id="search-suggestions">
               <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
           </div>
@@ -72,28 +72,36 @@
         </div>
        
         <div class="col-3">
-             <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
-              <div id="fs-gallery" data-bind="visible: fs_hotels().length > 0">
-                <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
-              </div>
+          <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
+<!-- 
+            <div id="fs-gallery" data-bind="visible: fs_photos().length > 0">
+              <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
+            </div> -->
 
-              <div id="fs-nearbyFood" data-bind="visible: fs_restaurants().length > 0">
-                <h3>Nearby Restaurants</h3>
-                <ul data-bind="template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
-              </div>
-
-              <div id="fs-nearbyHotels" data-bind="visible: fs_hotels().length > 0">
-                <h3>Nearby Hotels</h3>
-                <ul data-bind="template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
-              </div>
-
-              <div id="fs-tips" data-bind="visible: fs_tips().length > 0">
-                <h3>Tips</h3>
-                <ul data-bind="template: {name: 'tips', foreach: fs_tips}"></ul>
-              </div>
-
+            <div id="slider" data-bind="visible: fs_photos().length > 0">
+              <h3>Gallery</h3>
+              <a href="#" class="control_next">>></a>
+              <a href="#" class="control_prev"><</a>
+              <ul data-bind="template: {name: 'fsSlider', foreach: fs_photos, as: 'pic'}"></ul>  
             </div>
-      </div>
+
+            <div id="fs-nearbyFood" data-bind="visible: fs_restaurants().length > 0">
+              <h3>Nearby Restaurants</h3>
+              <ul data-bind="template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
+            </div>
+
+            <div id="fs-nearbyHotels" data-bind="visible: fs_hotels().length > 0">
+              <h3>Nearby Hotels</h3>
+              <ul data-bind="template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
+            </div>
+
+            <div id="fs-tips" data-bind="visible: fs_tips().length > 0">
+              <h3>Tips</h3>
+              <ul data-bind="template: {name: 'tips', foreach: fs_tips}"></ul>
+            </div>
+
+          </div>
+        </div>
       <div class="col-4" id="main-menu">
 
         <ul data-bind="template: {name: 'focusGroupMainMenu', foreach: focusButtons()}"></ul>
@@ -166,6 +174,14 @@
     </li>
   </script>
 
+  <!-- FourSquare POI Gallery -->
+  <script type="text/html" id="fsSlider">
+    <li data-bind="visible: $index() == 0">
+        <img data-bind="attr: {src: pic, title: $index}"/>
+    </li>
+  </script>
+
+
   <!-- FourSquare POI nearBy Restaurants List -->
   <script type="text/html" id="nearByFood">
     <li data-bind="text: $data"></li>
@@ -211,6 +227,7 @@
     /* Close the drawer when the menu icon is clicked */
     var menu = document.querySelector('#menu');
     var closeList = document.querySelector('#close-list');
+    var resetButton = document.querySelector('#resetButton');
     var main = document.querySelector('main');
     var drawer = document.querySelector('.col-1');
 
@@ -238,10 +255,10 @@
         });
     }
     
-    main.addEventListener('click', function() {
+/*    main.addEventListener('click', function() {
       poiDrawer.classList.remove('open');
       hideElement("fs-all");
-    });
+    });*/
 
     /* Open-Close the right drawer when hamburger icon is clicked */
     var menu = document.querySelector('#menu');
@@ -258,6 +275,12 @@
     });
 
     /* Open-Close the right drawer when info button is clicked */
+
+    resetButton.addEventListener('click', function() {
+      drawer.classList.remove('close');
+      rightDrawer.classList.remove('open');
+    });
+
 
 /*    var allDrawer = document.querySelector('.col-3');
 

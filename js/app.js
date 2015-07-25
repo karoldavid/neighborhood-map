@@ -283,10 +283,10 @@ $(document).ready(function(region, focus, locations, styles) {
                             var response = data.response ? data.response : "";
                             var photos = response.hasOwnProperty("photos") ? data.response.photos.items : "";
                             
-                            photos.forEach(function(photo, i) {
-                                if (i < 10) {
-                                    location.fs_photos.push(photo.prefix + 'width' + photo.width + photo.suffix);
-                                }
+                            photos.forEach(function(photo,i) {
+                                var img = photo.prefix + 'width' + photo.width + photo.suffix;
+                                if (location.fs_photos[i] != img);
+                                location.fs_photos.push(img);
                             });
                         }
                     });
@@ -297,7 +297,7 @@ $(document).ready(function(region, focus, locations, styles) {
         // @TODO: Cach nearBy details (for up to 30 days)
         // @TODO: Check error message
         // Get from fourSquare API POI nearyBy data
-        self.fsNearyBy = ko.computed(function() {
+        self.fsNearByRestaurants = ko.computed(function() {
             self.myMap().forEach(function(location,i) {
                 if (location.focus() === "POI") {
                     var latlng = [location.lat, location.lng],
@@ -331,44 +331,7 @@ $(document).ready(function(region, focus, locations, styles) {
             });
         });
 
-        // @TODO: Cach nearBy details (for up to 30 days)
-        // @TODO: Check error message
-        // Get from fourSquare API POI nearyBy data
-        self.fsNearyBy = ko.computed(function() {
-            self.myMap().forEach(function(location,i) {
-                if (location.focus() === "POI") {
-                    var latlng = [location.lat, location.lng],
-                        query = "hotel";
-
-                    $.ajax({
-                        url: 'https://api.foursquare.com/v2/venues/explore',
-                        dataType: 'json',
-                        data: '&limit=10' + 
-                              '&ll=' + latlng +
-                              '&radius=500'+
-                              '&query=' + query +
-                              '&sortByDistance=1' +
-                              '&client_id=' + CLIENT_ID +
-                              '&client_secret=' + CLIENT_SECRET +
-                              '&v=' + version +
-                              '&m=foursquare',
-                        async: true,
-
-                        success: function(data) {
-                            var response = data.response ? data.response : "",
-                                groups = response.groups ? response.groups : "",
-                                items = groups[0].items ? groups[0].items : "";
-                  
-                            items.forEach(function(item) {
-                                location.fs_hotels.push(item.venue.name);
-                            });  
-                        }
-                    });
-                }
-            });
-        });
-
-        self.fsNearyBy = ko.computed(function() {
+        self.fsNearByHotels = ko.computed(function() {
             self.myMap().forEach(function(location,i) {
                 if (location.focus() === "POI") {
                     var latlng = [location.lat, location.lng],

@@ -50,6 +50,9 @@ main {
   transform: translate(0,0);
 
   z-index: 1;
+    background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
+
  
   /* @TODO: MAKE COLUMN 1 STRETCH FROM TOP TO BOTTOM */
   /* background: #000;
@@ -58,7 +61,7 @@ main {
 
 .col-3 {
   position: absolute;
-  width: 250px;
+  width: 500px;
   height: 100%;
         
   -webkit-backface-visibility: hidden;
@@ -84,7 +87,7 @@ main {
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
 
-  color: rgba(12,  15,  63,  0.9);
+ /* color: rgba(12,  15,  63,  0.9);*/
 
   color: #add8e6;
 
@@ -120,9 +123,14 @@ main {
   transform: translate(-500px,0);
 }
 
+.col-1.open {
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+}
+
 .col-3.open {
-  -webkit-transform: translate(-250px,0);
-  transform: translate(-250px,0);
+  -webkit-transform: translate(-500px,0);
+  transform: translate(-500px,0);
 }
 
 .col-4.open {
@@ -496,8 +504,8 @@ header p {
   z-index: 1;
   margin: 0;
   padding: 0.75em;
-  background: #000;
-  opacity: 0.65;
+ /* background: #000;
+  opacity: 0.65; */
   color: #fff;
 }
 
@@ -550,6 +558,7 @@ header p {
 	background: none;   
   padding-bottom: 0.25em;
 	-webkit-transition: all 0.5s ease-out;
+        - transition: all 0.5s ease-out;
 	/*border-bottom: 1px solid #eee;*/
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
@@ -592,6 +601,75 @@ header p {
 
 /**
  *
+ * IMAGE SLIDER
+ *
+ */
+
+#slider {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  border-radius: 4px;
+  background: #000;
+  opacity: 0.65;
+  color: #fff;
+}
+
+#slider ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#slider ul li {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  background: #ccc;
+  width: 500px;
+  height: 300px;
+}
+
+#slider img {
+  max-width: 100%;
+}
+
+a.control_prev, a.control_next {
+  position: absolute;
+  top: 40%;
+  z-index: 999;
+  display: block;
+  padding: 4% 3%;
+  width: auto;
+  height: auto;
+  background: #2a2a2a;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+a.control_prev:hover, a.control_next:hover {
+  opacity: 1;
+  -webkit-transition: all 0.2s ease;
+}
+
+a.control_prev {
+  border-radius: 0 2px 2px 0;
+}
+
+a.control_next {
+  right: 0;
+  border-radius: 2px 0 0 2px;
+}
+
+/**
+ *
  *
  *
  */
@@ -624,7 +702,7 @@ header p {
 
 /**
  *
- * CLOSE X
+ * HIDE <<
  *
  * @CREDIT: http://jsfiddle.net/rohitazad/VzZhU/
  */
@@ -632,10 +710,7 @@ header p {
 .arrow {
   cursor: pointer;
   color: white;
-  border: 1px solid #AEAEAE;
-  border-radius: 30px;
-  background: #605F61;
-  font-size: 31px;
+  font-size: 2em;
   font-weight: bold;
   display: inline-block;
   line-height: 0px;
@@ -644,7 +719,7 @@ header p {
 }
 
 .arrow:before {
-  content: "×";
+  content: "<<";
 }
 
 .arrow:hover {
