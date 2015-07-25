@@ -48,7 +48,7 @@
     </header>
 
     <div class="map-container">
-      <div id="map-canvas" data-bind="map:myMap"></div>
+      <div id="map-canvas" data-bind="map: myMap"></div>
     </div>
     <main>
       <div class="row">
@@ -73,16 +73,17 @@
        
         <div class="col-3">
           <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
-<!-- 
-            <div id="fs-gallery" data-bind="visible: fs_photos().length > 0">
-              <ul data-bind="template: {name: 'photo-slider', foreach: fs_photos}"></ul>
-            </div> -->
 
             <div id="slider" data-bind="visible: fs_photos().length > 0">
-              <h3>Gallery</h3>
-              <a href="#" class="control_next">>></a>
-              <a href="#" class="control_prev"><</a>
-              <ul data-bind="template: {name: 'fsSlider', foreach: fs_photos, as: 'pic'}"></ul>  
+              <h3>FourSquare Gallery</h3>
+              <a class="control_next" id="next" data-bind="click: $root.chosenDirectionId">></a>
+              <a class="control_prev" id="prev" data-bind="click: $root.chosenDirectionId"><</a>
+              <ul>
+                  <li><a class="thumbs" data-bind="attr: {href: fs_photos()[$parent.currentImage()]}" target="_blank"}>
+                         <img title="Source: FourSquare" data-bind="attr: {src: fs_photos()[$parent.currentImage()]}"/>
+                      </a>
+                  </li>
+              </ul>
             </div>
 
             <div id="fs-nearbyFood" data-bind="visible: fs_restaurants().length > 0">
@@ -166,17 +167,8 @@
   </script>
 
   <!-- FourSquare POI Gallery -->
-  <script type="text/html" id="photo-slider">
-    <li>
-      <a class="thumbs" data-bind="attr: {href: $data}" target="_blank">
-        <img title="Source: FourSquare" width="100%" data-bind="attr: {src: $data}"/>
-      </a>
-    </li>
-  </script>
-
-  <!-- FourSquare POI Gallery -->
   <script type="text/html" id="fsSlider">
-    <li data-bind="visible: $index() == 0">
+    <li data-bind="visible: $index() == $parent.currentImage">
         <img data-bind="attr: {src: pic, title: $index}"/>
     </li>
   </script>

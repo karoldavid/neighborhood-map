@@ -625,16 +625,19 @@ header p {
 #slider ul li {
   position: relative;
   display: block;
-  float: left;
-  margin: 0;
-  padding: 0;
+  margin: 0 auto;
+  padding: 0 auto;
   background: #ccc;
   width: 500px;
   height: 300px;
 }
 
 #slider img {
+  margin: 0 auto;
+  padding: 0 auto;
+  width: 500px
   max-width: 100%;
+  height: auto;
 }
 
 a.control_prev, a.control_next {

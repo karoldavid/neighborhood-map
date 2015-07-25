@@ -52,7 +52,7 @@ $(document).ready(function(region, focus, locations, styles) {
         this.marker;
         this.address = data.address;
         this.options = data.options;
-        this.website = data.website || "http://#";
+        this.website = data.website || 'http://#';
         this.tag = data.tag;
 
         // Delete City and Country from Address for Search List
@@ -195,6 +195,26 @@ $(document).ready(function(region, focus, locations, styles) {
         }));
 
         self.currentLocation = ko.observable("");
+
+        self.currentImage = ko.observable(0);
+
+        self.chosenDirectionId = function(data, event) {
+
+            if (self.currentLocation().focus() === "POI") {
+          
+            var i = self.currentImage(),
+                l = self.currentLocation().fs_photos().length,
+                n = {'next': 1, 'prev': -1},
+                d = n[event.target.id];
+
+            i = i + d;
+            if (i > l) { i = 0};
+            if (i < 0) { i = l};
+            self.currentImage(i);
+            }
+
+          
+        };
 
         /**
          *
@@ -695,7 +715,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
             });
                 
-            var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
+/*            var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
 
             var panoramaOptions = {
                 position: wawaCenter,
@@ -705,10 +725,10 @@ $(document).ready(function(region, focus, locations, styles) {
                 }
             };
 
-           //var panorama = new google.maps.StreetViewPanorama(document.getElementById('panorama'), panoramaOptions);
-           //map.setStreetView(panorama);
+           var panorama = new google.maps.StreetViewPanorama(document.getElementById('panorama'), panoramaOptions);
+           map.setStreetView(panorama);
 
-           // map.getStreetView().setVisible(false);
+           map.getStreetView().setVisible(false);*/
 
             google.maps.InfoWindow.prototype.isOpen = function(){
                 var map = infowindow.getMap();
