@@ -142,7 +142,7 @@
             tag: "Performing Arts"
         },
         {
-            name: "National Theatre",
+            name: "Teatr Narodowy",
             address: "Plac Teatralny 3, Warszawa - Polska",
             coord: {lat: 52.243349, lng: 21.009372},
             website: "http://www.narodowy.pl/",
@@ -278,7 +278,7 @@
             tag: "Performing Arts"
         },
         {
-           name: "Teatr Ateneum im. Stefana Jaracza",
+           name: "Teatr Ateneum",
            address: "Stefana Jaracza 2, Warszawa - Polska",
            coord: {lat: 52.237316, lng: 21.032791},
            website: "http://teatrateneum.pl/",
