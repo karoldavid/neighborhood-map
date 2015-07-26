@@ -50,7 +50,8 @@ main {
   transform: translate(0,0);
 
   z-index: 1;
-    background-color: rgba(0, 1, 20, 0.9);
+  
+  background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
 
  
@@ -74,6 +75,7 @@ main {
   transform: translate(0,0);
         
   z-index: 1;
+
 }
 
 .col-3 {
@@ -104,7 +106,8 @@ main {
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
         
-  z-index: 1;
+  z-index: 2;
+  overflow: none;
 }
 
 .col-4 {
@@ -131,6 +134,11 @@ main {
 .col-3.open {
   -webkit-transform: translate(-500px,0);
   transform: translate(-500px,0);
+}
+
+.col-3.close {
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
 }
 
 .col-4.open {
@@ -333,7 +341,9 @@ header p {
 /* FourSquare */
 
 #fs-all {
-
+  color: #fff;
+  background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
 }
 
 #fs-all h3 {
@@ -344,9 +354,8 @@ header p {
 #fs-gallery {
   margin: 0;
   position: relative; 
-  background: #000;
+/*background: #000;*/
   /*opacity: 0.75;*/
-  color: #fff;
 }
 
 #fs-gallery ul {
@@ -372,9 +381,8 @@ header p {
   margin: 0;
   padding: 0;
   position: relative; 
-  background: #000;
-  opacity: 0.65;
-  color: #fff;
+/*  background: #000;
+  opacity: 0.65; */
 }
 
 #fs-nearbyFood ul {
@@ -413,10 +421,8 @@ header p {
   margin: 0;
   padding: 0;
   position: relative; 
-  background: #000;
-  /*width: 200px;*/
-  opacity: 0.65;
-  color: #fff;
+/*  background: #000;
+  opacity: 0.65;*/
 }
 
 #fs-nearbyHotels ul {
@@ -455,9 +461,8 @@ header p {
   margin: 0;
   padding: 0;
   position: relative; 
-  background: #000;
-  opacity: 0.65;
-  color: #fff;
+/*  background: #000;
+  opacity: 0.65;*/
 }
 
 #fs-tips ul {
@@ -610,8 +615,6 @@ header p {
   overflow: hidden;
   margin: 0 auto;
   border-radius: 4px;
-  background: #000;
-  opacity: 0.65;
   color: #fff;
 }
 
@@ -630,12 +633,13 @@ header p {
   background: #ccc;
   width: 500px;
   height: 300px;
+    -webkit-transition:all 1.0s ease-in-out;
+  -moz-transition:all 1.0s ease-in-out;
+  -o-transition:all 1.0s ease-in-out;
+  transition:all 1.0s ease-in-out;
 }
 
 #slider img {
-  margin: 0 auto;
-  padding: 0 auto;
-  width: 500px
   max-width: 100%;
   height: auto;
 }
