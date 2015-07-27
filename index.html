@@ -54,7 +54,7 @@
       <div class="row">
 
         <div class="col-1" id="search">
-          <div id="close-list" class="arrow" title="hide"></div>
+          <div id="hide-list" class="arrow" title="hide"></div>
           <div class="item-1 search-element" id="search-suggestions">
               <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
           </div>
@@ -195,7 +195,14 @@
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 
-  <script>    
+  <script>
+
+    /**
+     *
+     * Toggle, hide and show DOM elements
+     *
+     */
+
     function toggleVisibility(id) {
     	var elem = document.getElementById(id);
     	elem.style.display = ((elem.style.display!='none') ? 'none' : 'block');
@@ -210,51 +217,53 @@
         var elem = document.getElementById(id);
         elem.style.display = ('block');
     }
-    
-    
+       
     hideElement('wiki');
     hideElement('info');
     hideElement('about');
 
-    /* Close the drawer when the menu icon is clicked */
+    /**
+     *
+     * DRAWERS:
+     * - left location search list drawer
+     * - right POI FourSquare drawer
+     * - right main menu drawer 
+     * 
+     */
+
     var menu = document.querySelector('#menu');
-    var closeList = document.querySelector('#close-list');
+    var hideList = document.querySelector('#hide-list');
     var resetButton = document.querySelector('#resetButton');
     var main = document.querySelector('main');
-    var drawer = document.querySelector('.col-1');
+    var listDrawer = document.querySelector('.col-1');
 
+    /* Hide the left location search list drawer when the hamburger menu icon is clicked */
     menu.addEventListener('click', function(e) {
-      drawer.classList.toggle('close');
+      listDrawer.classList.add('close');
       e.stopPropagation();
     });
 
-    closeList.addEventListener('click', function(e) { // @TODO: Needs to get another DOM element to open on click when closed
-      drawer.classList.toggle('close');
+    /* Hide the left location search list drawer when the hide icon '<<' is clicked */
+    hideList.addEventListener('click', function(e) { // @TODO: Needs to get another DOM element to open on click when closed
+      listDrawer.classList.add('close');
       e.stopPropagation();
     });
-
-    /* Open the right drawer when POI list item is clicked */
 
     var poi = document.getElementsByClassName("POI");
-    var main = document.querySelector('main');
     var poiDrawer = document.querySelector('.col-3');
 
+    /* Open the right POI FourSquare drawer when a POI list item is clicked */
     for(var i=0; i < poi.length; i++){
         poi[i].addEventListener('click', function(e) {
         	showElement("fs-all");
-            poiDrawer.classList.toggle('open');
+        	if (poiDrawer.classList.length === 1) {
+        		poiDrawer.classList.toggle('open');
+        	}
             e.stopPropagation();
         });
     }
     
-/*    main.addEventListener('click', function() {
-      poiDrawer.classList.remove('open');
-      hideElement("fs-all");
-    });*/
-
-    /* Open-Close the right drawer when hamburger icon is clicked */
-    var menu = document.querySelector('#menu');
-    var main = document.querySelector('main');
+    /* Open-Close the right main menu drawer when hamburger menu icon is clicked */
     var rightDrawer = document.querySelector('.col-4');
 
     menu.addEventListener('click', function(e) {
@@ -266,37 +275,18 @@
       rightDrawer.classList.remove('open');
     });
 
-    /* Open-Close the right drawer when info button is clicked */
-
+    /* Reset drawers to default when reset button is clicked */
     resetButton.addEventListener('click', function() {
-      drawer.classList.remove('close');
+      listDrawer.classList.remove('close');
       rightDrawer.classList.remove('open');
     });
 
-
-/*    var allDrawer = document.querySelector('.col-3');
-
-    $(".func").click(function (event) {
-      var current = $(this).index(); // get index of clicked button
-      $('.col-3').children().each( function(i,e) {
-        if (current != i) {
-          hideElement(e.id);
-        } else {
-          current = e.id;
-          var elem = document.getElementById(current);
-          if (elem.style.display != 'none') {
-            allDrawer.classList.remove('open');
-            toggleVisibility(current);
-          } else {
-          	toggleVisibility(current);
-            allDrawer.classList.add('open');
-          }
-        }
-      });
-    });*/
-
-    /* @TODO: Does not function */
-    /* Scroll to active location list item*/
+    /**
+     *
+     * Scroll to active/highlighted/ selected location search list item
+     * @TODO: Check functionality
+     *
+     */
 
       $('.selected').on('#locList', function (e) {
       	alert(e);
@@ -316,14 +306,16 @@
         }
       });
     });
+
+    /* 
+    function myFunction() {
+        var elmnt = document.getElementById("myDIV");
+        var x = elmnt.scrollLeft;
+        var y = elmnt.scrollTop;
+        document.getElementById ("demo").innerHTML = "Horizontally: " + x + "px<br>Vertically: " + y + "px";
+    }
+     */
      
   </script> 
 </body>
 </html>
-
-<!-- function myFunction() {
-    var elmnt = document.getElementById("myDIV");
-    var x = elmnt.scrollLeft;
-    var y = elmnt.scrollTop;
-    document.getElementById ("demo").innerHTML = "Horizontally: " + x + "px<br>Vertically: " + y + "px";
-} -->
