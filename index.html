@@ -54,15 +54,16 @@
       <div class="row">
 
         <div class="col-1" id="search">
-          
-          <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p>
+          <div class="item-1">
+            <div id="hide-list" class="arrow" title="hide"></div>
+            <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p> <!-- @TODO: Get POI dynamically --> 
+          </div>
 
-          <div id="hide-list" class="arrow" title="hide"></div>
-          <div class="item-1 search-element" id="search-suggestions">
+          <div class="item-2 search-element" id="search-suggestions">
               <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
           </div>
 
-          <div class="item-2 search-element" id="search-results">
+          <div class="item-3 search-element" id="search-results">
               <!-- @TODO: Scroll to activated list item -->
               <ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}">
                   <!-- @TODO: not working properly-->

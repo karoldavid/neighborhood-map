@@ -528,6 +528,8 @@ header p {
 
 #search-suggestions {
   width: 100%;
+   border-top: 0.1rem solid rgba(255, 255, 255, 0.1);
+  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
 #search-suggestions ul {
