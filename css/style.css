@@ -514,6 +514,12 @@ header p {
   color: #fff;
 }
 
+#search p,
+#search span {
+  margin: 0;
+  padding: 0;
+}
+
 .search-element {
 
 }
@@ -756,7 +762,6 @@ button {
 }
 
 .suggestButton {
-  /*background: #900;*/
   font-size: 8pt;
   width: 3em;
   height: 3em;  
@@ -785,16 +790,16 @@ li:nth-child(4) button { background: #d50f25; }
 
 button:hover,
 .suggestButton:hover {
-   border-top-color: #3b474f;
-   background: #3b474f;
+   border: 1px solid #fff;
+   opacity: 0.85;
    color: #d6bcd6;
    cursor: pointer;
 }
 
 button.selected,
 .suggestButton.selected {
-   border-top-color: #1b435e;
-   background: #1b435e;
+   border: 1px solid #fff;
+   opacity: 0.75;
 }
 
 /**
