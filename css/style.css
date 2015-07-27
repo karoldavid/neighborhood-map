@@ -790,16 +790,18 @@ li:nth-child(4) button { background: #d50f25; }
 
 button:hover,
 .suggestButton:hover {
-   border: 1px solid #fff;
-   opacity: 0.85;
-   color: #d6bcd6;
-   cursor: pointer;
+    border: 1px solid #fff;
+    opacity: 0.85;
+    cursor: pointer;
 }
 
 button.selected,
 .suggestButton.selected {
-   border: 1px solid #fff;
-   opacity: 0.75;
+    transform: translateZ(0px);
+    backface-visibility: hidden;
+    transition-duration: 0.1s;
+    transition-property: box-shadow;
+    box-shadow: 0px 0px 0px 4px #e1e1e1 inset, 0px 0px 1px transparent;
 }
 
 /**
