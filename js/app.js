@@ -432,6 +432,7 @@ $(document).ready(function(region, focus, locations, styles) {
             self.chosenLocationId("");
             self.goToTag("");
             self.goToLocation("");
+            self.chosenFocusId("");
         }
         
         // Retrieve only unique tags from locations data
