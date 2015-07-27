@@ -241,10 +241,6 @@
     var listDrawer = document.querySelector('.col-1');
 
     /* Hide the left location search list drawer when the hamburger menu icon is clicked */
-    menu.addEventListener('click', function(e) {
-      listDrawer.classList.add('close');
-      e.stopPropagation();
-    });
 
     /* Hide the left location search list drawer when the hide icon '<<' is clicked */
     hideList.addEventListener('click', function(e) { // @TODO: Needs to get another DOM element to open on click when closed
@@ -271,6 +267,11 @@
 
     menu.addEventListener('click', function(e) {
       rightDrawer.classList.toggle('open');
+      if (rightDrawer.classList.length === 2) {
+      	listDrawer.classList.add('close');
+      } else {
+      	listDrawer.classList.remove('close');
+      }
       e.stopPropagation();
     });
     
