@@ -796,6 +796,7 @@ button:hover,
     border: 1px solid #fff;
     opacity: 0.85;
     cursor: pointer;
+    text-decoration: none;
 }
 
 button.selected,
