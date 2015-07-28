@@ -216,6 +216,15 @@ $(document).ready(function(region, focus, locations, styles) {
           
         };
 
+
+        self.toggleStreetView = function(location, event) {
+          if (self.currentLocation() === location) {
+            google.maps.toggleStreetView(location);
+          } else {
+            google.maps.openStreetView(location);
+          }
+        };
+
         /**
          *
          * APIs start
@@ -427,6 +436,7 @@ $(document).ready(function(region, focus, locations, styles) {
         
         // Reset search
         self.resetSearch = function() {
+            google.maps.closeStreetView();
             self.query("");
             self.chosenTagId("");
             self.chosenLocationId("");
@@ -556,12 +566,12 @@ $(document).ready(function(region, focus, locations, styles) {
 
         var locationCategory = location.fs_cat || location.tag;
 
-        var infoString = '<div id="iw-container">' +
-                         '<h2 class="iw-title">' + location.name + '</h2>'+
-                         '<div class="iw-body">' +
+        var infoString = '<div class="info-windows">' +
+                         '<h3>' + location.name + '</h3>'+
+                         '<div class="i-box">' +
                          //'<h3>Info</h3>' +
                         // '<p>' + location.description + '</p>' +
-                         '<img class="iw-img" src="' + location.img() + '">' + //'<hr>' +
+                         //'<img class="iw-img" src="' + location.img() + '">' + //'<hr>' +
                          '<p class="address">' + location.address + '</p>'+ //'<hr>' +
                          '<p>' + locationCategory + " " + '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' + '</p>' + 
@@ -716,8 +726,8 @@ $(document).ready(function(region, focus, locations, styles) {
 
             });
                 
-/*            var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
-
+            var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
+            /*
             var panoramaOptions = {
                 position: wawaCenter,
                 pov: {
@@ -730,6 +740,40 @@ $(document).ready(function(region, focus, locations, styles) {
            map.setStreetView(panorama);
 
            map.getStreetView().setVisible(false);*/
+            panorama = map.getStreetView();
+            panorama.setPosition(wawaCenter); // Default Value
+            panorama.setPov(/** @type {google.maps.StreetViewPov} */({
+                heading: 265,
+                pitch: 0
+            }));
+
+            google.maps.toggleStreetView = function(location) {
+                var currentView = new google.maps.LatLng(location.lat, location.lng);
+                panorama.setPosition(currentView);
+
+                var toggle = panorama.getVisible();
+                if (toggle === false) {
+                    panorama.setVisible(true);
+                } else {
+                    panorama.setVisible(false);
+                }
+            }
+
+            google.maps.openStreetView = function(location) {
+                var currentView = new google.maps.LatLng(location.lat, location.lng);
+                panorama.setPosition(currentView);
+
+                if (panorama.getVisible() === false ){   
+                    panorama.setVisible(true);
+                }
+            }
+
+            google.maps.closeStreetView = function() {
+                var visible = panorama.getVisible();
+                if (visible === true) {
+                    panorama.setVisible(false);
+                }
+            }
 
             google.maps.InfoWindow.prototype.isOpen = function(){
                 var map = infowindow.getMap();
