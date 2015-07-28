@@ -719,8 +719,29 @@ $(document).ready(function(region, focus, locations, styles) {
 
            map.getStreetView().setVisible(false);*/
             /* SRC: https://developers.google.com/maps/documentation/javascript/examples/streetview-overlays */
-            panorama = map.getStreetView();
-            panorama.setPosition(wawaCenter); // Default Value
+
+
+            var panoOptions = {
+                position: wawaCenter,
+                addressControlOptions: {
+                    position: google.maps.ControlPosition.BOTTOM_CENTER
+                },
+                linksControl: false,
+                panControl: false,
+                zoomControlOptions: {
+                    style: google.maps.ZoomControlStyle.SMALL,
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
+                },
+                enableCloseButton: false
+            };
+
+            var panorama = new google.maps.StreetViewPanorama(
+                document.getElementById('map-canvas'), panoOptions);
+            panorama.setVisible(false);
+
+
+            //panorama = map.getStreetView();
+            //panorama.setPosition(wawaCenter); // Default Value
             panorama.setPov(/** @type {google.maps.StreetViewPov} */({
                 heading: 265,
                 pitch: 0
