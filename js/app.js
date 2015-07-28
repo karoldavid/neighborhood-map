@@ -30,10 +30,13 @@ $(document).ready(function(region, focus, locations, styles) {
             panControl: false,
             zoomControl: true,
             scrollwheel: false,
-            scaleControl: true,
-            streetViewControl: true,
+            scaleControl: false,
+            streetViewControl: false,
+            overviewMapControl: false,
+            overviewMapControlOptions: {opened: true},
             mapTypeControlOptions: {
-                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style'],
+                style: google.maps.MapTypeControlStyle.DEFAULT,
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, 'map_style'],
                 position: google.maps.ControlPosition.BOTTOM_CENTER
             },
             zoomControlOptions: {
@@ -174,7 +177,6 @@ $(document).ready(function(region, focus, locations, styles) {
         var self = this;
 
         self.query = ko.observable(""); // Search box query string
-        self.chosenTagId = ko.observable(""); // Selected tag in tag cloud
         self.chosenLocationId = ko.observable(""); // Selected location item in locations item list
 
         self.chosenFocusId = ko.observable("");
@@ -438,9 +440,7 @@ $(document).ready(function(region, focus, locations, styles) {
         self.resetSearch = function() {
             google.maps.closeStreetView();
             self.query("");
-            self.chosenTagId("");
             self.chosenLocationId("");
-            self.goToTag("");
             self.goToLocation("");
             self.chosenFocusId("");
         }
@@ -472,6 +472,7 @@ $(document).ready(function(region, focus, locations, styles) {
             // Reset current search
             self.query("");
             self.chosenLocationId("");
+            google.maps.closeStreetView();
 
             // Set only according locations to visible
             self.myMap().forEach(function(location) {
@@ -485,31 +486,7 @@ $(document).ready(function(region, focus, locations, styles) {
             self.searchResults().forEach(function(location) {
                 currentBounds.extend(location.marker.position);
             });
-            map.fitBounds(currentBounds);
-        };
 
-        // Highlight selected search tag as active and filter location list accordingly
-        self.goToTag = function(tag) {
-            // Make sure the tag clicked on is not active
-            self.chosenTagId(tag != self.chosenTagId() ? tag : "");
-            if (selectedInfoWindow) {selectedInfoWindow.close()};
-            // Reset current search
-            self.query("");
-            self.chosenLocationId("");
-
-            // Set only according locations to visible
-            self.myMap().forEach(function(location) {
-                location.visible(!self.chosenTagId() || self.chosenTagId() === location.tag ? true : false);
-                location.marker.setMap(!self.chosenTagId() || self.chosenTagId() === location.tag ? map : null);
-            });
-            
-            // @TODO: How to handle everything map related in the 'Google Maps bindingHandler'?
-            // Fit map to new bounds based on all location positions filtered by tag
-            var currentBounds = new google.maps.LatLngBounds();
-            self.searchResults().forEach(function(location) {
-                currentBounds.extend(location.marker.position);
-            });
-            map.fitBounds(currentBounds);
         };
 
         // Highlight active search result list item
@@ -740,6 +717,7 @@ $(document).ready(function(region, focus, locations, styles) {
            map.setStreetView(panorama);
 
            map.getStreetView().setVisible(false);*/
+            /* SRC: https://developers.google.com/maps/documentation/javascript/examples/streetview-overlays */
             panorama = map.getStreetView();
             panorama.setPosition(wawaCenter); // Default Value
             panorama.setPov(/** @type {google.maps.StreetViewPov} */({
