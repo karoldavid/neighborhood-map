@@ -544,14 +544,15 @@ $(document).ready(function(region, focus, locations, styles) {
 
         var locationCategory = location.fs_cat || location.tag;
 
-        var infoString = '<div class="infoWindow">' +
-                         //'<div class="iw-body">' +
+        var infoString = '<div class="info-window">' +
+                         '<div class="info-window-body">' +
                          '<h3>' + location.name + '</h3>'+
-                         //'<img class="iw-img" src="' + location.img() + '">' + //'<hr>' +
-                         '<p class="address">' + location.address + '</p>'+ //'<hr>' +
-                         '<p>' + locationCategory + " " + '<a href="' + location.website + '" title="Go to ' + location.website +
-                         '" target="_blank">Visit Website</a>' + '</p>' + 
-                        // '</div>' + 
+                         '<p class="address">Address:</p>'+
+                         '<p class="address">' + location.address + '</p>'+ '<hr>' +
+                         '<p>' + locationCategory + '</p>'+
+                         '<a href="' + location.website + '" title="Go to ' + location.website +
+                         '" target="_blank">Visit Website</a>' + 
+                         '</div>' + 
                          '</div>';
 
         return infoString;

@@ -667,12 +667,13 @@ a.control_prev, a.control_next {
   text-decoration: none;
   font-weight: 600;
   font-size: 18px;
-  opacity: 0.8;
+  opacity: 0.65;
   cursor: pointer;
 }
 
 a.control_prev:hover, a.control_next:hover {
-  opacity: 1;
+  opacity: 0.8;
+  background: #fff;
   -webkit-transition: all 0.2s ease;
 }
 
@@ -815,42 +816,45 @@ button.selected,
  */
 
 
-.infoWindow {
+.info-window {
   overflow: hidden !important;
   font-family: 'Architects Daughter', cursive;
   /*background-color: #d3d3d3;*/
+  margin: 0;
+  padding: 0;
 }
 
-.infoWindow h3,
-.infoWindow p {
+.info-window .info-window-body {
+  margin: 0;
+  padding: 0;
+}
+
+.info-window .info-window-body h3,
+.info-window .info-window-body p {
 	margin: 0;
-	padding: 0.5 0;
+	padding: 0;
 }
 
-.infoWindow h3 {
+.info-window .info-window-body h3 {
    font-size: 1.2em;
    font-weight: bold;
    padding: 0.5em;
    background-color: #3369E8; /*#48b5e9;*/
    color: #fff;
-   margin: 0;
+   margin: 0 0 0.5em 0;
    border-radius: 2px 2px 0 0;
 }
 
-.infoWindow p {
+.info-window .info-window-body p {
   font-size: 1em;
-  padding: 0.5em;
-  color: #000
+  color: #000;
 }
 
 .gm-style-iw {
-   /*max-width: 250px !important;
-   top: 0 !important;
-   left: 0 !important;
-   border-radius: 2px 2px 0 0;*/
-}
-
-.gm-style-iw {
+  max-width: 200px;
+  min-height: 100px;
+  top: 0 !important;
+  left: 0 !important;
   background-color: #fff;
   color: #000;
   overflow-y: auto !important;
