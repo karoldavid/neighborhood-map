@@ -31,6 +31,7 @@ $(document).ready(function(region, focus, locations, styles) {
             zoomControl: true,
             scrollwheel: false,
             scaleControl: false,
+            liteMode: true,
             streetViewControl: false,
             overviewMapControl: false,
             overviewMapControlOptions: {opened: true},
@@ -40,7 +41,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 position: google.maps.ControlPosition.BOTTOM_CENTER
             },
             zoomControlOptions: {
-                style: google.maps.ZoomControlStyle.SMALL,
+                style: google.maps.ZoomControlStyle.DEFAULT,
                 position: google.maps.ControlPosition.RIGHT_BOTTOM
             },
             streetViewControlOptions: {
@@ -543,16 +544,14 @@ $(document).ready(function(region, focus, locations, styles) {
 
         var locationCategory = location.fs_cat || location.tag;
 
-        var infoString = '<div class="info-windows">' +
+        var infoString = '<div class="infoWindow">' +
+                         //'<div class="iw-body">' +
                          '<h3>' + location.name + '</h3>'+
-                         '<div class="i-box">' +
-                         //'<h3>Info</h3>' +
-                        // '<p>' + location.description + '</p>' +
                          //'<img class="iw-img" src="' + location.img() + '">' + //'<hr>' +
                          '<p class="address">' + location.address + '</p>'+ //'<hr>' +
                          '<p>' + locationCategory + " " + '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' + '</p>' + 
-                         '</div>' + 
+                        // '</div>' + 
                          '</div>';
 
         return infoString;
@@ -593,6 +592,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
             // Create Google Maps map object
             map = new google.maps.Map(element, (new Region(region)).mapOptions);
+
 
             //Associate the styled map with the MapTypeId and set it to display.
             map.mapTypes.set('map_style', styledMap);

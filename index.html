@@ -80,7 +80,7 @@
           <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
 
             <div id="slider" data-bind="visible: fs_photos().length > 0">
-              <h3>FourSquare Gallery</h3>
+              <h3 data-bind="text: name"></h3>
               <a class="control_next" id="next" data-bind="click: $root.chosenDirectionId">></a>
               <a class="control_prev" id="prev" data-bind="click: $root.chosenDirectionId"><</a>
               <ul>

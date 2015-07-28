@@ -815,54 +815,19 @@ button.selected,
  */
 
 
-
-.info-windows{
-    width: 200px;
-    height:200px;
-    color: #ffedc8;
-    font: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
-    max-width: none;
-    padding:0px;
-    margin:0px;
-  }
-  .info-windows img{ 
-    padding:0px;
-    margin:0px;
-  }
- 
-  .i-box {
-    max-width: none;
-    width: 144px;
-    height:106px;
-    color:#333;
-  }
- 
-  .i-str {
-    background-color:#fff;
-    position:absolute;
-    left:32px;
-    top:80px;
-    height:18px;
-    width:106px;
-    margin-bottom:1px;
-    padding:6px 2px 2px 4px;
-  }
-
-
-#iw-container {
-    font-family: 'Architects Daughter', cursive;
-    /*background-color: #d3d3d3;*/
-    max-width: 250px;
+.infoWindow {
+  overflow: hidden !important;
+  font-family: 'Architects Daughter', cursive;
+  /*background-color: #d3d3d3;*/
 }
 
-#iw-container .iw-body h2,
-#iw-container .iw-body h3,
-#iw-container .iw-body p {
+.infoWindow h3,
+.infoWindow p {
 	margin: 0;
 	padding: 0.5 0;
 }
 
-#iw-container .iw-title {
+.infoWindow h3 {
    font-size: 1.2em;
    font-weight: bold;
    padding: 0.5em;
@@ -872,39 +837,28 @@ button.selected,
    border-radius: 2px 2px 0 0;
 }
 
-#iw-container .iw-body {
-  background-color: #d3d3d3;
-	padding: 0;
-	font-size: 1em;
-}
-
-#iw-container .iw-body p{
-  padding: 0 0 0 0.5em;
+.infoWindow p {
   font-size: 1em;
-}
-
-#iw-container .iw-body .iw-img {
-	max-width: 250px;
-	height: auto;
-  padding: 0;
-}
-
-#iw-container .iw-footer {
-	background-color: #48b5e9;
-	border-top: 1px solid #ccc;
-}
-
-#iw-container .iw-footer a {
-    padding: 1em;
+  padding: 0.5em;
+  color: #000
 }
 
 .gm-style-iw {
-   max-width: 350px !important;
+   /*max-width: 250px !important;
    top: 0 !important;
    left: 0 !important;
-   border-radius: 2px 2px 0 0;
+   border-radius: 2px 2px 0 0;*/
 }
 
+.gm-style-iw {
+  background-color: #fff;
+  color: #000;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+.gm-style-iw > div {
+  overflow: visible !important;   
+}
 
 .error {
 	font-size: 3em;
