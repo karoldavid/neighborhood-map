@@ -264,7 +264,7 @@
             tag: "Performing Arts"
         },
         {
-            name: "Teatr Polski im. Arnolda Szyfmana",
+            name: "Teatr Polski",
             address: "Kazimierza Karasia 2, Warszawa - Polska",
             coord: {lat: 52.238474, lng: 21.019542},
             website: "http://www.teatrpolski.waw.pl/",
