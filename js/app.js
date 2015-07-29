@@ -444,6 +444,7 @@ $(document).ready(function(region, focus, locations, styles) {
             self.chosenLocationId("");
             self.goToLocation("");
             self.chosenFocusId("");
+            self.goToFocus("");
         }
         
         // Retrieve only unique tags from locations data
@@ -487,7 +488,7 @@ $(document).ready(function(region, focus, locations, styles) {
             self.searchResults().forEach(function(location) {
                 currentBounds.extend(location.marker.position);
             });
-
+            map.fitBounds(currentBounds);
         };
 
         // Highlight active search result list item
