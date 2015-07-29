@@ -127,12 +127,14 @@ $(document).ready(function(region, focus, locations, styles) {
                     url: wikiUrl,
                     dataType: dt,
                     success: function(response){
-                        var titleList = response[1];
-
+                        var titleList = response[1],
+                            definitionList = response[2];
+                            
                         for (var i = 0; i < titleList.length; i++) {
                             var titleStr = titleList[i],
-                                urlStr = 'http://en.wikipedia.org/wiki/' + titleStr;
-                            self.links.push({url: urlStr, title: titleStr});
+                                urlStr = 'http://en.wikipedia.org/wiki/' + titleStr,
+                                definitionStr = definitionList[i];
+                            self.links.push({url: urlStr, title: titleStr, definition: definitionStr});
                         };
                     clearTimeout(wikiRequestLinksTimeout);
                 }
