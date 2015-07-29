@@ -131,28 +131,28 @@
 
       <div class="col-5">
            <div id="wiki" class="wikipedia">
-            <h4 data-bind="text: region"></h3>
+            <h4>Wiki about <span data-bind="text: region"></span></h4>
             <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
           </div>
 
           <div id="info" class="info-text">
-            <h3>Information</h3>
+            <h4>Information</h4>
             <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
           </div>
 
           <div id="about" class="about-text">
-            <h3>About</h3>
+            <h4>About</h4>
             <p>Idea & Programming by<br>Karol Zyskowski</p>
           </div>
 
 
           <div id="contact" class="contact-text">
-          <h3>Contact</h3>
+          <h4>Contact</h4>
           <p>Karol Zyskowski<br>Front-End Webdeveloper<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
           </div>
 
           <div id="disclaimer" class="disclaimer-text">
-            <h3>Disclaimer</h3>
+            <h4>Disclaimer</h4>
             <p>Throughout our site you will find links to external websites. Although we make every effort to ensure these links are accurate, up to date and relevant, we cannot take responsibility for pages maintained by external providers.</p>
           </div>
 
@@ -306,8 +306,6 @@
     $(".col-5 div").each( function() {
     	subInfoId.push($(this).attr("id"));
     });
-
-    console.log(subInfoId);
     
     for(var i=0; i < subInfos.length; i++){
         subInfos[i].addEventListener('click', function(e) {
@@ -328,6 +326,7 @@
 
     main.addEventListener('click', function() { // @TODO: Needs to get another DOM element to click on
       rightDrawer.classList.remove('open');
+      subInfoDrawer.classList.remove('open');
     });
 
     /* Reset drawers to default when reset button is clicked */
