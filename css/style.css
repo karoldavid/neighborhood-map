@@ -50,7 +50,7 @@ body {
   z-index: 1;
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
-  /* @TODO: Make column 1 always stretch from top to bottom */
+  /* TODO: Make column 1 always stretch from top to bottom */
 }
 
 .col-2 {
@@ -811,7 +811,7 @@ button {
 }
 
 /* Different Colors for suggestButtons */
-/* @TODO: Get this colors dynamically*/
+/* TODO: Get this colors dynamically*/
 li:nth-child(1) button { background: #eeb211; }
 li:nth-child(2) button { background: #5cb3ff; }
 li:nth-child(3) button { background: #ff7563; }
@@ -844,13 +844,12 @@ button.selected,
 .info-window {
   overflow: hidden !important;
   font-family: 'Architects Daughter', cursive;
-  /*background-color: #d3d3d3;*/
   margin: 0;
   padding: 0;
 }
 
 .info-window hr {
-    /* Inset, by Dan Eden */
+    /* CREDIT: Inset, by Dan Eden */
     border: 0;
     height: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -872,7 +871,7 @@ button.selected,
    font-size: 1.2em;
    font-weight: bold;
    padding: 0.5em;
-   background-color: #3369E8; /*#48b5e9;*/
+   background-color: #3369e8;
    color: #fff;
    margin: 0 0 0.5em 0;
    border-radius: 2px 2px 0 0;
