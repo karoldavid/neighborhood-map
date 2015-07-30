@@ -12,10 +12,8 @@ body {
 }
 
 body {
-	font-family: 'Architects Daughter', cursive;
-  font-size: 1em;
+	font: 1em 'Architects Daughter', cursive;
   overflow-x: hidden;
-  display: block;
 }
 
 /**
@@ -225,7 +223,7 @@ header p {
  */
 
 main {
-  margin-top: 50px;
+  margin: 3em 0 0;
   display: block;
 }
 
@@ -248,7 +246,7 @@ main {
 }
 
 .main-menu ul:first-of-type {
-  margin-top: 1em;
+  margin: 1em 0 0;
 
 }
 
@@ -257,7 +255,7 @@ main {
 }
 
 .main-menu ul li span {
-  margin-left: 0.25em;
+  margin: 0 0 0 0.25em;
 }
 
 .main-menu ul li a {
@@ -351,9 +349,9 @@ main {
 }
 
 .fs-style {
-  position: relative;
   margin: 0;
   padding: 0;
+  position: relative;
 }
 
 .fs-style ul {
@@ -691,8 +689,6 @@ a.control_next {
  */
 
 button {
-  color: #fff;
-  font-weight: bold;
   font-size: 8pt;
   width: 3em;
   height: 3em;
@@ -700,6 +696,8 @@ button {
   position: relative;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .suggestButton {
@@ -754,10 +752,11 @@ button.selected,
 
 
 .info-window {
-  overflow: hidden !important;
-  font-family: 'Architects Daughter', cursive;
   margin: 0;
   padding: 0;
+  font: 1em 'Architects Daughter', cursive;
+  overflow: hidden !important;
+  color: #000;
 }
 
 .info-window hr {
@@ -780,18 +779,16 @@ button.selected,
 }
 
 .info-window .info-window-body h3 {
-   font-size: 1.2em;
-   font-weight: bold;
-   padding: 0.5em;
-   background-color: #3369e8;
-   color: #fff;
-   margin: 0 0 0.5em 0;
-   border-radius: 2px 2px 0 0;
+  margin: 0 0 0.5em 0;
+  padding: 0.5em;
+  border-radius: 2px 2px 0 0;
+  background-color: #3369e8;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
 }
 
 .info-window .info-window-body p {
-  font-size: 1em;
-  color: #000;
 }
 
 .gm-style-iw {
@@ -799,8 +796,6 @@ button.selected,
   min-height: 100px;
   top: 0 !important;
   left: 0 !important;
-  background-color: #d3d3d3;
-  color: #000;
   overflow-y: auto !important;
   overflow-x: hidden !important;
 }
