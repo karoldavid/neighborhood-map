@@ -49,7 +49,7 @@
           <div class="col-1" id="search">
             <div class="item-1">
               <div id="hide-list" class="arrow-left" title="hide"></div>
-                <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p> <!-- @TODO: Get POI dynamically -->
+                <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p> <!-- TODO: Get POI dynamically -->
             </div>
 
             <div class="item-2 search-element" id="search-suggestions">
@@ -164,9 +164,9 @@
     </script>
 
     <!-- Search Results list -->
-    <!-- @TODO: 1 item only, click on expands search list length -->
+    <!-- TODO: 1 item only, click on expands search list length -->
     <script type="text/html" id="result">
-      <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation,  event: {mouseover: $root.mouseOverListItem, mouseout: $root.mouseOutListItem}, attr: {title: name, class: focus()}"><img data-bind="click: $root.toggleStreetView, attr:{src:img()}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
+      <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation,  event: {mouseover: $root.mouseOverListItem, mouseout: $root.mouseOutListItem}, attr: {title: name, class: focus()}"><img data-bind="click: $root.toggleStreetView, attr:{src:img(), alt: 'Google Street View Image of ' + name, title: 'Google Street View of ' + name}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
     </script>
 
     <!-- Wikipedia map region info link list -->
@@ -245,7 +245,7 @@
       var listDrawer = document.querySelector('.col-1');
 
       /* Hide the left location search list drawer when the hide icon '<<' is clicked */
-      hideList.addEventListener('click', function(e) { // @TODO: Needs to get another DOM element to open on click when closed
+      hideList.addEventListener('click', function(e) { // TODO: Needs to get another DOM element to open on click when closed
         listDrawer.classList.add('close');
         e.stopPropagation();
       });
@@ -305,7 +305,7 @@
       });
 
       /* Close the right Main Menu drawer and the Sub Info draer when hamburger menu icon is clicked */
-      main.addEventListener('click', function() { // @TODO: Needs to get another DOM element to click on
+      main.addEventListener('click', function() { // TODO: Needs to get another DOM element to click on
         rightDrawer.classList.remove('open');
         subInfoDrawer.classList.remove('open');
       });
