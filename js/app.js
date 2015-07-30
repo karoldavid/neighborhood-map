@@ -1,5 +1,5 @@
 
-//@ TODO: Load data as json 
+//@ TODO: Load data as json
 $(document).ready(function(region, focus, locations, styles) {
 
     // @TODO: Add POI data (Performing Arts locations)
@@ -19,7 +19,7 @@ $(document).ready(function(region, focus, locations, styles) {
             // On update, fade in/out
             var shouldDisplay = valueAccessor();
             shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
-        } 
+        }
     };
 
     // Set Google Maps 'mapOptions' to region definded in app data object
@@ -81,7 +81,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
         this.lat = data.coord.lat;
         this.lng = data.coord.lng;
-        
+
         // If no tag is active all location items are visible, otherwise only locations with active tag are visible
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
 
@@ -93,7 +93,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
         // Wikipedia API
         this.description = "";
-        
+
         // fourSquare API
         this.fs_cat = "";
         this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
@@ -122,14 +122,14 @@ $(document).ready(function(region, focus, locations, styles) {
             dt = 'jsonp',
             wikiBase = 'http://en.wikipedia.org/w/api.php',
             wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
-        
+
             $.ajax({
                     url: wikiUrl,
                     dataType: dt,
                     success: function(response){
                         var titleList = response[1],
                             definitionList = response[2];
-                            
+
                         for (var i = 0; i < titleList.length; i++) {
                             var titleStr = titleList[i],
                                 urlStr = 'http://en.wikipedia.org/wiki/' + titleStr,
@@ -145,7 +145,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
     var GetWeather = function() {
         var self = this;
-        
+
         self.weatherStr = ko.observable("");
 
         var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
@@ -161,11 +161,11 @@ $(document).ready(function(region, focus, locations, styles) {
     function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
         var R = 6371; // Radius of the earth in km
         var dLat = deg2rad(lat2-lat1);  // deg2rad below
-        var dLon = deg2rad(lon2-lon1); 
+        var dLon = deg2rad(lon2-lon1);
         var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
             Math.sin(dLon/2) * Math.sin(dLon/2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         var d = R * c; // Distance in km
         return d;
     }
@@ -176,7 +176,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
     //
     var MyViewModel = function() {
-       
+
         var self = this;
 
         self.query = ko.observable(""); // Search box query string
@@ -206,7 +206,7 @@ $(document).ready(function(region, focus, locations, styles) {
         self.chosenDirectionId = function(data, event) {
 
             if (self.currentLocation().focus() === "POI") {
-          
+
             var i = self.currentImage(),
                 l = self.currentLocation().fs_photos().length,
                 n = {'next': 1, 'prev': -1},
@@ -218,7 +218,7 @@ $(document).ready(function(region, focus, locations, styles) {
             self.currentImage(i);
             }
 
-          
+
         };
 
 
@@ -240,10 +240,10 @@ $(document).ready(function(region, focus, locations, styles) {
         this.thing = ko.mapping.fromJS(data);*/
 
         /*var apiCall = $.get('http://example.com/api');
-        
+
         apiCall.done(function(data) {
           // success
-        });  
+        });
 
         apiCall.fail(function(xhr, err) {
           // failure
@@ -255,13 +255,13 @@ $(document).ready(function(region, focus, locations, styles) {
 
         // @TODO: Check error message
         // @TODO: Fetch data on click only
-        // Get from Wikipedia API url and title for region info link list 
+        // Get from Wikipedia API url and title for region info link list
 
         self.wikipediaLinks = new GetWikiLinks().links;
 
         // @TODO: Cach venue details (for up to 30 days)
         // @TODO: Check error message
-        // @TODO: Retrieve POI data 
+        // @TODO: Retrieve POI data
         // Get from fourSquare API proper location categories
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
@@ -316,7 +316,7 @@ $(document).ready(function(region, focus, locations, styles) {
                         success: function(data) {
                             var response = data.response ? data.response : "";
                             var photos = response.hasOwnProperty("photos") ? data.response.photos.items : "";
-                            
+
                             photos.forEach(function(photo,i) {
                                 var img = photo.prefix + 'width' + photo.width + photo.suffix;
                                 if (location.fs_photos[i] != img);
@@ -340,7 +340,7 @@ $(document).ready(function(region, focus, locations, styles) {
                     $.ajax({
                         url: 'https://api.foursquare.com/v2/venues/explore',
                         dataType: 'json',
-                        data: '&limit=10' + 
+                        data: '&limit=10' +
                               '&ll=' + latlng +
                               '&radius=250'+
                               '&query=' + query +
@@ -355,10 +355,10 @@ $(document).ready(function(region, focus, locations, styles) {
                             var response = data.response ? data.response : "",
                                 groups = response.groups ? response.groups : "",
                                 items = groups[0].items ? groups[0].items : "";
-                    
+
                             items.forEach(function(item) {
                                 location.fs_restaurants.push(item.venue.name);
-                            });  
+                            });
                         }
                     });
                 }
@@ -374,7 +374,7 @@ $(document).ready(function(region, focus, locations, styles) {
                     $.ajax({
                         url: 'https://api.foursquare.com/v2/venues/explore',
                         dataType: 'json',
-                        data: '&limit=10' + 
+                        data: '&limit=10' +
                               '&ll=' + latlng +
                               '&radius=500'+
                               '&query=' + query +
@@ -389,10 +389,10 @@ $(document).ready(function(region, focus, locations, styles) {
                             var response = data.response ? data.response : "",
                                 groups = response.groups ? response.groups : "",
                                 items = groups[0].items ? groups[0].items : "";
-                  
+
                             items.forEach(function(item) {
                                 location.fs_hotels.push(item.venue.name);
-                            });  
+                            });
                         }
                     });
                 }
@@ -433,12 +433,12 @@ $(document).ready(function(region, focus, locations, styles) {
          * APIs end
          *
          */
-     
+
         // Reverse location list order
         self.reverseList = function() {
             self.myMap.reverse();
         }
-        
+
         // Reset search
         self.resetSearch = function() {
             google.maps.closeStreetView();
@@ -448,7 +448,7 @@ $(document).ready(function(region, focus, locations, styles) {
             self.chosenFocusId("");
             self.goToFocus("");
         }
-        
+
         // Retrieve only unique tags from locations data
         self.uniqueSelect = function() {
             var tags = ko.utils.arrayMap(self.myMap(), function(item) {
@@ -456,7 +456,7 @@ $(document).ready(function(region, focus, locations, styles) {
             })
             return ko.utils.arrayGetDistinctValues(tags).sort();
         };
-        
+
         // Build search tag array for the tag cloud in the View
         self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
             return tag
@@ -483,7 +483,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 location.visible(!self.chosenFocusId() || self.chosenFocusId() === location.focus() ? true : false);
                 location.marker.setMap(!self.chosenFocusId() || self.chosenFocusId() === location.focus() ? map : null);
             });
-            
+
             // @TODO: How to handle everything map related in the 'Google Maps bindingHandler'?
             // Fit map to new bounds based on all location positions filtered by tag
             var currentBounds = new google.maps.LatLngBounds();
@@ -530,7 +530,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 return location.title().toLowerCase().indexOf(search) >= 0 && location.visible();
             });
         });
-        
+
         //Filter location list and display only matching locations as markers on the map
         self.mapMarkers = ko.computed(function() {
             var search = self.query().toLowerCase();
@@ -554,13 +554,13 @@ $(document).ready(function(region, focus, locations, styles) {
                          '<p class="address">' + location.address + '</p>'+ '<hr>' +
                          '<p>' + locationCategory + '</p>'+
                          '<a href="' + location.website + '" title="Go to ' + location.website +
-                         '" target="_blank">Visit Website</a>' + 
-                         '</div>' + 
+                         '" target="_blank">Visit Website</a>' +
+                         '</div>' +
                          '</div>';
 
         return infoString;
     }
-    
+
     // Check whether location is in map bounds
     checkBounds = function(bounds, location) {
         var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
@@ -579,7 +579,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
             var styledMap = new google.maps.StyledMapType(styles,
             {name: "Styled Map"});
-            
+
             // Get Google Maps app region bounds
             var strictBounds = new google.maps.LatLngBounds(
                     new google.maps.LatLng(region.bounds[0], region.bounds[1]),
@@ -628,7 +628,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 marker = new google.maps.Marker({
                     map: map,
                     position: new google.maps.LatLng(
-                            location.lat, 
+                            location.lat,
                             location.lng),
                     title:  location.name,
                     icon: pinImages[location.focus()],
@@ -639,7 +639,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 location.marker = marker;
                 bounds.extend(location.marker.position);
             });
-            
+
             // Add events to markers
             locations().forEach(function(location) {
 
@@ -655,7 +655,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 // @TODO: Highlight search list item when marker is active
                 // Open Google Maps info window on click
                 google.maps.event.addListener(location.marker, 'click', function() {
- 
+
                     // Close infowindow immediately on click if any is open
 
                     // Open the infowindow on marker click
@@ -668,7 +668,7 @@ $(document).ready(function(region, focus, locations, styles) {
                         //map.setZoom(16);
 
                         map.panTo(location.marker.getPosition());
-                        
+
                         var infoString = getInfoString(location);
 
                         viewModel.chosenLocationId(location);
@@ -706,7 +706,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 });
 
             });
-                
+
             var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
             /*
             var panoramaOptions = {
@@ -766,7 +766,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 var currentView = new google.maps.LatLng(location.lat, location.lng);
                 panorama.setPosition(currentView);
 
-                if (panorama.getVisible() === false ){   
+                if (panorama.getVisible() === false ){
                     panorama.setVisible(true);
                 }
             }
@@ -830,11 +830,11 @@ $(document).ready(function(region, focus, locations, styles) {
                 var center = map.getCenter();
                 google.maps.event.trigger(map, "resize");
                 map.fitBounds(bounds);
-                map.setCenter(center); 
+                map.setCenter(center);
             });
         }
     };
- 
+
     // @TODO: Check error message
     // Show error message if google is not defined
     setTimeout(function () {
