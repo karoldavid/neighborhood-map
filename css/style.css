@@ -47,9 +47,9 @@ body {
   transition: transform 0.4s ease-out;
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
-  z-index: 1;
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
+  z-index: 1;
   /* TODO: Make column 1 always stretch from top to bottom */
 }
 
@@ -67,6 +67,9 @@ body {
   transition: transform 0.4s ease-out;
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
+/*  background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
+  color: #fff; */
   z-index: 1;
   left: 100%;
 }
@@ -232,37 +235,36 @@ main {
  *
  */
 
-#main-menu {
+.main-menu {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-#main-menu ul {
+.main-menu ul {
   margin: 0 0.5em 2em 0.5em;
   padding: 0 0.5em 2em 0.5em;
   list-style-type: none;
-  /*border-bottom: 1px solid #add8e6;*/
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
-#main-menu ul:first-of-type {
+.main-menu ul:first-of-type {
   margin-top: 1em;
 
 }
 
-#main-menu ul:last-of-type {
+.main-menu ul:last-of-type {
   border-bottom: none;
 }
 
-#main-menu ul li span {
+.main-menu ul li span {
   margin-left: 0.25em;
 }
 
-#main-menu ul li a {
+.main-menu ul li a {
   color:  #add8e6;
 }
 
-#main-menu ul li a:hover {
+.main-menu ul li a:hover {
   cursor: pointer;
   color:  #fff;
 }
@@ -285,15 +287,9 @@ main {
   z-index: 0;
 }
 
-#map-canvas {
+.full-map {
   width: 100%;
   height: 100%;
-}
-
-#panorama {
-  width: auto;
-  height: 300px;
-  z-index: 1;
 }
 
 /* Wikipedia */
@@ -343,49 +339,29 @@ main {
 
 /* FourSquare */
 
-#fs-all {
+.fs-style {
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
   color: #fff;
 }
 
-#fs-all h3 {
+.fs-style h3 {
   margin: 0;
   padding: 0.25em;
 }
 
-#fs-gallery {
-  position: relative;
-  margin: 0;
-}
-
-#fs-gallery ul {
-  margin: 0;
-  padding: 0;
-  height: 200px;
-  overflow: hidden;
-  overflow-y: scroll;
-  background: #ccc;
-}
-
-#fs-gallery ul li {
-  display: inline;
-  list-style-type: none;
-  height: auto;
-}
-
-#fs-nearbyFood {
+.fs-style {
   position: relative;
   margin: 0;
   padding: 0;
 }
 
-#fs-nearbyFood ul {
+.fs-style ul {
   margin: 0;
   padding: 0.25em;
 }
 
-#fs-nearbyFood ul li {
+.fs-style ul li {
   display: block;
   list-style-type: none;
   background: none;
@@ -393,11 +369,11 @@ main {
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
-#fs-nearbyFood li:last-child {
+.fs-style li:last-child {
   border-bottom: none;
 }
 
-#fs-nearbyFood li:hover {
+.fs-style li:hover {
   background-color: rgb(255, 255, 255) transparent;
   background-color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
@@ -405,70 +381,10 @@ main {
   color: #000;
 }
 
-#fs-nearbyFood li.selected {
+.fs-style li.selected {
   background-color: rgba(0,0,255,0.5);
   -webkit-transition: all 0.1s;
   color: #fff;
-}
-
-#fs-nearbyHotels {
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-#fs-nearbyHotels ul {
-  margin: 0;
-  padding: 0.25em;
-}
-
-#fs-nearbyHotels ul li {
-  display: block;
-  list-style-type: none;
-  background: none;
-  -webkit-transition: all 0.5s ease-out;
-  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
-}
-
-#fs-nearbyHotels li:last-child {
-  border-bottom: none;
-}
-
-#fs-nearbyHotels li:hover {
-  background-color: rgb(255, 255, 255) transparent;
-  background-color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  -webkit-transition: all 0.1s;
-  color: #000;
-}
-
-#fs-nearbyHotels li.selected {
-  background-color: rgba(0,0,255,0.5);
-  -webkit-transition: all 0.1s;
-  color: #fff;
-}
-
-#fs-tips {
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-#fs-tips ul {
-  margin: 0;
-  padding: 0.25em;
-}
-
-#fs-tips ul li {
-  display: block;
-  list-style-type: none;
-  background: none;
-  -webkit-transition: all 0.5s ease-out;
-  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
-}
-
-#fs-tips li:last-child {
-  border-bottom: none;
 }
 
 /**
@@ -493,7 +409,7 @@ main {
   flex-wrap: nowrap;
  }
 
-#search {
+.search-list {
   margin: 0;
   padding: 0.75em;
   position: relative;
@@ -501,31 +417,27 @@ main {
   color: #fff;
 }
 
-#search p,
-#search span {
+.search-list p,
+.search-list span {
   margin: 0;
   padding: 0;
 }
 
-.search-element {
-
-}
-
 /* Search Suggestion Groups such as Transportation, Recommended, POI, etc... */
 
-#search-suggestions {
+.search-suggestions {
   width: 100%;
   border-top: 0.1rem solid rgba(255, 255, 255, 0.1);
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
-#search-suggestions ul {
+.search-suggestions ul {
   list-style: none;
   margin: 0.5em 0;
   padding: 0;
 }
 
-#search-suggestions ul li {
+.search-suggestions ul li {
   margin: 0 auto;
   padding: 0;
 }
@@ -536,24 +448,24 @@ main {
 
 /* Locations Search Results List */
 
-#search-results {
+.search-results {
   position: relative;
 }
 
-#search-results ul {
+.search-results ul {
   margin: 0;
   padding: 0;
 	list-style: none;
 }
 
-#search-results ul li img {
+.search-results ul li img {
   margin: 0 0.5em 0 0;
   max-width: 6.5em;
   display: block;
   float: left;
 }
 
-#search-results ul li {
+.search-results ul li {
   padding: 0 0 0.25em 0;
   background: none;
 	-webkit-transition: all 0.5s ease-out;
@@ -562,12 +474,12 @@ main {
   float: left;
 }
 
-#search-results ul li:last-child {
+.search-results ul li:last-child {
   margin: 0;
 	border: none;
 }
 
-#search-results ul li:hover {
+.search-results ul li:hover {
   background-color: rgb(255, 255, 255) transparent;
   background-color: rgba(255, 255, 255, 0.8);
 	cursor: pointer;
@@ -575,7 +487,7 @@ main {
   color: #000;
 }
 
-#search-results ul li.selected {
+.search-results ul li.selected {
   background-color: rgba(0,0,255,0.5);
 	-webkit-transition: all 0.1s;
 	color: #fff;
@@ -599,7 +511,7 @@ main {
  *
  */
 
-#slider {
+.slider {
   margin: 0 auto;
   position: relative;
   overflow: hidden;
@@ -607,14 +519,14 @@ main {
   color: #fff;
 }
 
-#slider ul {
+.slider ul {
   margin: 0;
   padding: 0;
   position: relative;
   list-style: none;
 }
 
-#slider ul li {
+.slider ul li {
   margin: 0 auto;
   padding: 0 auto;
   position: relative;
@@ -628,7 +540,7 @@ main {
   transition:all 1.0s ease-in-out;
 }
 
-#slider img {
+.slider img {
   max-width: 100%;
   height: auto;
 }
@@ -644,8 +556,8 @@ a.control_prev, a.control_next {
   background: #2a2a2a;
   color: #fff;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 1.2em;
+  font-size: 1.5em;
+  font-weight: bold;
   opacity: 0.65;
   cursor: pointer;
 }
@@ -1005,9 +917,6 @@ a:hover {
   }
   header .item-3 {
   	display: none;
-  }
-  #search-results ul li img {
-    display: none;
   }
   .title {
     display: none;
