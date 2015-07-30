@@ -7,25 +7,10 @@ $(document).ready(function(region, focus, locations, styles) {
         map, // Set map object scope
         selectedInfoWindow;
 
-    // CREDITS: http://learn.knockoutjs.com/
-    // Fade message in/ out
-    ko.bindingHandlers.fadeVisible = {
-        init: function(element, valueAccessor) {
-            // Start visible/invisible according to initial value
-            var shouldDisplay = valueAccessor();
-            $(element).toggle(shouldDisplay);
-        },
-        update: function(element, valueAccessor) {
-            // On update, fade in/out
-            var shouldDisplay = valueAccessor();
-            shouldDisplay ? $(element).fadeIn() : $(element).fadeOut();
-        }
-    };
-
     // Set Google Maps 'mapOptions' to region definded in app data object
     var Region = function(data) {
         this.mapOptions = {
-            center: {lat: data.center["coord"].lat, lng: data.center["coord"].lng},
+            center: {lat: data.center.coord.lat, lng: data.center.coord.lng},
             zoom: data.zoom.initial,
             panControl: false,
             zoomControl: true,
@@ -53,7 +38,7 @@ $(document).ready(function(region, focus, locations, styles) {
     // Location 'data' comes from the location object and 'activeTag' is ...
     var Location = function(data, activeTag) {
         this.name = data.name;
-        this.marker;
+        this.marker = "";
         this.address = data.address;
         this.options = data.options;
         this.website = data.website || 'http://#';
@@ -70,9 +55,9 @@ $(document).ready(function(region, focus, locations, styles) {
 
         this.focus = ko.computed(function() {
 
-            for (group in focus) {
+            for (var group in focus) {
                 if (focus[group].indexOf(this.tag) >= 0) {
-                    return group
+                    return group;
                 }
             }
             return ""; // fallback
@@ -87,7 +72,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
         // Get Google Street View image
         this.img = ko.computed(function() {
-            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng
+            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
             // || 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.name
         }, this);
 
@@ -118,7 +103,7 @@ $(document).ready(function(region, focus, locations, styles) {
                     console.log('failed to get Wikipedia resources');
                 }, 5000);
 
-            var wikiQuery = region.center["name"],
+            var wikiQuery = region.center.name,
             dt = 'jsonp',
             wikiBase = 'http://en.wikipedia.org/w/api.php',
             wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
@@ -135,7 +120,7 @@ $(document).ready(function(region, focus, locations, styles) {
                                 urlStr = 'http://en.wikipedia.org/wiki/' + titleStr,
                                 definitionStr = definitionList[i];
                             self.links.push({url: urlStr, title: titleStr, definition: definitionStr});
-                        };
+                        }
                     clearTimeout(wikiRequestLinksTimeout);
                 }
             });
@@ -149,8 +134,8 @@ $(document).ready(function(region, focus, locations, styles) {
         self.weatherStr = ko.observable("");
 
         var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
-                      'lat=' + region.center["coord"].lat +
-                      '&lon=' + region.center["coord"].lng;
+                      'lat=' + region.center.coord.lat +
+                      '&lon=' + region.center.coord.lng;
 
         $.getJSON(weather, function(response) {
             self.weatherStr(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
@@ -171,7 +156,7 @@ $(document).ready(function(region, focus, locations, styles) {
     }
 
     function deg2rad(deg) {
-        return deg * (Math.PI/180)
+        return deg * (Math.PI/180);
     }
 
     //
@@ -185,18 +170,18 @@ $(document).ready(function(region, focus, locations, styles) {
         self.chosenFocusId = ko.observable("");
 
         // @TODO: Make map region changeable on click
-        self.region = region.center["name"].toUpperCase(); // Map region string for header app info
-        self.distance = Math.round(getDistanceFromLatLonInKm(region.center["coord"].lat, region.center["coord"].lng, 37.362517, -122.03476)) +
+        self.region = region.center.name.toUpperCase(); // Map region string for header app info
+        self.distance = Math.round(getDistanceFromLatLonInKm(region.center.coord.lat, region.center.coord.lng, 37.362517, -122.03476)) +
                         ' km to Silicon Valley';
 
         // Sort location list by name property
         initialLocations.sort(function(left, right) {
-            return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1)
+            return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1);
         });
 
         // Initialize Google Maps Markers
         self.myMap = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
-            return new Location(locationItem, "")
+            return new Location(locationItem, "");
         }));
 
         self.currentLocation = ko.observable("");
@@ -204,23 +189,17 @@ $(document).ready(function(region, focus, locations, styles) {
         self.currentImage = ko.observable(0);
 
         self.chosenDirectionId = function(data, event) {
-
-            if (self.currentLocation().focus() === "POI") {
-
+          if (self.currentLocation().focus() === "POI") {
             var i = self.currentImage(),
                 l = self.currentLocation().fs_photos().length,
                 n = {'next': 1, 'prev': -1},
                 d = n[event.target.id];
-
             i = i + d;
-            if (i > l) { i = 0};
-            if (i < 0) { i = l};
+            if (i > l) { i = 0; }
+            if (i < 0) { i = l; }
             self.currentImage(i);
-            }
-
-
+          }
         };
-
 
         self.toggleStreetView = function(location, event) {
           if (self.currentLocation() === location) {
@@ -437,7 +416,7 @@ $(document).ready(function(region, focus, locations, styles) {
         // Reverse location list order
         self.reverseList = function() {
             self.myMap.reverse();
-        }
+        };
 
         // Reset search
         self.resetSearch = function() {
@@ -447,32 +426,32 @@ $(document).ready(function(region, focus, locations, styles) {
             self.goToLocation("");
             self.chosenFocusId("");
             self.goToFocus("");
-        }
+        };
 
         // Retrieve only unique tags from locations data
         self.uniqueSelect = function() {
             var tags = ko.utils.arrayMap(self.myMap(), function(item) {
                 return item.tag;
-            })
+            });
             return ko.utils.arrayGetDistinctValues(tags).sort();
         };
 
         // Build search tag array for the tag cloud in the View
         self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
-            return tag
+            return tag;
         });
 
         self.focusButtons = function() {
             var groups = [];
-            for (group in focus) {
-                groups.push(group)
+            for (var group in focus) {
+                groups.push(group);
             }
             return groups;
         };
 
         self.goToFocus = function(focus) {
             self.chosenFocusId(focus != self.chosenFocusId() ? focus : "");
-            if (selectedInfoWindow) {selectedInfoWindow.close()};
+            if (selectedInfoWindow) { selectedInfoWindow.close(); }
             // Reset current search
             self.query("");
             self.chosenLocationId("");
@@ -506,22 +485,22 @@ $(document).ready(function(region, focus, locations, styles) {
 
         self.closeInfoWindow = ko.computed(function() {
             if (!self.chosenLocationId()) {
-                if (selectedInfoWindow) {selectedInfoWindow.close()};
+                if (selectedInfoWindow) { selectedInfoWindow.close(); }
             }
         });
 
         // Trigger Google Maps info window on click
         self.show_info = function(location) {
             google.maps.event.trigger(location.marker,'click');
-        }
+        };
 
         self.mouseOverListItem = function(location) {
             google.maps.event.trigger(location.marker,'mouseover');
-        }
+        };
 
         self.mouseOutListItem = function(location) {
             google.maps.event.trigger(location.marker,'mouseout');
-        }
+        };
 
         //Filter location list and return search result
         self.searchResults = ko.computed(function() {
@@ -559,13 +538,13 @@ $(document).ready(function(region, focus, locations, styles) {
                          '</div>';
 
         return infoString;
-    }
+    };
 
     // Check whether location is in map bounds
     checkBounds = function(bounds, location) {
         var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
         return bounds.contains(position);
-    }
+    };
 
     // Google Maps functionality
     ko.bindingHandlers.map = {
@@ -615,7 +594,7 @@ $(document).ready(function(region, focus, locations, styles) {
             var pinImages = {};
 
             // @CREDITS: https://stackoverflow.com/posts/7686977/revisions
-            for (color in pinColors) {
+            for (var color in pinColors) {
                 pinImages[color] = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColors[color],
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0,0),
@@ -644,7 +623,7 @@ $(document).ready(function(region, focus, locations, styles) {
             locations().forEach(function(location) {
 
                 function toggleBounce() {
-                    if( location.marker.getAnimation() != null) {
+                    if( location.marker.getAnimation() !== null) {
                         location.marker.setAnimation(null);
                     } else {
                         location.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -687,7 +666,7 @@ $(document).ready(function(region, focus, locations, styles) {
                         }, 750);
 
                         // Mark visited marker green
-                        location.marker.setIcon(pinImages["visited"]);
+                        location.marker.setIcon(pinImages.visited);
                         location.visited = true;
                         //location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
                 });
@@ -698,7 +677,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 });
 
                 google.maps.event.addListener(location.marker, 'mouseover', function (event) {
-                    this.setIcon(pinImages["hover"]);
+                    this.setIcon(pinImages.hover);
                 });
 
                 google.maps.event.addListener(location.marker, 'mouseout', function (event) {
@@ -707,7 +686,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
             });
 
-            var wawaCenter = new google.maps.LatLng(region.center['coord'].lat, region.center['coord'].lng);
+            var wawaCenter = new google.maps.LatLng(region.center.coord.lat, region.center.coord.lng);
             /*
             var panoramaOptions = {
                 position: wawaCenter,
@@ -760,7 +739,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 } else {
                     panorama.setVisible(false);
                 }
-            }
+            };
 
             google.maps.openStreetView = function(location) {
                 var currentView = new google.maps.LatLng(location.lat, location.lng);
@@ -769,19 +748,19 @@ $(document).ready(function(region, focus, locations, styles) {
                 if (panorama.getVisible() === false ){
                     panorama.setVisible(true);
                 }
-            }
+            };
 
             google.maps.closeStreetView = function() {
                 var visible = panorama.getVisible();
                 if (visible === true) {
                     panorama.setVisible(false);
                 }
-            }
+            };
 
             google.maps.InfoWindow.prototype.isOpen = function(){
                 var map = infowindow.getMap();
                 return (map !== null && typeof map !== "undefined");
-            }
+            };
 
             // Limit the zoom level according to region data object
             google.maps.event.addListener(map, "zoom_changed", function () {
@@ -810,7 +789,7 @@ $(document).ready(function(region, focus, locations, styles) {
             // Make sure, that bounds of Google Maps region are never left
             // CREDIT TO: http://jsfiddle.net/cse_tushar/9d4jy4ye/
             google.maps.event.addListener(map, 'dragend', function () {
-                if (strictBounds.contains(map.getCenter())) return
+                if (strictBounds.contains(map.getCenter())) return;
                 // We're out of bounds - Move the map back within the bounds
                 var c = map.getCenter(),
                 x = c.lng(),
