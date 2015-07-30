@@ -1,6 +1,12 @@
+/**
+ *
+ * Author: Karol Zyskowski
+ *
+ */
+
 html,
 body {
-	height: 100%;
+  height: 100%;
 	margin: 0;
 	padding: 0;
 }
@@ -24,11 +30,6 @@ body {
   height: 100%;
 }
 
-main {
-  margin-top: 50px;
-  display: block;
-}
-
 .row {
   display: -webkit-flex;
   display:         flex;
@@ -40,115 +41,70 @@ main {
   position: absolute;
   width: 650px;
   height: 100%;
-
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
- 
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
-
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
-
   z-index: 1;
-  
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
+  /* @TODO: Make column 1 always stretch from top to bottom */
+}
 
- 
-  /* @TODO: MAKE COLUMN 1 STRETCH FROM TOP TO BOTTOM */
-  /* background: #000;
-     opacity: 0.65;*/
+.col-2 {
+  width: 100%;
 }
 
 .col-3 {
   position: absolute;
   width: 500px;
   height: 100%;
-        
   -webkit-backface-visibility: hidden;
-  backface-visibility: hidden; 
-
+  backface-visibility: hidden;
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
-
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
-        
   z-index: 1;
-
-}
-
-.col-3 {
   left: 100%;
-  /*border: 1px solid red;
-  background: yellow;*/
 }
 
 .col-4 {
-  
-  background-color: rgba(0, 1, 20, 0.9);
-  background: rgba(0, 1, 20, 0.9);
-
- /* color: rgba(12,  15,  63,  0.9);*/
-
-  color: #add8e6;
-
   position: absolute;
   width: 250px;
   height: 100%;
-        
+  background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
+  color: #add8e6;
   -webkit-backface-visibility: hidden;
-  backface-visibility: hidden; 
-
+  backface-visibility: hidden;
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
-
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
-        
   z-index: 2;
   overflow: none;
-}
-
-.col-4 {
   left: 100%;
-  /*border: 1px solid red;
-  background: yellow;*/
 }
 
 .col-5 {
-  
-  background-color: rgba(0, 1, 20, 0.9);
-  background: rgba(0, 1, 20, 0.9);
-  border: 1px solid red;
- /* color: rgba(12,  15,  63,  0.9);*/
-
-  color: #add8e6;
-
   position: absolute;
   width: 250px;
   height: 100%;
-        
+  background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
+  color: #add8e6;
   -webkit-backface-visibility: hidden;
-  backface-visibility: hidden; 
-
+  backface-visibility: hidden;
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
-
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
-        
   z-index: 2;
   overflow: none;
-}
-
-.col-5 {
   left: 100%;
-}
-
-.col-2 {
-  width: 100%;
 }
 
 .col-1.close {
@@ -261,6 +217,17 @@ header p {
 
 /**
  *
+ * MAIN
+ *
+ */
+
+main {
+  margin-top: 50px;
+  display: block;
+}
+
+/**
+ *
  * MAIN MENUE
  *
  */
@@ -280,7 +247,7 @@ header p {
 
 #main-menu ul:first-of-type {
   margin-top: 1em;
-  
+
 }
 
 #main-menu ul:last-of-type {
@@ -306,9 +273,9 @@ header p {
  *
  */
 
-/*Google Maps*/
-/* CREDITS: http://jsfiddle.net/X5r8r/927/ */
+/* Google Maps */
 
+/* CREDITS: http://jsfiddle.net/X5r8r/927/ */
 .map-container {
   width: 100%;
   height: 100%;
@@ -329,24 +296,12 @@ header p {
   z-index: 1;
 }
 
-/*Wikipedia*/
-
-#wiki,
-#info,
-#about,
-#contact,
-#disclaimer {
-  width: 100%;
-  display: none;
-}
+/* Wikipedia */
 
 .wikipedia {
-	position: relative; 
+	position: relative;
   margin: 0;
   padding: 0.5em;
-  height: auto;
-  width: auto;
-  max-width: 100%;
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
   color: #fff;
@@ -365,7 +320,7 @@ header p {
 }
 
 .wikipedia ul li {
-	background: none;   
+	background: none;
 	-webkit-transition: all 0.5s ease-out;
 	border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
@@ -389,9 +344,9 @@ header p {
 /* FourSquare */
 
 #fs-all {
-  color: #fff;
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
+  color: #fff;
 }
 
 #fs-all h3 {
@@ -400,10 +355,8 @@ header p {
 }
 
 #fs-gallery {
+  position: relative;
   margin: 0;
-  position: relative; 
-/*background: #000;*/
-  /*opacity: 0.75;*/
 }
 
 #fs-gallery ul {
@@ -421,16 +374,10 @@ header p {
   height: auto;
 }
 
-#fs-gallery ul li img {
-  /*width: 180px;*/
-}
-
 #fs-nearbyFood {
+  position: relative;
   margin: 0;
   padding: 0;
-  position: relative; 
-/*  background: #000;
-  opacity: 0.65; */
 }
 
 #fs-nearbyFood ul {
@@ -441,7 +388,7 @@ header p {
 #fs-nearbyFood ul li {
   display: block;
   list-style-type: none;
-  background: none;   
+  background: none;
   -webkit-transition: all 0.5s ease-out;
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
@@ -451,26 +398,23 @@ header p {
 }
 
 #fs-nearbyFood li:hover {
-  background: #ccc;
+  background-color: rgb(255, 255, 255) transparent;
+  background-color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   -webkit-transition: all 0.1s;
-  font-weight: bold;
   color: #000;
 }
 
-#fs-nearby li.selected {
-  background: #191970; /*#3369E8; #191970;*/
+#fs-nearbyFood li.selected {
+  background-color: rgba(0,0,255,0.5);
   -webkit-transition: all 0.1s;
-  font-weight: bold;
   color: #fff;
 }
 
 #fs-nearbyHotels {
   margin: 0;
   padding: 0;
-  position: relative; 
-/*  background: #000;
-  opacity: 0.65;*/
+  position: relative;
 }
 
 #fs-nearbyHotels ul {
@@ -481,7 +425,7 @@ header p {
 #fs-nearbyHotels ul li {
   display: block;
   list-style-type: none;
-  background: none;   
+  background: none;
   -webkit-transition: all 0.5s ease-out;
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
@@ -491,26 +435,23 @@ header p {
 }
 
 #fs-nearbyHotels li:hover {
-  background: #ccc;
+  background-color: rgb(255, 255, 255) transparent;
+  background-color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   -webkit-transition: all 0.1s;
-  font-weight: bold;
   color: #000;
 }
 
 #fs-nearbyHotels li.selected {
-  background: #191970; /*#3369E8; #191970;*/
+  background-color: rgba(0,0,255,0.5);
   -webkit-transition: all 0.1s;
-  font-weight: bold;
   color: #fff;
 }
 
 #fs-tips {
   margin: 0;
   padding: 0;
-  position: relative; 
-/*  background: #000;
-  opacity: 0.65;*/
+  position: relative;
 }
 
 #fs-tips ul {
@@ -521,7 +462,7 @@ header p {
 #fs-tips ul li {
   display: block;
   list-style-type: none;
-  background: none;   
+  background: none;
   -webkit-transition: all 0.5s ease-out;
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
@@ -553,12 +494,10 @@ header p {
  }
 
 #search {
-  position: relative; 
-  z-index: 1;
   margin: 0;
   padding: 0.75em;
- /* background: #000;
-  opacity: 0.65; */
+  position: relative;
+  z-index: 1;
   color: #fff;
 }
 
@@ -576,7 +515,7 @@ header p {
 
 #search-suggestions {
   width: 100%;
-   border-top: 0.1rem solid rgba(255, 255, 255, 0.1);
+  border-top: 0.1rem solid rgba(255, 255, 255, 0.1);
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
@@ -595,57 +534,50 @@ header p {
   font-size: 1em;
 }
 
-/* Search Results List */
+/* Locations Search Results List */
 
 #search-results {
   position: relative;
 }
 
 #search-results ul {
+  margin: 0;
+  padding: 0;
 	list-style: none;
-	margin: 0;
-	padding: 0;
 }
 
 #search-results ul li img {
+  margin: 0 0.5em 0 0;
+  max-width: 6.5em;
   display: block;
-  margin-right: 0.5em;
   float: left;
-  max-width: 100px;
 }
 
 #search-results ul li {
-  float: left;
-	background: none;   
-  padding-bottom: 0.25em;
+  padding: 0 0 0.25em 0;
+  background: none;
 	-webkit-transition: all 0.5s ease-out;
         - transition: all 0.5s ease-out;
-	/*border-bottom: 1px solid #eee;*/
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
+  float: left;
 }
 
 #search-results ul li:last-child {
-	border-bottom: none;
   margin: 0;
+	border: none;
 }
 
 #search-results ul li:hover {
-	/*background: #ccc;*/
-  /* default fallback */
   background-color: rgb(255, 255, 255) transparent;
-  /* nice browsers */
   background-color: rgba(255, 255, 255, 0.8);
 	cursor: pointer;
-  color: #000;
 	-webkit-transition: all 0.1s;
-	/*ont-weight: bold;*/
+  color: #000;
 }
 
 #search-results ul li.selected {
-	/*background: #191970; #3369E8; #191970;*/
   background-color: rgba(0,0,255,0.5);
 	-webkit-transition: all 0.1s;
-	font-weight: bold;
 	color: #fff;
 }
 
@@ -658,12 +590,7 @@ header p {
 }
 
 .address {
-  /*display: none;*/
   display: block;
-}
-
-.iw-img {
-    display: block;
 }
 
 /**
@@ -673,29 +600,29 @@ header p {
  */
 
 #slider {
+  margin: 0 auto;
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
-  border-radius: 4px;
+  border-radius: 0.25em;
   color: #fff;
 }
 
 #slider ul {
-  position: relative;
   margin: 0;
   padding: 0;
+  position: relative;
   list-style: none;
 }
 
 #slider ul li {
-  position: relative;
-  display: block;
   margin: 0 auto;
   padding: 0 auto;
-  background: #ccc;
+  position: relative;
   width: 500px;
   height: 300px;
-    -webkit-transition:all 1.0s ease-in-out;
+  display: block;
+  background: #ccc;
+  -webkit-transition:all 1.0s ease-in-out;
   -moz-transition:all 1.0s ease-in-out;
   -o-transition:all 1.0s ease-in-out;
   transition:all 1.0s ease-in-out;
@@ -718,14 +645,14 @@ a.control_prev, a.control_next {
   color: #fff;
   text-decoration: none;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.2em;
   opacity: 0.65;
   cursor: pointer;
 }
 
 a.control_prev:hover, a.control_next:hover {
   opacity: 0.8;
-  background: #fff;
+  background-color: #fff;
   -webkit-transition: all 0.2s ease;
 }
 
@@ -740,7 +667,7 @@ a.control_next {
 
 /**
  *
- *
+ * Sub Information
  *
  */
 
@@ -748,22 +675,21 @@ a.control_next {
 .about-text,
 .contact-text,
 .disclaimer-text {
-  position: relative; 
   margin: 0;
   padding: 0.5em;
-
+  position: relative;
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
   color: #fff;
 }
 
- .info-text p,
- .about-text p,
- .contact-text p,
- .disclaimer-text p {
+.info-text p,
+.about-text p,
+.contact-text p,
+.disclaimer-text p {
   margin: 0;
   padding: 0.5em;
- }
+}
 
 /**
  *
@@ -782,39 +708,56 @@ a.control_next {
 
 /**
  *
- * HIDE <<
+ * CONTROLS
  *
- * @CREDIT: http://jsfiddle.net/rohitazad/VzZhU/
+ *
  */
 
-.arrow {
+/* CREDIT: http://jsfiddle.net/rohitazad/VzZhU/ */
+.arrow-left {
   cursor: pointer;
-  color: white;
   font-size: 2em;
-  font-weight: bold;
   display: inline-block;
   line-height: 0px;
   padding: 11px 3px;
   float: right;
+  color: #fff;
 }
 
-.arrow:before {
+.arrow-left:before {
   content: "<<";
 }
 
-.arrow:hover {
+.arrow-left:hover {
+  opacity: 0.45;
+}
+
+.arrow-right {
+  cursor: pointer;
+  font-size: 2em;
+  display: inline-block;
+  line-height: 0px;
+  padding: 11px 3px;
+  float: right;
+  color: #fff;
+}
+
+.arrow-right:before {
+  content: ">>";
+}
+
+.arrow-right:hover {
   opacity: 0.45;
 }
 
 .close-x {
   cursor: pointer;
-  color: white;
   font-size: 2em;
-  font-weight: bold;
   display: inline-block;
   line-height: 0px;
   padding: 0 1em 0 0;
   float: right;
+  color: #fff;
 }
 
 .close-x:before {
@@ -825,27 +768,6 @@ a.control_next {
   opacity: 0.45;
 }
 
-
-.block-ellipsis {
-  display: block;
-  display: -webkit-box;
-  max-width: 100%;
-  height: 43px;
-  margin: 0 auto;
-  font-size: 14px;
-  line-height: 1;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.span3:focus ~ .alert {
-  display: none;
-}
-.span2:focus ~ .alert {
-  display: block;
-}
 
 /**
  *
@@ -865,27 +787,27 @@ button {
   border: none;
   position: relative;
   -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;     
+  -webkit-border-radius: 6px;
 }
 
 .suggestButton {
   font-size: 8pt;
   width: 3em;
-  height: 3em;  
+  height: 3em;
 }
 
 .functionButton {
   background: #5cb3ff;
   font-size: 10pt;
   width: 2em;
-  height: 2em;   
+  height: 2em;
 }
 
 .myButton {
   background: #5cb3ff;
   font-size: 10pt;
   width: 2em;
-  height: 2em;   
+  height: 2em;
 }
 
 /* Different Colors for suggestButtons */
@@ -972,42 +894,12 @@ button.selected,
   overflow-x: hidden !important;
 }
 .gm-style-iw > div {
-  overflow: visible !important;   
-}
-
-.error {
-	font-size: 3em;
-	font-weight: bold;
+  overflow: visible !important;
 }
 
 /**
  *
- * Footer
- *
- */
-
-footer {
-	flex: none;
-	position: relative; 
-  z-index: 1; /* The z-index should be higher than Google Maps */
-  background: black;
-  height: auto;
-  width: 100%;
-  opacity: .45; /* Set the opacity for a slightly transparent Google Form */ 
-  color: white;
-	border-top: 1px solid #ccc;
-}
-
-.contact {
-	text-align: center;
-  margin: auto;
-  padding: 0.2em;
-  font-size: 1.2em;
-}
-
-/**
- *
- * MESSAGES 
+ * MESSAGES
  *
  */
 
@@ -1019,13 +911,18 @@ footer {
 }
 
 .message li {
-  background: none;   
+  background: none;
   -webkit-transition: all 0.5s ease-out;
+}
+
+.error {
+  font-size: 3em;
+  font-weight: bold;
 }
 
 /**
  *
- *
+ * TEXT
  *
  */
 
@@ -1040,6 +937,22 @@ a:hover {
 
 .hidden {
   display: none;
+}
+
+/* CREDIT: */
+
+.block-ellipsis {
+  display: block;
+  display: -webkit-box;
+  max-width: 100%;
+  height: 43px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /**
@@ -1072,15 +985,6 @@ a:hover {
   }
   .col-1 {
     width: 200px;
-  }
-/*  .iw-img {
-    display:none;
-  } */
-/*  .address {
-    display: block;
-  }*/
-  #iw-container {
-    max-width: 150px;
   }
 }
 
@@ -1122,28 +1026,11 @@ a:hover {
     -webkit-flex-flow: row nowrap;
     flex-flow: row nowrap;
   }
-  .col-1 {
-  /*position: relative;
-    -webkit-transition: none 0s ease-out;
-    transition: none 0s ease-out;
-    -webkit-transform: translate(0,0);
-    transform: translate(0,0);*/
-  }
   .col-2 {
     position: static;
   }
 }
 
 @media (min-width: 800px) {
-  body {
-   
-  }
- /* .col-3 {
-    position: relative;
-    left: auto;
-    -webkit-transition: none 0s ease-out;
-    transition: none 0s ease-out;
-    -webkit-transform: translate(0,0);
-    transform: translate(0,0);
-  }*/
+
 }
