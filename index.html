@@ -1,315 +1,282 @@
 <!DOCTYPE html>
-<head>
-  <html lang="en">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Performing Arts Map Application">
-  <meta name="author" content="Karol Zyskowski">
-  <title>Performing Arts Map</title>
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Architects+Daughter">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Performing Arts Map Application">
+    <meta name="author" content="Karol Zyskowski">
+    <title>Performing Arts Map</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Architects+Daughter">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
 
-<body>
-  <div class="flex-container">
-    
-    <header>
-      <div class="item-1">
-        <h1 data-bind="text: region, attr: {title: distance}"></h1>
-        <p>skyZoom</p>
+  <body>
+    <div class="flex-container">
+      <header>
+        <div class="item-1">
+          <h1 data-bind="text: region, attr: {title: distance}"></h1>
+          <p>skyZoom</p>
+        </div>
+
+        <div class="item-2" id="searchbar">
+          <form action="#">
+            <input class="rounded-corners" placeholder="Search skyZoom…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
+            <button id="resetButton" class="functionButton reset" title="reset" data-bind="click: resetSearch">X</button>
+            <button class="functionButton reverse" title="reverse" data-bind="click: reverseList"><></button>
+          </form>
+        </div>
+
+        <div class="item-3 weather">
+          <p data-bind="text: weather" title="http://openweathermap.org/"></p>
+        </div>
+
+        <div class="item-4">
+          <a id="menu" class="header-menu" title="menu">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
+            </svg>
+          </a>
+        </div>
+      </header>
+
+      <div class="map-container">
+        <div id="map-canvas" data-bind="map: myMap"></div>
       </div>
 
-      <div class="item-2" id="searchbar">
-        <form action="#">
-          <input class="rounded-corners" placeholder="Search skyZoom…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
-          <button id="resetButton" class="functionButton reset" title="reset" data-bind="click: resetSearch">X</button>
-          <button class="functionButton reverse" title="reverse" data-bind="click: reverseList"><></button>
-        </form>
-      </div>
+      <main>
+        <div class="row">
 
-<!--       <div class="item-3 infoBar">
-        <button class="func functionButton" title="Wikipedia">W</button>
-        <button class="func functionButton" title="Info">i</button>
-        <button class="func functionButton" title="About">?</button>
-        <button class="myButton"><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></button>
-      </div> -->
+          <div class="col-1" id="search">
+            <div class="item-1">
+              <div id="hide-list" class="arrow-left" title="hide"></div>
+                <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p> <!-- @TODO: Get POI dynamically -->
+            </div>
 
-      <div class="item-3 weather">
-        <p data-bind="text: weather" title="http://openweathermap.org/"></p>
-      </div>
-
-      <div class="item-4">
-        <a id="menu" class="header-menu" title="menu">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
-          </svg>
-        </a>
-      </div>
-    </header>
-
-    <div class="map-container">
-      <div id="map-canvas" data-bind="map: myMap"></div>
-    </div>
-
-    <main>
-      <div class="row">
-
-        <div class="col-1" id="search">
-          <div class="item-1">
-            <div id="hide-list" class="arrow" title="hide"></div>
-            <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p> <!-- @TODO: Get POI dynamically --> 
-          </div>
-
-          <div class="item-2 search-element" id="search-suggestions">
+            <div class="item-2 search-element" id="search-suggestions">
               <ul class="flex" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul>
-          </div>
+            </div>
 
-          <div class="item-3 search-element" id="search-results">
-              <!-- @TODO: Scroll to activated list item -->
+            <div class="item-3 search-element" id="search-results">
+              <!-- TODO: Scroll to activated list item -->
               <ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}">
-                  <!-- @TODO: not working properly-->
+                  <!-- TODO: not working properly-->
                   <!--<li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>-->
               </ul>
+            </div>
           </div>
-        </div>
 
-        <div class="col-2">
-          
-        </div>
-       
-        <div class="col-3">
-          <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
+          <div class="col-2"></div>
 
-            <div id="slider" data-bind="visible: fs_photos().length > 0">
-              <h3 data-bind="text: name"></h3>
-              <a class="control_next" id="next" data-bind="click: $root.chosenDirectionId">></a>
-              <a class="control_prev" id="prev" data-bind="click: $root.chosenDirectionId"><</a>
-              <ul>
+          <div class="col-3">
+            <div id="fs-all" data-bind="with: currentLocation, visible: focus() === 'POI'">
+
+              <div id="slider" data-bind="visible: fs_photos().length > 0">
+                <h3 data-bind="text: name"></h3>
+                <a class="control_next" id="next" data-bind="click: $root.chosenDirectionId">></a>
+                <a class="control_prev" id="prev" data-bind="click: $root.chosenDirectionId"><</a>
+                <ul>
                   <li><a class="thumbs" data-bind="attr: {href: fs_photos()[$parent.currentImage()]}" target="_blank"}>
                          <img title="Source: FourSquare" data-bind="attr: {src: fs_photos()[$parent.currentImage()]}"/>
                       </a>
                   </li>
-              </ul>
+                </ul>
+              </div>
+
+              <div id="fs-nearbyFood" data-bind="visible: fs_restaurants().length > 0">
+                <h3>Nearby Restaurants</h3>
+                <ul data-bind="template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
+              </div>
+
+              <div id="fs-nearbyHotels" data-bind="visible: fs_hotels().length > 0">
+                <h3>Nearby Hotels</h3>
+                <ul data-bind="template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
+              </div>
+
+              <div id="fs-tips" data-bind="visible: fs_tips().length > 0">
+                <h3>Tips</h3>
+                <ul data-bind="template: {name: 'tips', foreach: fs_tips}"></ul>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-4" id="main-menu">
+
+            <ul data-bind="template: {name: 'focusGroupMainMenu', foreach: focusButtons()}"></ul>
+
+            <ul>
+              <li><a id="0" class="sub-info">Wikipedia</a></li>
+            </ul>
+
+            <ul>
+              <li><a id="1" class="sub-info">info</a></li>
+              <li><a id="2" class="sub-info">about</a></li>
+              <li><a id="3" class="sub-info">contact</a></li>
+              <li><a><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></a></li>
+            </ul>
+
+            <ul>
+              <li><a id="4" class="sub-info">disclaimer</a></li>
+            </ul>
+
+          </div>
+
+          <div class="col-5">
+
+            <div id="wiki" class="wikipedia">
+              <h4>Wiki about <span data-bind="text: region"></span></h4>
+              <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>
             </div>
 
-            <div id="fs-nearbyFood" data-bind="visible: fs_restaurants().length > 0">
-              <h3>Nearby Restaurants</h3>
-              <ul data-bind="template: {name: 'nearByFood', foreach: fs_restaurants}"></ul>
+            <div id="info" class="info-text">
+              <h4>Information</h4>
+              <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
             </div>
 
-            <div id="fs-nearbyHotels" data-bind="visible: fs_hotels().length > 0">
-              <h3>Nearby Hotels</h3>
-              <ul data-bind="template: {name: 'nearByHotels', foreach: fs_hotels}"></ul>
+            <div id="about" class="about-text">
+              <h4>About</h4>
+              <p>Idea & Programming by<br>Karol Zyskowski</p>
             </div>
 
-            <div id="fs-tips" data-bind="visible: fs_tips().length > 0">
-              <h3>Tips</h3>
-              <ul data-bind="template: {name: 'tips', foreach: fs_tips}"></ul>
+            <div id="contact" class="contact-text">
+              <h4>Contact</h4>
+              <p>Karol Zyskowski<br>Front-End Webdeveloper<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
+            </div>
+
+            <div id="disclaimer" class="disclaimer-text">
+              <h4>Disclaimer</h4>
+              <p>Throughout our site you will find links to external websites. Although we make every effort to ensure these links are accurate, up to date and relevant, we cannot take responsibility for pages maintained by external providers.</p>
             </div>
 
           </div>
         </div>
-      <div class="col-4" id="main-menu">
-
-        <ul data-bind="template: {name: 'focusGroupMainMenu', foreach: focusButtons()}"></ul>
-        <ul>
-          <li><a id="0" class="sub-info">Wikipedia</a></li>
-        </ul>
-
-        <ul>
-          <li><a id="1" class="sub-info">info</a></li>
-          <li><a id="2" class="sub-info">about</a></li>
-          <li><a id="3" class="sub-info">contact</a></li>
-           <li><a><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></a></li>
-        </ul>
-
-        <ul>
-          <li><a id="4" class="sub-info">disclaimer</a></li>
-        </ul>
-
-      </div>
-
-      <div class="col-5">
-           <div id="wiki" class="wikipedia">
-            <h4>Wiki about <span data-bind="text: region"></span></h4>
-            <ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul>         
-          </div>
-
-          <div id="info" class="info-text">
-            <h4>Information</h4>
-            <p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future. They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer. Finally their choices may be printed for further purposes.</p>
-          </div>
-
-          <div id="about" class="about-text">
-            <h4>About</h4>
-            <p>Idea & Programming by<br>Karol Zyskowski</p>
-          </div>
-
-
-          <div id="contact" class="contact-text">
-          <h4>Contact</h4>
-          <p>Karol Zyskowski<br>Front-End Webdeveloper<br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71<br>location: Berlin - Germany</p>
-          </div>
-
-          <div id="disclaimer" class="disclaimer-text">
-            <h4>Disclaimer</h4>
-            <p>Throughout our site you will find links to external websites. Although we make every effort to ensure these links are accurate, up to date and relevant, we cannot take responsibility for pages maintained by external providers.</p>
-          </div>
-
-      </div>
+      </main>
     </div>
-  </main>
 
-   <!--  <footer>
-      <div class="contact">
-        <i>by Karol Zyskowski</i>
-        <a href="mailto:k.zysk@zoho.com" title="email to k.zysk@zoho.com" target="_self">&#9993;</a>
-      </div>
-    </footer> -->
+    <!-- Search Suggestion Group Buttons for Loactions Search List -->
+    <script type="text/html" id="focusGroup">
+      <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
+    </script>
 
-  </div>
+    <!-- Search Suggestion Group Buttons for Main Menu Explanation -->
+    <script type="text/html" id="focusGroupMainMenu">
+      <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button><span data-bind="text: $data"></span></li>
+    </script>
 
-  <!-- Search Suggestion Group buttons -->
-  <script type="text/html" id="focusGroup"> 
-    <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
-  </script>
+    <!-- Search Results list -->
+    <!-- @TODO: 1 item only, click on expands search list length -->
+    <script type="text/html" id="result">
+      <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation,  event: {mouseover: $root.mouseOverListItem, mouseout: $root.mouseOutListItem}, attr: {title: name, class: focus()}"><img data-bind="click: $root.toggleStreetView, attr:{src:img()}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
+    </script>
 
-  <!-- Search Suggestion Group buttons for Main Menu Explanation-->
-  <script type="text/html" id="focusGroupMainMenu"> 
-    <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button><span data-bind="text: $data"></span></li>
-  </script>
+    <!-- Wikipedia map region info link list -->
+    <script type="text/html" id="wikipediaList">
+      <li>
+        <a data-bind="attr:{href: url, title: url}, text: title" target="_blank"></a>
+        <p class="block-ellipsis" data-bind="text: definition || 'no short description available'"></p>
+      </li>
+    </script>
 
-  <!-- Search Results list -->
-  <!-- @TODO: 1 item only, click on expands search list length -->
-  <script type="text/html" id="result"> 
-    <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation,  event: {mouseover: $root.mouseOverListItem, mouseout: $root.mouseOutListItem}, attr: {title: name, class: focus()}"><img data-bind="click: $root.toggleStreetView, attr:{src:img()}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
-  </script>
-
-  <!-- Wikipedia map region info link list -->
-  <script type="text/html" id="wikipediaList"> 
-    <li>
-      <a data-bind="attr:{href: url, title: url}, text: title" target="_blank"></a>
-      <p class="block-ellipsis" data-bind="text: definition || 'no short description available'"></p>
-    </li>
-  </script>
-
-  <!-- FourSquare POI Gallery -->
-  <script type="text/html" id="fsSlider">
-    <li data-bind="visible: $index() == $parent.currentImage">
+    <!-- FourSquare POI Gallery -->
+    <script type="text/html" id="fsSlider">
+      <li data-bind="visible: $index() == $parent.currentImage">
         <img data-bind="attr: {src: pic, title: $index}"/>
-    </li>
-  </script>
+      </li>
+    </script>
 
+    <!-- FourSquare POI nearBy Restaurants List -->
+    <script type="text/html" id="nearByFood">
+      <li data-bind="text: $data"></li>
+    </script>
 
-  <!-- FourSquare POI nearBy Restaurants List -->
-  <script type="text/html" id="nearByFood">
-    <li data-bind="text: $data"></li>
-  </script>
+    <!-- FourSquare POI nearBy Hotels List -->
+    <script type="text/html" id="nearByHotels">
+      <li data-bind="text: $data"></li>
+    </script>
 
-  <!-- FourSquare POI nearBy Hotels List -->
-  <script type="text/html" id="nearByHotels">
-    <li data-bind="text: $data"></li>
-  </script>
+    <!-- FourSquare POI tips List -->
+    <script type="text/html" id="tips">
+      <li data-bind="text: $data"></li>
+    </script>
 
-  <!-- FourSquare POI tips List -->
-  <script type="text/html" id="tips">
-    <li data-bind="text: $data"></li>
-  </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
+    <script src="js/lib/jquery-1.11.3.js"></script>
+    <script src="js/lib/knockout-3.3.0.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg" type="text/javascript"></script>
-  <script src="js/lib/jquery-1.11.3.js"></script>
-  <script src="js/lib/knockout-3.3.0.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+    <script>
 
-  <script>
+      /**
+       *
+       * Toggle, hide and show DOM elements
+       *
+       */
 
-    /**
-     *
-     * Toggle, hide and show DOM elements
-     *
-     */
-
-    function toggleVisibility(id) {
-    	var elem = document.getElementById(id);
+      function toggleVisibility(id) {
+      	var elem = document.getElementById(id);
     	elem.style.display = ((elem.style.display!='none') ? 'none' : 'block');
-    }
+      }
 
-    function hideElement(id) {
+      function hideElement(id) {
     	var elem = document.getElementById(id);
         elem.style.display = ('none');
-    }
+      }
 
-    function showElement(id) {
+      function showElement(id) {
         var elem = document.getElementById(id);
         elem.style.display = ('block');
-    }
-       
-    /*hideElement('wiki');
-    hideElement('info');
-    hideElement('about');*/
+      }
 
-    /**
-     *
-     * DRAWERS:
-     * - left location search list drawer
-     * - right POI FourSquare drawer
-     * - right main menu drawer 
-     * 
-     */
+      /**
+       *
+       * DRAWERS:
+       * - left Locations Search List drawer
+       * - right POI FourSquare drawer
+       * - right Main Menu drawer
+       * - right Sub Info drawer
+       */
 
-    var menu = document.querySelector('#menu');
-    var hideList = document.querySelector('#hide-list');
-    var resetButton = document.querySelector('#resetButton');
-    var main = document.querySelector('main');
-    var listDrawer = document.querySelector('.col-1');
+      var menu = document.querySelector('#menu');
+      var hideList = document.querySelector('#hide-list');
+      var hidePoiDrawer = document.querySelector('#hide-poi');
+      var resetButton = document.querySelector('#resetButton');
+      var main = document.querySelector('main');
+      var listDrawer = document.querySelector('.col-1');
 
-    /* Hide the left location search list drawer when the hamburger menu icon is clicked */
+      /* Hide the left location search list drawer when the hide icon '<<' is clicked */
+      hideList.addEventListener('click', function(e) { // @TODO: Needs to get another DOM element to open on click when closed
+        listDrawer.classList.add('close');
+        e.stopPropagation();
+      });
 
-    /* Hide the left location search list drawer when the hide icon '<<' is clicked */
-    hideList.addEventListener('click', function(e) { // @TODO: Needs to get another DOM element to open on click when closed
-      listDrawer.classList.add('close');
-      e.stopPropagation();
-    });
+      var poi = document.getElementsByClassName("POI");
+      var poiDrawer = document.querySelector('.col-3');
 
-    var poi = document.getElementsByClassName("POI");
-    var poiDrawer = document.querySelector('.col-3');
-
-    /* Open the right POI FourSquare drawer when a POI list item is clicked */
-    for(var i=0; i < poi.length; i++){
-        poi[i].addEventListener('click', function(e) {
+      /* Open the right POI FourSquare drawer when a POI list item is clicked */
+      for(var i=0; i < poi.length; i++){
+      	poi[i].addEventListener('click', function(e) {
         	showElement("fs-all");
         	if (poiDrawer.classList.length === 1) {
         		poiDrawer.classList.toggle('open');
         	}
             e.stopPropagation();
         });
-    }
-    
-    /* Open-Close the right main menu drawer when hamburger menu icon is clicked */
-    var rightDrawer = document.querySelector('.col-4');
-
-    menu.addEventListener('click', function(e) {
-      rightDrawer.classList.toggle('open');
-      if (rightDrawer.classList.length === 2) {
-      	listDrawer.classList.add('close');
-      } else {
-      	listDrawer.classList.remove('close');
       }
-      e.stopPropagation();
-    });
 
-    var subInfoDrawer = document.querySelector('.col-5');
-    var subInfos = document.getElementsByClassName('sub-info');
-    var subInfoId = [];
+      var rightDrawer = document.querySelector('.col-4');
+      var subInfoDrawer = document.querySelector('.col-5');
+      var subInfos = document.getElementsByClassName('sub-info');
+      var subInfoId = [];
 
-    $(".col-5 div").each( function() {
-    	subInfoId.push($(this).attr("id"));
-    });
-    
-    for(var i=0; i < subInfos.length; i++){
-        subInfos[i].addEventListener('click', function(e) {
-        	var currentElem = e.srcElement.id;
+      $(".col-5 div").each( function() {
+      	subInfoId.push($(this).attr("id"));
+      });
+
+      /* Open Sub Info Drawer with according information when Menu Item is clicked */
+      for(var i=0; i < subInfos.length; i++){
+      	subInfos[i].addEventListener('click', function(e) {
+      		var currentElem = e.srcElement.id;
         	for (var x=0; x<subInfoId.length; x++) {
         		if (x != currentElem) {
         			hideElement(subInfoId[x]);
@@ -322,55 +289,34 @@
         	}
             e.stopPropagation();
         });
-    }
+      }
 
-    main.addEventListener('click', function() { // @TODO: Needs to get another DOM element to click on
-      rightDrawer.classList.remove('open');
-      subInfoDrawer.classList.remove('open');
-    });
-
-    /* Reset drawers to default when reset button is clicked */
-    resetButton.addEventListener('click', function() {
-      listDrawer.classList.remove('close');
-      rightDrawer.classList.remove('open');
-      subInfoDrawer.classList.remove('open');
-    });
-
-    /**
-     *
-     * Scroll to active/highlighted/ selected location search list item
-     * @TODO: Check functionality
-     *
-     */
-
-      $('.selected').on('#locList', function (e) {
-      	alert(e);
-      }); 
-
-      $(function() {
-      	$('a[href*=#]:not([href=#])').click(function() {
-            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-                if (target.length) {
-                  $('html,body').animate({
-                  scrollTop: target.offset().top
-                }, 1000);
-                return false;
-           }
+      /* Open the right Main Menu drawer when hamburger menu icon is clicked
+      /* Close left Locations Search List drawer when right Main Menu drawer opens */
+      menu.addEventListener('click', function(e) {
+      	rightDrawer.classList.toggle('open');
+        subInfoDrawer.classList.remove('open');
+        if (rightDrawer.classList.length === 2) {
+      	  listDrawer.classList.add('close');
+        } else {
+      	  listDrawer.classList.remove('close');
         }
+        e.stopPropagation();
       });
-    });
 
-    /* 
-    function myFunction() {
-        var elmnt = document.getElementById("myDIV");
-        var x = elmnt.scrollLeft;
-        var y = elmnt.scrollTop;
-        document.getElementById ("demo").innerHTML = "Horizontally: " + x + "px<br>Vertically: " + y + "px";
-    }
-     */
-     
-  </script> 
-</body>
+      /* Close the right Main Menu drawer and the Sub Info draer when hamburger menu icon is clicked */
+      main.addEventListener('click', function() { // @TODO: Needs to get another DOM element to click on
+        rightDrawer.classList.remove('open');
+        subInfoDrawer.classList.remove('open');
+      });
+
+      /* Reset drawers to default when Reset button in header is clicked */
+      resetButton.addEventListener('click', function() {
+      	listDrawer.classList.remove('close');
+        rightDrawer.classList.remove('open');
+        subInfoDrawer.classList.remove('open');
+      });
+
+    </script>
+  </body>
 </html>
