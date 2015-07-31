@@ -7,7 +7,7 @@
 			    "address": "Warszawa - Polska",
 			    "coord": {lat: 52.231778, lng: 21.006162}
 			},
-			zoom: {initial: 14, min: 12, max: 20}, 
+			zoom: {initial: 14, min: 12, max: 20},
 			bounds: [52.152227, 20.955794, 52.283899, 21.157324]
 		},
         focus: {
@@ -17,10 +17,10 @@
             "POI" : ["Performing Arts"]
         },
 	    locations: [
-	    {   
+	    {
 	    	name: "Muzeum Narodowe",
 	        address: "Aleje Jerozolimskie 3, 00-495 Warszawa - Polska",
-	        coord: {lat: 52.231585, lng: 21.024704},
+	        coord: {lat: 52.231919, lng: 21.024654},
 	        website: "http://www.mnw.art.pl/en/",
 	        tag: "Museum"
 
@@ -57,10 +57,9 @@
 	    {
 	    	name: "Biblioteka Narodowa",
 	    	address: "Aleja Niepodległości 213, 02-086 Warszawa - Polska",
-	    	coord: {lat: 52.213878, lng: 21.004422},
+	    	coord: {lat: 52.214485, lng: 21.005539},
 	    	website: "http://www.bn.org.pl/",
 	    	tag: "Library"
-
 	    },
 	    {
 	    	name: "Kino Femina",
@@ -134,7 +133,7 @@
         	website: "http://teatrdramatyczny.pl/",
         	tag: "Performing Arts"
         },
-        {  
+        {
             name: "Warszawska Opera Kameralna",
             address: "Aleja Solidarności 76b, Warszawa - Polska",
             coord: {lat: 52.243887, lng: 20.997488},
@@ -148,14 +147,14 @@
             website: "http://www.narodowy.pl/",
             tag: "Performing Arts"
         },
-        {   
+        {
             name: "Łazienki Królewskie w Warszawie",
             address: "Ujazdów, 01-999, Warszawa - Polska",
             coord: {lat: 52.2152, lng: 21.035},
             website: "http://www.lazienki-krolewskie.pl/pl",
             tag:"Park"
         },
-        {   
+        {
             name: "Fryderyk Chopin Museum",
             address: "Okólnik 1, Warszawa - Polska",
             coord: {lat: 52.236468, lng: 21.023129},
@@ -163,10 +162,10 @@
             tag: "Museum"
 
         },
-        {   
-            name: "Lotnisko Chopina w Warszawie",
+        {
+            name: "Lotnisko Chopina",
             address: "Żwirki i Wigury 1, Warszawa - Polska",
-            coord: {lat: 52.167230, lng: 20.968035},
+            coord: {lat: 52.171799, lng: 20.973210},
             website: "http://www.lotnisko-chopina.pl/en/index.html",
             tag: "Airport"
         },
@@ -176,7 +175,7 @@
             coord: {lat: 52.270079, lng: 20.907559},
             website: "http://www.lotnisko-babice.pl/",
             tag: "Airport"
-        }, 
+        },
         {   name: "Warszawa Centralna",
             address: "Dworzec, 00-844 Warszawa - Polska",
             coord: {lat: 52.228336, lng: 21.003576},
@@ -185,11 +184,10 @@
         },
         {
         	name: "Warszawa Wschodnia",
-        	address: "Ul. Kijowska, 03-802 Warszawa - Polska",
-        	coord: {lat: 52.251697, lng: 21.054861},
+        	address: "Ul. Kijowska 16, 03-802 Warszawa - Polska",
+        	coord: {lat: 52.252518, lng: 21.051078},
         	website: "http://rozklad-pkp.pl/en/terminal/warszawa-wschodnia",
         	tag: "Train Station"
-
         },
         {
         	name: "Polonia Palace Hotel",
@@ -237,7 +235,7 @@
         {
             name: "Arkadia",
             address: "Aleja Jana Pawła II 82, 00-175 Warszawa Polska",
-            coord: {lat: 52.257119, lng: 20.984434},
+            coord: {lat: 52.256251, lng: 20.983644},
             website: "http://www.arkadia.com.pl/W/do/centre/strona-glowna",
             tag: "Mall"
         },
