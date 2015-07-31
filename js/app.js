@@ -726,12 +726,24 @@ $(document).ready(function(region, focus, locations, styles) {
             //panorama.setPosition(wawaCenter); // Default Value
             panorama.setPov(/** @type {google.maps.StreetViewPov} */({
                 heading: 265,
+                zoom: 1,
                 pitch: 0
             }));
 
             google.maps.toggleStreetView = function(location) {
-                var currentView = new google.maps.LatLng(location.lat, location.lng);
-                panorama.setPosition(currentView);
+                var loc = new google.maps.LatLng(location.lat, location.lng);
+                panorama.setPosition(loc);
+
+                // Calculate differnce between position of currentLocation and position of current
+                // street view image
+                var pano = panorama.location.latLng,
+                    heading = google.maps.geometry.spherical.computeHeading(loc, pano);
+
+                panorama.setPov(/** @type {google.maps.StreetViewPov} */({
+                  heading: heading,
+                  zoom: 1,
+                  pitch: 0
+                }));
 
                 var toggle = panorama.getVisible();
                 if (toggle === false) {
@@ -742,8 +754,17 @@ $(document).ready(function(region, focus, locations, styles) {
             };
 
             google.maps.openStreetView = function(location) {
-                var currentView = new google.maps.LatLng(location.lat, location.lng);
-                panorama.setPosition(currentView);
+                var loc = new google.maps.LatLng(location.lat, location.lng);
+                panorama.setPosition(loc);
+
+                var pano = panorama.location.latLng,
+                    heading = google.maps.geometry.spherical.computeHeading(loc, pano);
+
+                panorama.setPov(/** @type {google.maps.StreetViewPov} */({
+                  heading: heading,
+                  zoom: 1,
+                  pitch: 0
+                }));
 
                 if (panorama.getVisible() === false ){
                     panorama.setVisible(true);
