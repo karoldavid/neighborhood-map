@@ -159,6 +159,28 @@ body {
   order: 5;
 }
 
+.vertical-container {
+  height: 3em;
+  display: -webkit-flex;
+  display:         flex;
+
+ -webkit-align-content: space-around;
+   align-content: space-around;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+
+.flex1 {
+  -webkit-flex: 8;
+          flex: 8;
+}
+.flex2 {
+  -webkit-flex: 1;
+          flex: 1;
+}
+
 /**
  *
  * HEADER
@@ -392,25 +414,9 @@ main {
  *
  */
 
- .flex {
-  padding: 0;
-  margin: 0;
-  -ms-box-orient: horizontal;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: flex;
-  justify-content: center;
-  align-items: space-around;
-  -webkit-flex-wrap: nowrap;
-  flex-wrap: nowrap;
- }
-
 .search-list {
   margin: 0;
-  padding: 0.75em;
+  padding: 0;
   position: relative;
   z-index: 1;
   color: #fff;
@@ -626,12 +632,11 @@ a.control_next {
 
 /* CREDIT: http://jsfiddle.net/rohitazad/VzZhU/ */
 .arrow-left {
+  margin: 0;
+  padding: 0;
   cursor: pointer;
   font-size: 2em;
-  display: inline-block;
-  line-height: 0px;
-  padding: 11px 3px;
-  float: right;
+
   color: #fff;
 }
 
@@ -677,6 +682,18 @@ a.control_next {
 
 .close-x:hover {
   opacity: 0.45;
+}
+
+.show-searchlist {
+  position: relative;
+  padding: 0.75em 0;
+  width: 2em;
+  height: auto;
+  background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
+  color: #fff;
+  text-align: center;
+  display: none;
 }
 
 
