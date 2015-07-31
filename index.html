@@ -63,7 +63,7 @@
 
             <div class="item-3 search-results">
               <!-- TODO: Scroll to activated list item -->
-              <ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}">
+              <ul data-bind="template: {name: 'result', foreach: searchResults}">
                   <!-- TODO: not working properly-->
                   <!--<li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>-->
               </ul>
@@ -71,7 +71,7 @@
           </div>
 
           <div class="col-2">
-          	<div class="show-searchlist arrow-right" title="show"></div>
+          	<div id="show-list" class="show arrow-right" title="show"></div>
           </div>
 
           <div class="col-3">
@@ -242,14 +242,24 @@
 
       var menu = document.querySelector('#menu');
       var hideList = document.querySelector('#hide-list');
+      var showList = document.querySelector('#show-list');
       var hidePoiDrawer = document.querySelector('#hide-poi');
       var resetButton = document.querySelector('#resetButton');
       var main = document.querySelector('main');
       var listDrawer = document.querySelector('.col-1');
 
+      //console.log(showList.offsetParent === null);
+
       /* Hide the left location search list drawer when the hide icon '<<' is clicked */
       hideList.addEventListener('click', function(e) { // TODO: Needs to get another DOM element to open on click when closed
         listDrawer.classList.add('close');
+        showElement('show-list');
+        e.stopPropagation();
+      });
+
+      showList.addEventListener('click', function(e) {
+      	listDrawer.classList.remove('close');
+      	hideElement('show-list');
         e.stopPropagation();
       });
 
@@ -301,11 +311,12 @@
       	if (subInfoDrawer.classList.contains('open')) {
       		subInfoDrawer.classList.remove('open');
       	}
-      	console.log(rightDrawer.classList);
         if (rightDrawer.classList.contains('open')) {
       	  listDrawer.classList.add('close');
+      	  showElement('show-list');
         } else {
       	  listDrawer.classList.remove('close');
+      	  hideElement('show-list');
         }
         e.stopPropagation();
       });
@@ -318,6 +329,7 @@
 
       /* Reset drawers to default when Reset button in header is clicked */
       resetButton.addEventListener('click', function() {
+      	hideElement('show-list');
       	listDrawer.classList.remove('close');
         rightDrawer.classList.remove('open');
         subInfoDrawer.classList.remove('open');

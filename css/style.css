@@ -163,11 +163,10 @@ body {
   height: 3em;
   display: -webkit-flex;
   display:         flex;
-
- -webkit-align-content: space-around;
-   align-content: space-around;
-  -webkit-align-items: center;
-          align-items: center;
+  -webkit-align-content: space-around;
+          align-content: space-around;
+  - webkit-align-items: center;
+           align-items: center;
   -webkit-justify-content: center;
           justify-content: center;
 }
@@ -636,7 +635,6 @@ a.control_next {
   padding: 0;
   cursor: pointer;
   font-size: 2em;
-
   color: #fff;
 }
 
@@ -651,10 +649,6 @@ a.control_next {
 .arrow-right {
   cursor: pointer;
   font-size: 2em;
-  display: inline-block;
-  line-height: 0px;
-  padding: 11px 3px;
-  float: right;
   color: #fff;
 }
 
@@ -684,9 +678,9 @@ a.control_next {
   opacity: 0.45;
 }
 
-.show-searchlist {
-  position: relative;
-  padding: 0.75em 0;
+.show {
+  position: absolute;
+  left: 0;
   width: 2em;
   height: auto;
   background-color: rgba(0, 1, 20, 0.9);
