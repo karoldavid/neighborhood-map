@@ -25,6 +25,13 @@
 	        tag: "Museum"
 
 	    },
+        {
+            name: "Warszawska Wytwórnia Wódek KONESER",
+            address: "Ząbkowska 27, 03-735 Warszawa - Polska",
+            coord: {lat: 52.254405, lng: 21.044190},
+            website: "http://koneser.eu/",
+            tag: "Museum"
+        },
 	    {
 	    	name: "Hilton Warsaw Hotel and Convention Centre",
 	    	address: "Grzybowska 63, 00-844 Warszawa - Polska",

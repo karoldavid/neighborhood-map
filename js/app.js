@@ -72,8 +72,11 @@ $(document).ready(function(region, focus, locations, styles) {
 
         // Get Google Street View image
         this.img = ko.computed(function() {
-            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.lat + ',' + this.lng;
-            // || 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.name
+            var streetView = 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' +
+                              this.lat +
+                              ',' + this.lng;
+            //'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.name + "," + this.address;
+            return streetView;
         }, this);
 
         // Wikipedia API
@@ -93,9 +96,9 @@ $(document).ready(function(region, focus, locations, styles) {
     var GetWikiLinks = function() {
         var self = this;
 
-        this.links = ko.observableArray();
+        self.links = ko.observableArray();
 
-        this.getLinks = ko.computed(function() {
+        self.getLinks = ko.computed(function() {
 
             var wikiRequestLinksTimeout = setTimeout(function() {
                     var $wikiElem = $('#wikipedia');
@@ -126,7 +129,6 @@ $(document).ready(function(region, focus, locations, styles) {
             });
         });
     };
-
 
     var GetWeather = function() {
         var self = this;
@@ -211,7 +213,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
         /**
          *
-         * APIs start
+         * API Requests start
          *
          */
 
