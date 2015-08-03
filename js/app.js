@@ -734,15 +734,15 @@ $(document).ready(function(region, focus, locations, styles) {
 
             google.maps.toggleStreetView = function(location) {
                 var loc = new google.maps.LatLng(location.lat, location.lng);
-                panorama.setPosition(loc);
+                panorama.setPosition(new google.maps.LatLng(location.lat, location.lng));
 
                 // Calculate differnce between position of currentLocation and position of current
                 // street view image
                 var pano = panorama.location.latLng,
-                    heading = google.maps.geometry.spherical.computeHeading(loc, pano);
+                    heading = google.maps.geometry.spherical.computeHeading(pano, loc);
 
                 panorama.setPov(/** @type {google.maps.StreetViewPov} */({
-                  heading: heading,
+                  //heading: heading,
                   zoom: 1,
                   pitch: 0
                 }));
@@ -757,13 +757,13 @@ $(document).ready(function(region, focus, locations, styles) {
 
             google.maps.openStreetView = function(location) {
                 var loc = new google.maps.LatLng(location.lat, location.lng);
-                panorama.setPosition(loc);
+                panorama.setPosition(new google.maps.LatLng(location.lat, location.lng));
 
                 var pano = panorama.location.latLng,
-                    heading = google.maps.geometry.spherical.computeHeading(loc, pano);
+                    heading = google.maps.geometry.spherical.computeHeading(pano, loc);
 
                 panorama.setPov(/** @type {google.maps.StreetViewPov} */({
-                  heading: heading,
+                  //heading: heading,
                   zoom: 1,
                   pitch: 0
                 }));
