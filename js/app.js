@@ -83,7 +83,7 @@ $(document).ready(function(region, focus, locations, styles) {
         this.description = "";
 
         // fourSquare API
-        this.fs_cat = "";
+        this.fs_cat = ko.observable("");
         this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
         //if (this.focus() === "POI") {
         this.fs_photos = ko.observableArray([]);
@@ -101,9 +101,9 @@ $(document).ready(function(region, focus, locations, styles) {
         self.getLinks = ko.computed(function() {
 
             var wikiRequestLinksTimeout = setTimeout(function() {
-                    var $wikiElem = $('#wikipedia');
-                    $wikiElem.text('failed to get Wikipedia resources');
-                    console.log('failed to get Wikipedia resources');
+                    var $wikiElem = $('#wikipedia-links');
+                    $wikiElem.text('Wikipedia Could Not Be Reached.');
+                    console.log('Wikipedia Could Not Be Reached.');
                 }, 5000);
 
             var wikiQuery = region.center.name,
@@ -141,7 +141,138 @@ $(document).ready(function(region, focus, locations, styles) {
 
         $.getJSON(weather, function(response) {
             self.weatherStr(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
-        });
+        })
+
+        .done(function() { console.log('GetWeather request succeeded!'); })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            self.weatherStr('Open Weather Map Could Not Be Reached.')
+            console.log('GetWeather request failed! ' + textStatus);
+        })
+        .always(function() { console.log('GetWeather request ended!'); });
+
+    };
+
+    var GetFourSquareId = function(latlng, query, CLIENT_ID, CLIENT_SECRET, version) {
+
+        var self = this;
+
+        self.cat = ko.observable();
+        self.id = ko.observable();
+
+            $.ajax({
+                url: 'https://api.foursquare.com/v2/venues/search',
+                dataType: 'json',
+                data: 'limit=1' +
+                      '&ll=' + latlng +
+                      '&query=' + query +
+                      '&client_id=' + CLIENT_ID +
+                      '&client_secret=' + CLIENT_SECRET +
+                      '&v=' + version +
+                      '&m=foursquare',
+                async: true,
+
+                success: function(data) {
+                    var response = data.response ? data.response : "";
+                    var venue = data.response.hasOwnProperty("venues") ? data.response.venues[0] : "";
+                    var category = venue && venue.hasOwnProperty("categories") ? venue.categories[0].name : "";
+                    var id = venue ? venue.id : "";
+                    self.cat(category);
+                    self.id(id);
+
+                    console.log('get ID');
+                }
+            });
+    };
+
+    var GetFourSquarePhotos = function(VENUE_ID, CLIENT_ID, CLIENT_SECRET, version) {
+
+        var self = this;
+
+        self.allPhotos = ko.observableArray();
+
+                    $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/'+ VENUE_ID +'/photos',
+                        dataType: 'json',
+                        data: '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "";
+                            var photos = response.hasOwnProperty("photos") ? data.response.photos.items : "";
+
+                            photos.forEach(function(photo) {
+                                var img = photo.prefix + 'width' + photo.width + photo.suffix;
+                                self.allPhotos.push(img);
+                                console.log('push photos');
+                            });
+                        }
+                    });
+    };
+
+    var GetFourSquareNearBy = function(latlng, query, CLIENT_ID, CLIENT_SECRET, version) {
+
+        var self = this;
+
+        self.allNearBy = ko.observableArray([]);
+
+                       $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/explore',
+                        dataType: 'json',
+                        data: '&limit=10' +
+                              '&ll=' + latlng +
+                              '&radius=250'+
+                              '&query=' + query +
+                              '&sortByDistance=1' +
+                              '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "",
+                                groups = response.groups ? response.groups : "",
+                                items = groups[0].items ? groups[0].items : "";
+
+                            items.forEach(function(item) {
+                                self.allNearBy.push(item.venue.name);
+                                console.log('push nearby');
+                            });
+                        }
+                    });
+
+    };
+
+    var GetFourSquareVenueTips = function(VENUE_ID, CLIENT_ID, CLIENT_SECRET, version) {
+
+        var self = this;
+
+        self.allTips = ko.observableArray([]);
+
+                    $.ajax({
+                        url: 'https://api.foursquare.com/v2/venues/'+ VENUE_ID +'/tips',
+                        dataType: 'json',
+                        data: '&client_id=' + CLIENT_ID +
+                              '&client_secret=' + CLIENT_SECRET +
+                              '&v=' + version +
+                              '&m=foursquare',
+                        async: true,
+
+                        success: function(data) {
+                            var response = data.response ? data.response : "";
+                            var tips = response.hasOwnProperty("tips") ? data.response.tips.items : "";
+                            tips.forEach(function(tip, i) {
+                                if (self.allTips()[i] != tip.text) {
+                                    self.allTips.push(tip.text);
+                                    console.log('push tips');
+                                }
+                            });
+                        }
+                    });
+
     };
 
     // @CREDITS: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
@@ -244,35 +375,16 @@ $(document).ready(function(region, focus, locations, styles) {
         // @TODO: Check error message
         // @TODO: Retrieve POI data
         // Get from fourSquare API proper location categories
+
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
             version = 20150705;
 
-        self.myMap().forEach(function(location,i) {
-
-            var latlng = [location.lat, location.lng],
-                query = location.name;
-
-            $.ajax({
-                url: 'https://api.foursquare.com/v2/venues/search',
-                dataType: 'json',
-                data: 'limit=1' +
-                      '&ll=' + latlng +
-                      '&query=' + query +
-                      '&client_id=' + CLIENT_ID +
-                      '&client_secret=' + CLIENT_SECRET +
-                      '&v=' + version +
-                      '&m=foursquare',
-                async: true,
-
-                success: function(data) {
-                    var response = data.response ? data.response : "";
-                    var venue = data.response.hasOwnProperty("venues") ? data.response.venues[0] : "";
-                    var category = venue && venue.hasOwnProperty("categories") ? venue.categories[0].name : "";
-                    var id = venue ? venue.id : "";
-                    self.myMap()[i].fs_cat = category;
-                    self.myMap()[i].fs_id(id);
-                }
+        self.getIDs = ko.computed(function() {
+            self.myMap().forEach(function(location) {
+                var result = new GetFourSquareId([location.lat, location.lng], location.name, CLIENT_ID, CLIENT_SECRET, version);
+                location.fs_cat = result.cat;
+                location.fs_id = result.id;
             });
         });
 
@@ -281,130 +393,47 @@ $(document).ready(function(region, focus, locations, styles) {
         // @TODO: Retrieve POI data
         // Get from fourSquare API venue photos
         self.fsPhotos = ko.computed(function() {
-            self.myMap().forEach(function(location, i) {
+            self.myMap().forEach(function(location) {
                 if (location.focus() === "POI" && location.fs_id()) {
-                    var VENUE_ID = location.fs_id();
-
-                    $.ajax({
-                        url: 'https://api.foursquare.com/v2/venues/'+ VENUE_ID +'/photos',
-                        dataType: 'json',
-                        data: '&client_id=' + CLIENT_ID +
-                              '&client_secret=' + CLIENT_SECRET +
-                              '&v=' + version +
-                              '&m=foursquare',
-                        async: true,
-
-                        success: function(data) {
-                            var response = data.response ? data.response : "";
-                            var photos = response.hasOwnProperty("photos") ? data.response.photos.items : "";
-
-                            photos.forEach(function(photo,i) {
-                                var img = photo.prefix + 'width' + photo.width + photo.suffix;
-                                if (location.fs_photos[i] != img);
-                                location.fs_photos.push(img);
-                            });
-                        }
-                    });
+                    location.fs_photos = new GetFourSquarePhotos(location.fs_id(), CLIENT_ID, CLIENT_SECRET, version).allPhotos;
+                    //location.fs_photos = result.allPhotos;
                 }
             });
-        });
+         });
 
         // @TODO: Cach nearBy details (for up to 30 days)
         // @TODO: Check error message
         // Get from fourSquare API POI nearyBy data
         self.fsNearByRestaurants = ko.computed(function() {
-            self.myMap().forEach(function(location,i) {
-                if (location.focus() === "POI") {
-                    var latlng = [location.lat, location.lng],
-                        query = "food";
+            self.myMap().forEach(function(location) {
+                if (location.focus() === "POI" && location.fs_id()) {
+                    location.fs_restaurants = new GetFourSquareNearBy([location.lat, location.lng], "food", CLIENT_ID, CLIENT_SECRET, version).allNearBy;
 
-                    $.ajax({
-                        url: 'https://api.foursquare.com/v2/venues/explore',
-                        dataType: 'json',
-                        data: '&limit=10' +
-                              '&ll=' + latlng +
-                              '&radius=250'+
-                              '&query=' + query +
-                              '&sortByDistance=1' +
-                              '&client_id=' + CLIENT_ID +
-                              '&client_secret=' + CLIENT_SECRET +
-                              '&v=' + version +
-                              '&m=foursquare',
-                        async: true,
+                    //location.fs_restaurants = result.allNearBy;
 
-                        success: function(data) {
-                            var response = data.response ? data.response : "",
-                                groups = response.groups ? response.groups : "",
-                                items = groups[0].items ? groups[0].items : "";
-
-                            items.forEach(function(item) {
-                                location.fs_restaurants.push(item.venue.name);
-                            });
-                        }
-                    });
                 }
             });
         });
 
         self.fsNearByHotels = ko.computed(function() {
-            self.myMap().forEach(function(location,i) {
-                if (location.focus() === "POI") {
-                    var latlng = [location.lat, location.lng],
-                        query = "hotel";
+            self.myMap().forEach(function(location) {
+                if (location.focus() === "POI" && location.fs_id()) {
+                    location.fs_hotels = new GetFourSquareNearBy([location.lat, location.lng], "hotel", CLIENT_ID, CLIENT_SECRET, version).allNearBy;
 
-                    $.ajax({
-                        url: 'https://api.foursquare.com/v2/venues/explore',
-                        dataType: 'json',
-                        data: '&limit=10' +
-                              '&ll=' + latlng +
-                              '&radius=500'+
-                              '&query=' + query +
-                              '&sortByDistance=1' +
-                              '&client_id=' + CLIENT_ID +
-                              '&client_secret=' + CLIENT_SECRET +
-                              '&v=' + version +
-                              '&m=foursquare',
-                        async: true,
+                 //   location.fs_hotels = result.allNearBy;
 
-                        success: function(data) {
-                            var response = data.response ? data.response : "",
-                                groups = response.groups ? response.groups : "",
-                                items = groups[0].items ? groups[0].items : "";
-
-                            items.forEach(function(item) {
-                                location.fs_hotels.push(item.venue.name);
-                            });
-                        }
-                    });
                 }
             });
         });
 
         //https://api.foursquare.com/v2/venues/VENUE_ID/tips
         self.fsTips = ko.computed(function() {
-            self.myMap().forEach(function(location, i) {
+            self.myMap().forEach(function(location) {
                 if (location.focus() === "POI" && location.fs_id()) {
-                    var VENUE_ID = location.fs_id();
+                    location.fs_tips = new GetFourSquareVenueTips(location.fs_id(), CLIENT_ID, CLIENT_SECRET, version).allTips;
 
-                    $.ajax({
-                        url: 'https://api.foursquare.com/v2/venues/'+ VENUE_ID +'/tips',
-                        dataType: 'json',
-                        data: '&client_id=' + CLIENT_ID +
-                              '&client_secret=' + CLIENT_SECRET +
-                              '&v=' + version +
-                              '&m=foursquare',
-                        async: true,
+                 //   location.fs_tips = result.allTips;
 
-                        success: function(data) {
-                            var response = data.response ? data.response : "";
-                            var tips = response.hasOwnProperty("tips") ? data.response.tips.items : "";
-                            tips.forEach(function(tip, i) {
-                                if (location.fs_tips()[i] != tip.text) {
-                                    location.fs_tips.push(tip.text);
-                                }
-                            });
-                        }
-                    });
                 }
             });
         });
@@ -526,7 +555,7 @@ $(document).ready(function(region, focus, locations, styles) {
     // Return info string for Google Maps location info window
     getInfoString = function(location) {
 
-        var locationCategory = location.fs_cat || location.tag;
+        var locationCategory = location.fs_cat() || location.tag;
 
         var infoString = '<div class="info-window">' +
                          '<div class="info-window-body">' +
@@ -688,7 +717,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
             });
 
-            var wawaCenter = new google.maps.LatLng(region.center.coord.lat, region.center.coord.lng);
+            var regionCenter = new google.maps.LatLng(region.center.coord.lat, region.center.coord.lng);
             /*
             var panoramaOptions = {
                 position: wawaCenter,
@@ -706,7 +735,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
 
             var panoOptions = {
-                position: wawaCenter,
+                position: regionCenter,
                 addressControlOptions: {
                     position: google.maps.ControlPosition.BOTTOM_CENTER
                 },
@@ -724,13 +753,14 @@ $(document).ready(function(region, focus, locations, styles) {
             panorama.setVisible(false);
 
 
-            //panorama = map.getStreetView();
+                        //panorama = map.getStreetView();
             //panorama.setPosition(wawaCenter); // Default Value
             panorama.setPov(/** @type {google.maps.StreetViewPov} */({
                 heading: 265,
                 zoom: 1,
                 pitch: 0
             }));
+
 
             google.maps.toggleStreetView = function(location) {
                 var loc = new google.maps.LatLng(location.lat, location.lng);
@@ -742,7 +772,7 @@ $(document).ready(function(region, focus, locations, styles) {
                     heading = google.maps.geometry.spherical.computeHeading(pano, loc);
 
                 panorama.setPov(/** @type {google.maps.StreetViewPov} */({
-                  //heading: heading,
+                  heading: heading,
                   zoom: 1,
                   pitch: 0
                 }));
@@ -763,7 +793,7 @@ $(document).ready(function(region, focus, locations, styles) {
                     heading = google.maps.geometry.spherical.computeHeading(pano, loc);
 
                 panorama.setPov(/** @type {google.maps.StreetViewPov} */({
-                  //heading: heading,
+                  heading: heading,
                   zoom: 1,
                   pitch: 0
                 }));
@@ -845,8 +875,8 @@ $(document).ready(function(region, focus, locations, styles) {
             }
         }
         catch (e) {
-            var $error_elem = $('#map-canvas');
-            $error_elem.text('Sorry, An Error Occured. Google Maps Could Not Be Reached.');
+            var $error_elem = $('#error');
+            $error_elem.text('Google Maps Could Not Be Reached.');
         }
     }, 1000);
 

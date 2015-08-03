@@ -27,7 +27,7 @@
         </div>
 
         <div class="item-3 weather">
-          <p data-bind="text: weather" title="http://openweathermap.org/"></p>
+          <p id="current-weather" data-bind="text: weather" title="http://openweathermap.org/"></p>
         </div>
 
         <div class="item-4">
@@ -72,6 +72,7 @@
 
           <div class="col-2">
           	<div id="show-list" class="show arrow-right" title="show"></div>
+          	<div id="error"></div>
           </div>
 
           <div class="col-3">
