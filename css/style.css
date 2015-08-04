@@ -33,8 +33,6 @@ body {
 }
 
 .row {
-	margin: 0;
-	padding: 0;
 	display: -webkit-flex;
 	display:         flex;
 	-webkit-flex-flow: row;
@@ -42,8 +40,6 @@ body {
 }
 
 .col-1 {
-  margin: 0;
-  padding: 0;
   position: absolute;
   width: 650px;
   height: 100%;
@@ -61,6 +57,7 @@ body {
 
 .col-2 {
   width: 100%;
+  position: static;
 }
 
 .col-3 {
@@ -482,7 +479,7 @@ main {
 }
 
 .search-results ul li:last-child {
-  margin: 0;
+	margin: 0;
 	border: none;
 }
 
@@ -851,43 +848,46 @@ a:hover {
      -webkit-transform: translate(0,0);
      transform: translate(0,0);
   }
-  .col-2 {
-    position: static;
-  }
 
 }
 
+@media only screen and (max-width: 450px) {
+    header p {
+        display: none;
+    }
+}
+
 @media only screen and (max-width: 600px) {
-  header h1 {
-    font-size: 1.2em;
-    line-height: 1.4em;
-  }
-  header p {
-    font-size: 0.8em;
-  }
-  .reset,
-  .reverse {
-    display: none;
-  }
+	header h1 {
+		font-size: 1.2em;
+        line-height: 1.4em;
+    }
 
-  .col-1 {
+    header p {
+        font-size: 0.8em;
+    }
 
-  }
+    .reverse {
+        display: none;
+    }
 
-  .col-2 {
-    position: static;
-  }
+    .search-results ul li img {
+      display: none;
+    }
 
-  .search-results ul li img {
-    display: none;
-  }
+    .col-1 {
+        width:250px;
+    }
 
-  .col-3,
-  .col-4,
-  .col-5 {
-    display: none;
-  }
+    .col-3,
+    .col-4,
+    .col-5 {
+        display: none;
+    }
 
+    .search-results ul li {
+  	    float: none;
+    }
 }
 
 @media only screen and (max-width: 800px) {
