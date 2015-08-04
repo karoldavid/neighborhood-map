@@ -745,7 +745,7 @@ button.selected {
 
 /**
  *
- * GOOGLE MAPS INFO WINDOW
+ * GOOGLE MAPS info window
  *
  */
 
@@ -765,35 +765,22 @@ button.selected {
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.info-window .info-window-body {
-  margin: 0;
-  padding: 0;
-}
-
-.info-window .info-window-body h3,
-.info-window .info-window-body p {
+.info-window h3,
+.info-window p {
 	margin: 0;
 	padding: 0;
 }
 
-.info-window .info-window-body h3 {
+.info-window h3 {
   margin: 0 0 0.5em 0;
-  padding: 0;
   border-radius: 2px 2px 0 0;
-  /*background-color: #3369e8;*/
   font-size: 1.2em;
   font-weight: bold;
-  color: #000; /*#fff;*/
-}
-
-.info-window .info-window-body p {
 }
 
 .gm-style-iw {
   max-width: 200px;
   min-height: 100px;
- /* top: 0 !important;
-  left: 0 !important; */
   overflow-y: auto !important;
   overflow-x: hidden !important;
 }
@@ -807,21 +794,10 @@ button.selected {
  *
  */
 
-.message ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  height: auto;
-}
-
-.message li {
-  background: none;
-  -webkit-transition: all 0.5s ease-out;
-}
-
 .error {
   font-size: 3em;
   font-weight: bold;
+  color: red;
 }
 
 /**
@@ -837,10 +813,6 @@ a {
 
 a:hover {
     color: #000;
-}
-
-.hidden {
-  display: none;
 }
 
 /* CREDIT: */
