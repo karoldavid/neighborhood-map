@@ -7,7 +7,7 @@
 			    "address": "Warszawa - Polska",
 			    "coord": {lat: 52.231778, lng: 21.006162}
 			},
-			zoom: {initial: 14, min: 12, max: 20},
+			zoom: {initial: 14, min: 8, max: 20},
 			bounds: [52.152227, 20.955794, 52.283899, 21.157324]
 		},
         focus: {

@@ -247,8 +247,9 @@ header p {
  */
 
 main {
-  margin: 3em 0 0;
-  display: block;
+	max-width: 100%;
+	margin: 3em 0 0;
+    display: block;
 }
 
 /**
@@ -879,10 +880,12 @@ a:hover {
         width:250px;
     }
 
-    .col-3,
-    .col-4,
-    .col-5 {
-        display: none;
+    .col-3 {
+       display: none;
+    }
+
+    .category {
+    	display: none;
     }
 
     .search-results ul li {
