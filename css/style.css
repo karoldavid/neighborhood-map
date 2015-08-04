@@ -69,6 +69,7 @@ body {
 /*  background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
   color: #fff; */
+  /* TODO: */
   z-index: 1;
   left: 100%;
 }
@@ -190,7 +191,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  height: 50px;
+  height: 3em;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -261,8 +262,8 @@ main {
 }
 
 .main-menu ul {
-  margin: 0 0.5em 2em 0.5em;
-  padding: 0 0.5em 2em 0.5em;
+  margin: 1em 0.5em;
+  padding: 2em 0.5em;
   list-style-type: none;
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
