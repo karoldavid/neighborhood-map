@@ -23,7 +23,6 @@
 	        coord: {lat: 52.231919, lng: 21.024654},
 	        website: "http://www.mnw.art.pl/en/",
 	        tag: "Museum"
-
 	    },
         {
             name: "Warszawska Wytwórnia Wódek KONESER",

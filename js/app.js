@@ -1,11 +1,10 @@
 
-//@ TODO: Load data as json
+// TODO: Load data as json
 $(document).ready(function(region, focus, locations, styles) {
 
-    // @TODO: Add POI data (Performing Arts locations)
-    var initialLocations = locations, // locations data
+    var initialLocations = locations, // Location data
         map, // Set map object scope
-        selectedInfoWindow;
+        selectedInfoWindow; // Set Google Maps info window object scope
 
     // Set Google Maps 'mapOptions' to region definded in app data object
     var Region = function(data) {
@@ -60,7 +59,7 @@ $(document).ready(function(region, focus, locations, styles) {
                     return group;
                 }
             }
-            return ""; // fallback
+            return "";
 
         }, this);
 
@@ -302,7 +301,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
         self.chosenFocusId = ko.observable("");
 
-        // @TODO: Make map region changeable on click
+        // TODO: Make map region changeable on click
         self.region = region.center.name.toUpperCase(); // Map region string for header app info
         self.distance = Math.round(getDistanceFromLatLonInKm(region.center.coord.lat, region.center.coord.lng, 37.362517, -122.03476)) +
                         ' km to Silicon Valley';
@@ -312,7 +311,7 @@ $(document).ready(function(region, focus, locations, styles) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1);
         });
 
-        // Initialize Google Maps Markers
+        // Initialize Google Maps map markers
         self.myMap = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
             return new Location(locationItem, "");
         }));
@@ -321,6 +320,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
         self.currentImage = ko.observable(0);
 
+        // FourSquare Image Gallery Slider
         self.chosenDirectionId = function(data, event) {
           if (self.currentLocation().focus() === "POI") {
             var i = self.currentImage(),
@@ -334,6 +334,7 @@ $(document).ready(function(region, focus, locations, styles) {
           }
         };
 
+        // Switch Google Street View on an off
         self.toggleStreetView = function(location, event) {
           if (self.currentLocation() === location) {
             google.maps.toggleStreetView(location);
@@ -344,38 +345,24 @@ $(document).ready(function(region, focus, locations, styles) {
 
         /**
          *
-         * API Requests start
+         * APIs start
          *
          */
 
-        /*var data = functionThatGetsAPIData();
-        this.thing = ko.mapping.fromJS(data);*/
-
-        /*var apiCall = $.get('http://example.com/api');
-
-        apiCall.done(function(data) {
-          // success
-        });
-
-        apiCall.fail(function(xhr, err) {
-          // failure
-        }); */
-
-        // @TODO: Check error message
-        // Get from Open Weather Map API current weather description and temperature
+        // Open Weather Map
+        // Get current weather description and temperature from Open Weather Map API
         self.weather = new GetWeather().weatherStr; // Current weather string for header app info
 
-        // @TODO: Check error message
-        // @TODO: Fetch data on click only
-        // Get from Wikipedia API url and title for region info link list
-
+        // Wikipedia
+        // Get url and title for info link list about map region from Wikipedia API
+        // TODO: Fetch data on click only?
         self.wikipediaLinks = new GetWikiLinks().links;
 
-        // @TODO: Cach venue details (for up to 30 days)
-        // @TODO: Check error message
-        // @TODO: Retrieve POI data
-        // Get from fourSquare API proper location categories
 
+        // FourSquare
+        // Get proper location categories from FourSquare API
+        // TODO: Cach venue details (for up to 30 days)
+        // TODO: Check error message
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
             version = 20150705;
@@ -388,10 +375,7 @@ $(document).ready(function(region, focus, locations, styles) {
             });
         });
 
-        // @TODO: Cach venue details (for up to 30 days)
-        // @TODO: Check error message
-        // @TODO: Retrieve POI data
-        // Get from fourSquare API venue photos
+        // Get POI photos from FourSquare API
         self.fsPhotos = ko.computed(function() {
             self.myMap().forEach(function(location) {
                 if (location.focus() === "POI" && location.fs_id()) {
@@ -401,9 +385,7 @@ $(document).ready(function(region, focus, locations, styles) {
             });
          });
 
-        // @TODO: Cach nearBy details (for up to 30 days)
-        // @TODO: Check error message
-        // Get from fourSquare API POI nearyBy data
+        // Get POI nearyBy data from FourSquare API
         self.fsNearByRestaurants = ko.computed(function() {
             self.myMap().forEach(function(location) {
                 if (location.focus() === "POI" && location.fs_id()) {
@@ -426,7 +408,7 @@ $(document).ready(function(region, focus, locations, styles) {
             });
         });
 
-        //https://api.foursquare.com/v2/venues/VENUE_ID/tips
+        // Get tips for POI from FourSquare API
         self.fsTips = ko.computed(function() {
             self.myMap().forEach(function(location) {
                 if (location.focus() === "POI" && location.fs_id()) {
@@ -468,6 +450,7 @@ $(document).ready(function(region, focus, locations, styles) {
         };
 
         // Build search tag array for the tag cloud in the View
+        // TODO: delete?
         self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
             return tag;
         });
@@ -494,7 +477,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 location.marker.setMap(!self.chosenFocusId() || self.chosenFocusId() === location.focus() ? map : null);
             });
 
-            // @TODO: How to handle everything map related in the 'Google Maps bindingHandler'?
+            // TODO: How to handle everything map related in the 'Google Maps bindingHandler'?
             // Fit map to new bounds based on all location positions filtered by tag
             var currentBounds = new google.maps.LatLngBounds();
             self.searchResults().forEach(function(location) {
@@ -558,14 +541,12 @@ $(document).ready(function(region, focus, locations, styles) {
         var locationCategory = location.fs_cat() || location.tag;
 
         var infoString = '<div class="info-window">' +
-                         '<div class="info-window-body">' +
                          '<h3>' + location.name + '</h3>'+
                          '<p class="address">Address:</p>'+
                          '<p class="address">' + location.address + '</p>'+ '<hr>' +
                          '<p>' + locationCategory + '</p>'+
                          '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' +
-                         '</div>' +
                          '</div>';
 
         return infoString;
@@ -612,7 +593,7 @@ $(document).ready(function(region, focus, locations, styles) {
             map.mapTypes.set('map_style', styledMap);
             map.setMapTypeId('map_style');
 
-            // @TODO: Filter locations that are not within app region bounds
+            // TODO: Filter locations that are not within app region bounds
             /*locations().forEach(function(location, index) {
                 if (!checkBounds(strictBounds, location)) {
                     locations().splice(index, 1);
@@ -661,8 +642,8 @@ $(document).ready(function(region, focus, locations, styles) {
                     }
                 }
 
-                // @TODO: Close info window when active marker is clicked
-                // @TODO: Highlight search list item when marker is active
+                // TODO: Close info window when active marker is clicked
+                // TODO: Highlight search list item when marker is active
                 // Open Google Maps info window on click
                 google.maps.event.addListener(location.marker, 'click', function() {
 
@@ -683,7 +664,7 @@ $(document).ready(function(region, focus, locations, styles) {
 
                         viewModel.chosenLocationId(location);
 
-                        // @TODO: Scroll to active location list item
+                        // TODO: Scroll to active location list item
                         // var selected = $('ul #locList > li.selected');
                         // console.log(selected);
 
@@ -824,7 +805,7 @@ $(document).ready(function(region, focus, locations, styles) {
                 }
             });
 
-            // @TODO: Check functionality
+            // TODO: Check functionality
             var listener = google.maps.event.addListener(map, "idle", function () {
                 map.setZoom(region.zoom.initial);
                 google.maps.event.removeListener(listener);
@@ -867,7 +848,7 @@ $(document).ready(function(region, focus, locations, styles) {
         }
     };
 
-    // @TODO: Check error message
+    // TODO: Check error message
     // Show error message if google is not defined
     setTimeout(function () {
         try{
@@ -885,35 +866,35 @@ $(document).ready(function(region, focus, locations, styles) {
     ko.applyBindings(viewModel);
 }(neighborhood.region, neighborhood.focus, neighborhood.locations, styles));
 
-//@TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
-//@TODO: Searchbox Text updates item list and map markers instantly when user types
-//@TODO: Markers are clickable, and change styling to indicate their selected state
-//@TODO: Markers bounce on click
-//@TODO: SHOW GOOGLE MAPS ERROR MESSAGE WHEN RESPONSE FAILS
-//@TODO: When list item is clicked, highlight marker/ open marker info window
-//@TODO: Add print option for selected locations
-//@TODO: Add Google Street View Image to link list
-//@TODO: Open InfoWindow on location list item or marker hover
-//@TODO: Add address to info window
-//@TODO: Add fs image gallery to poi info window
-//@TODO: Add Yelp Review to POI, additionally nearby fs food and hotel search
-//@TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
+// TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
+// TODO: Searchbox Text updates item list and map markers instantly when user types
+// TODO: Markers are clickable, and change styling to indicate their selected state
+// TODO: Markers bounce on click
+// TODO: SHOW GOOGLE MAPS ERROR MESSAGE WHEN RESPONSE FAILS
+// TODO: When list item is clicked, highlight marker/ open marker info window
+// TODO: Add print option for selected locations
+// TODO: Add Google Street View Image to link list
+// TODO: Open InfoWindow on location list item or marker hover
+// TODO: Add address to info window
+// TODO: Add fs image gallery to poi info window
+// TODO: Add Yelp Review to POI, additionally nearby fs food and hotel search
+// TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
 //       (ex. Yelp reviews, Wikipedia, Flickr images, Kayak, etc).
-//@TODO: Integrate https://www.firebase.com/ to Exceed Specifications
+// TODO: Integrate https://www.firebase.com/ to Exceed Specifications
 
-//@TODO: Additional 3rd party API
-//@TODO: Better API REQUESTS integration
-//@TODO: ERROR HANDLING and Error Messages
-//@TODO: Optimize Performance
-//@TODO: BUILD PROCESS WITH GULP
+// TODO: Additional 3rd party API
+// TODO: Better API REQUESTS integration
+// TODO: ERROR HANDLING and Error Messages
+// TODO: Optimize Performance
+// TODO: BUILD PROCESS WITH GULP
 
-//@UI:
-//@TODO: block mouse wheel zoom
-//@TODO: an 'X' on the search list as an additional way to close
-//@TODO: load a placeholder image when the image cannot be retrieved from foursquare
+// UI:
+// TODO: block mouse wheel zoom
+// TODO: an 'X' on the search list as an additional way to close
+// TODO: load a placeholder image when the image cannot be retrieved from foursquare
 
 
-//@NOTES: KNOCKOUTJS: MODEL VIEW VIEW MODEL Pattern
-//@NOTES: RESPONSIVE Design
-//@NOTES: USER EXPERIENCE | UI
-//@NOTES: PRODUCTION CODE with grunt/gulp
+// NOTES: KNOCKOUTJS: MODEL VIEW VIEW MODEL Pattern
+// NOTES: RESPONSIVE Design
+// NOTES: USER EXPERIENCE | UI
+// NOTES: PRODUCTION CODE with grunt/gulp
