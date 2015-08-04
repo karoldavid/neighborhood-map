@@ -18,20 +18,20 @@
           <p>skyZoom</p>
         </div>
 
-        <div class="item-2" id="searchbar">
+        <div class="item-2">
           <form action="#">
             <input class="rounded-corners" placeholder="Search skyZoom…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
-            <button id="resetButton" class="functionButton reset" title="reset" data-bind="click: resetSearch">X</button>
-            <button class="functionButton reverse" title="reverse" data-bind="click: reverseList"><></button>
+            <button id="resetButton" class="function-button" title="reset" data-bind="click: resetSearch">X</button>
+            <button class="function-button" title="reverse" data-bind="click: reverseList"><></button>
           </form>
         </div>
 
-        <div class="item-3 weather">
-          <p id="current-weather" data-bind="text: weather" title="http://openweathermap.org/"></p>
+        <div class="item-3">
+          <p data-bind="text: weather" title="http://openweathermap.org/"></p>
         </div>
 
         <div class="item-4">
-          <a id="menu" class="header-menu" title="menu">
+          <a id="menu" class="hamburger" title="menu">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
             </svg>
@@ -49,7 +49,7 @@
           <div class="col-1 search-list">
             <div class="item-1 vertical-container">
 
-              <!-- Show selected Focus Button -->
+              <!-- Show selected Focus Button as text -->
                 <div class="item-1 flex1">
                   <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p>
                 </div> <!-- TODO: Get POI dynamically -->
@@ -63,14 +63,13 @@
 
             <div class="item-3 search-results">
               <!-- TODO: Scroll to activated list item -->
-              <ul data-bind="template: {name: 'result', foreach: searchResults}">
-                  <!-- TODO: not working properly-->
-                  <!--<li class="message" data-bind="fadeVisible: searchResults().length === 0">Nothing Found</li>-->
-              </ul>
+              <!-- TODO: Message "nothing found" -->
+              <ul data-bind="template: {name: 'result', foreach: searchResults}"></ul>
             </div>
           </div>
 
           <div class="col-2">
+            <!-- Show 'arrow right' when 'location search list' is hidden -->
           	<div id="show-list" class="show arrow-right" title="show"></div>
           	<div id="error"></div>
           </div>
@@ -111,7 +110,7 @@
             </div>
           </div>
 
-          <div class="col-4 main-menu">
+          <div class="col-4 menu">
 
             <ul data-bind="template: {name: 'focusGroupMainMenu', foreach: focusButtons()}"></ul>
 
@@ -171,23 +170,22 @@
       </main>
     </div>
 
-    <!-- Search Suggestion Group Buttons for Loactions Search List -->
+    <!-- Search Suggestion Group Buttons for Loaction Search List -->
     <script type="text/html" id="focusGroup">
-      <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
+      <li><button class="suggest-button" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li>
     </script>
 
-    <!-- Search Suggestion Group Buttons for Main Menu Explanation -->
+    <!-- Search Suggestion Group Buttons in right menu-->
     <script type="text/html" id="focusGroupMainMenu">
-      <li><button class="suggestButton" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button><span data-bind="text: $data"></span></li>
+      <li><button class="suggest-button" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button><span data-bind="text: $data"></span></li>
     </script>
 
-    <!-- Search Results list -->
-    <!-- TODO: 1 item only, click on expands search list length -->
+    <!-- Location Search Results list -->
     <script type="text/html" id="result">
       <li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, event: {mouseover: $root.mouseOverListItem, mouseout: $root.mouseOutListItem}, attr: {title: name, class: focus()}"><img data-bind="click: $root.toggleStreetView, attr:{src:img(), alt: 'Google Street View Image of ' + name, title: 'Google Street View of ' + name}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li>
     </script>
 
-    <!-- Wikipedia map region info link list -->
+    <!-- Wikipedia Map Region Info Link List -->
     <script type="text/html" id="wikipediaList">
       <li>
         <a data-bind="attr:{href: url, title: url}, text: title" target="_blank"></a>
@@ -256,8 +254,6 @@
       var resetButton = document.querySelector('#resetButton');
       var main = document.querySelector('main');
       var listDrawer = document.querySelector('.col-1');
-
-      //console.log(showList.offsetParent === null);
 
       /* Hide the left location search list drawer when the hide icon '<<' is clicked */
       hideList.addEventListener('click', function(e) { // TODO: Needs to get another DOM element to open on click when closed

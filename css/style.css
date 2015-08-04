@@ -15,6 +15,7 @@ body {
 body {
 	font: 1em "Architects Daughter", cursive;
   overflow-x: hidden;
+  color: #fff;
 }
 
 /**
@@ -206,7 +207,6 @@ header {
   /*background: #3369e8;
   opacity: 0.75;*/
   background-color: rgba(0,0,255,0.5);
-  color: #fff;
 }
 
 header h1,
@@ -225,16 +225,16 @@ header p {
   font-size: 1.2em;
 }
 
-.header-menu {
+.hamburger {
   display: inline-block;
 }
 
-.header-menu svg {
+.hamburger svg {
   width: 32px;
   fill: #e0e0e0;
 }
 
-.header-menu svg:hover {
+.hamburger svg:hover {
   cursor: pointer;
   opacity: 0.45;
 }
@@ -256,36 +256,36 @@ main {
  *
  */
 
-.main-menu {
+.menu {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-.main-menu ul {
+.menu ul {
   margin: 1em 0.5em;
   padding: 2em 0.5em;
   list-style-type: none;
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
-.main-menu ul:first-of-type {
+.menu ul:first-of-type {
   margin: 1em 0 0;
 
 }
 
-.main-menu ul:last-of-type {
+.menu ul:last-of-type {
   border-bottom: none;
 }
 
-.main-menu ul li span {
+.menu ul li span {
   margin: 0 0 0 0.25em;
 }
 
-.main-menu ul li a {
+.menu ul li a {
   color:  #add8e6;
 }
 
-.main-menu ul li a:hover {
+.menu ul li a:hover {
   cursor: pointer;
   color:  #fff;
 }
@@ -418,8 +418,6 @@ main {
   margin: 0;
   padding: 0;
   position: relative;
-  z-index: 1;
-  color: #fff;
 }
 
 .search-list p,
@@ -702,54 +700,42 @@ a.control_next {
  */
 
 button {
-  font-size: 8pt;
-  width: 3em;
-  height: 3em;
   border: none;
   position: relative;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
+}
+
+.suggest-button {
+  width: 3em;
+  height: 3em;
+  font-size: 8pt;
+}
+
+.function-button {
+  width: 2em;
+  height: 2em;
+  background-color: #5cb3ff;
+  font-size: 10pt;
   font-weight: bold;
   color: #fff;
 }
 
-.suggestButton {
-  font-size: 8pt;
-  width: 3em;
-  height: 3em;
-}
-
-.functionButton {
-  background: #5cb3ff;
-  font-size: 10pt;
-  width: 2em;
-  height: 2em;
-}
-
-.myButton {
-  background: #5cb3ff;
-  font-size: 10pt;
-  width: 2em;
-  height: 2em;
-}
-
-/* Different Colors for suggestButtons */
+/* Different Colors for suggest buttons */
 /* TODO: Get this colors dynamically*/
 li:nth-child(1) button { background: #eeb211; }
 li:nth-child(2) button { background: #5cb3ff; }
 li:nth-child(3) button { background: #ff7563; }
 li:nth-child(4) button { background: #d50f25; }
 
-button:hover,
-.suggestButton:hover {
+button:hover {
     border: 1px solid #fff;
     opacity: 0.85;
     cursor: pointer;
     text-decoration: none;
 }
 
-button.selected,
-.suggestButton.selected {
+button.selected {
     transform: translateZ(0px);
     backface-visibility: hidden;
     transition-duration: 0.1s;
