@@ -82,7 +82,7 @@ $(document).ready(function(region, focus, locations, styles) {
         this.description = "";
 
         // fourSquare API
-        this.fs_cat = ko.observable("");
+        this.fs_cat = "";
         this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
         //if (this.focus() === "POI") {
         this.fs_photos = ko.observableArray([]);
