@@ -210,7 +210,9 @@
       <li data-bind="text: $data"></li>
     </script>
 
-    <!-- TODO: Load Google Maps async with &callback=initialize-->
+    <!-- TODO: Load Google Maps async with &callback=initialize
+         https://developers.google.com/maps/documentation/javascript/tutorial
+         https://developers.google.com/maps/documentation/javascript/examples/map-simple-async -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg"></script>
     <script src="js/lib/jquery-1.11.3.js"></script>
     <script src="js/lib/knockout-3.3.0.js"></script>
@@ -321,10 +323,10 @@
       	}
         if (rightDrawer.classList.contains('open')) {
       	  listDrawer.classList.add('close');
-      	  showElement('show-list');
+      	 /* showElement('show-list');*/
         } else {
       	  listDrawer.classList.remove('close');
-      	  hideElement('show-list');
+      	  /*hideElement('show-list');*/
         }
         e.stopPropagation();
       });
@@ -339,6 +341,7 @@
       resetButton.addEventListener('click', function() {
       	hideElement('show-list');
       	listDrawer.classList.remove('close');
+        poiDrawer.classList.remove('open');
         rightDrawer.classList.remove('open');
         subInfoDrawer.classList.remove('open');
       });

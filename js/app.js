@@ -519,7 +519,7 @@ $(document).ready(function(region, focus, locations, styles) {
     // Return info string for Google Maps location info window
     getInfoString = function(location) {
 
-        var locationCategory = location.fs_cat() || location.tag;
+        var locationCategory = location.fs_cat || location.tag;
 
         var infoString = '<div class="info-window">' +
                          '<h3>' + location.name + '</h3>'+

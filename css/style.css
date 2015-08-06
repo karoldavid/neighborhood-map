@@ -7,8 +7,8 @@
 
 html,
 body {
-	max-width: 100%;
-    height: 100%;
+	width: 100%;
+  height: 100%;
 	margin: 0;
 	padding: 0;
 }
@@ -26,22 +26,23 @@ body {
  */
 
 .flex-container {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-  height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: none;
 }
 
 .row {
-	display: -webkit-flex;
-	display:         flex;
-	-webkit-flex-flow: row;
+    display: -webkit-flex;
+	  display:         flex;
+	  -webkit-flex-flow: row;
             flex-flow: row;
 }
 
 .col-1 {
-  position: absolute;
-  width: 650px;
+  position: relative;
+  width: 450px;
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -56,8 +57,7 @@ body {
 }
 
 .col-2 {
-  width: 100%;
-  position: static;
+    width: 100%;
 }
 
 .col-3 {
@@ -70,11 +70,11 @@ body {
   transition: transform 0.4s ease-out;
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
-/*  background-color: rgba(0, 1, 20, 0.9);
+  z-index: 2;
+  overflow: none;
+  background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
-  color: #fff; */
-  /* TODO: */
-  z-index: 1;
+  color: #add8e6;
   left: 100%;
 }
 
@@ -82,9 +82,6 @@ body {
   position: absolute;
   width: 250px;
   height: 100%;
-  background-color: rgba(0, 1, 20, 0.9);
-  background: rgba(0, 1, 20, 0.9);
-  color: #add8e6;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-transition: -webkit-transform 0.4s ease-out;
@@ -93,6 +90,9 @@ body {
   transform: translate(0,0);
   z-index: 2;
   overflow: none;
+  background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
+  color: #add8e6;
   left: 100%;
 }
 
@@ -100,9 +100,6 @@ body {
   position: absolute;
   width: 250px;
   height: 100%;
-  background-color: rgba(0, 1, 20, 0.9);
-  background: rgba(0, 1, 20, 0.9);
-  color: #add8e6;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-transition: -webkit-transform 0.4s ease-out;
@@ -111,17 +108,20 @@ body {
   transform: translate(0,0);
   z-index: 2;
   overflow: none;
+  background-color: rgba(0, 1, 20, 0.9);
+  background: rgba(0, 1, 20, 0.9);
+  color: #add8e6;
   left: 100%;
 }
 
 .col-1.close {
-  -webkit-transform: translate(-500px,0);
-  transform: translate(-500px,0);
+    -webkit-transform: translate(-450px,0);
+    transform: translate(-450px,0);
 }
 
 .col-1.open {
-  -webkit-transform: translate(0,0);
-  transform: translate(0,0);
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);
 }
 
 .col-3.open {
@@ -247,9 +247,9 @@ header p {
  */
 
 main {
-	max-width: 100%;
-	margin: 3em 0 0;
-    display: block;
+    width: 100%;
+	  margin: 3em 0 0;
+     overflow: none;
 }
 
 /**
@@ -259,6 +259,7 @@ main {
  */
 
 .menu {
+    width: 100%;
     font-size: 1.2em;
     font-weight: bold;
 }
@@ -268,11 +269,6 @@ main {
   padding: 2em 0.5em;
   list-style-type: none;
   border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
-}
-
-.menu ul:first-of-type {
-  margin: 1em 0 0;
-
 }
 
 .menu ul:last-of-type {
@@ -318,11 +314,10 @@ main {
 /* Wikipedia */
 
 .wikipedia {
+  width: 100%;
 	position: relative;
   margin: 0;
   padding: 0.5em;
-  background-color: rgba(0, 1, 20, 0.9);
-  background: rgba(0, 1, 20, 0.9);
   color: #fff;
 }
 
@@ -332,10 +327,10 @@ main {
 }
 
 .wikipedia ul {
-  list-style: none;
 	margin: 0;
 	padding: 0;
 	height: auto;
+  list-style: none;
 }
 
 .wikipedia ul li {
@@ -356,15 +351,12 @@ main {
 .wikipedia ul li a:hover {
   cursor: pointer;
   -webkit-transition: all 0.1s;
-  font-weight: bold;
   color: #fff;
 }
 
 /* FourSquare */
 
 .fs-style {
-  background-color: rgba(0, 1, 20, 0.9);
-  background: rgba(0, 1, 20, 0.9);
   color: #fff;
 }
 
@@ -419,7 +411,6 @@ main {
 .search-list {
   margin: 0;
   padding: 0;
-  position: relative;
 }
 
 .search-list p,
@@ -454,7 +445,7 @@ main {
 /* Locations Search Results List */
 
 .search-results {
-  position: relative;
+
 }
 
 .search-results ul {
@@ -588,16 +579,17 @@ a.control_next {
  *
  */
 
+.wikipedia,
 .info-text,
 .about-text,
 .contact-text,
 .disclaimer-text {
+  width: 100%;
   margin: 0;
   padding: 0.5em;
   position: relative;
-  background-color: rgba(0, 1, 20, 0.9);
-  background: rgba(0, 1, 20, 0.9);
   color: #fff;
+  display: none;
 }
 
 .info-text p,
@@ -841,26 +833,23 @@ a:hover {
 
 @media only screen and (max-width: 380px) {
 
-  header p {
-    display: none;
-  }
-
-  .col-1 {
-     -webkit-transform: translate(0,0);
-     transform: translate(0,0);
-  }
-
 }
 
 @media only screen and (max-width: 450px) {
     header p {
         display: none;
     }
+
+    .col-3,
+    .col-4,
+    .col-5 {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 600px) {
-	header h1 {
-		font-size: 1.2em;
+	  header h1 {
+		    font-size: 1.2em;
         line-height: 1.4em;
     }
 
@@ -877,12 +866,14 @@ a:hover {
     }
 
     .col-1 {
-        width:250px;
+        width: 250px;
     }
 
-    .col-3 {
-       display: none;
+    .col-1.close {
+        -webkit-transform: translate(-250px,0);
+        transform: translate(-250px,0);
     }
+
 
     .category {
     	display: none;
@@ -891,13 +882,15 @@ a:hover {
     .search-results ul li {
   	    float: none;
     }
+
+    .menu ul {
+        margin: 0.5em 0.25em;
+        padding: 1em 0.25em;
+    }
 }
 
 @media only screen and (max-width: 800px) {
-.flex-container {
-  	justify-content: flex-start;
-  	align-items: flex-start;
-  }
+
   .search {
   	margin: 0;
   }
@@ -910,16 +903,24 @@ a:hover {
   .name {
     display: inline;
   }
+
+  .col-3,
+  .col-4,
+  .col-5 {
+    position: relative;
+    left: auto;
+  }
 }
 
 /* @CREDITS: https://developers.google.com/web/fundamentals/layouts/rwd-patterns/off-canvas?hl=en */
 @media (min-width: 500px) {
-  .flex-container {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-flow: row nowrap;
-    flex-flow: row nowrap;
-  }
+    .flex-container {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+    }
+
 }
 
 @media (min-width: 800px) {
