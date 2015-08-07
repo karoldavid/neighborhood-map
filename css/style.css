@@ -115,7 +115,6 @@ body {
 .col-5 {
     position: absolute;
     width: 100%;
-    height: 100%;
 }
 
 .col-1.close {
@@ -517,9 +516,7 @@ main {
 .slider ul li {
   margin: 0 auto;
   padding: 0 auto;
-  position: relative;
-  width: 500px;
-  height: 300px;
+  height: 200px;
   display: block;
   background: #ccc;
   -webkit-transition:all 1.0s ease-in-out;
