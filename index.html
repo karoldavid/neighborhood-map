@@ -71,12 +71,6 @@
           </div>
 
           <div class="col-2">
-            <!-- Show 'arrow right' when 'location search list' is hidden -->
-          	<div id="show-list" class="show arrow-right" title="show"></div>
-          	<div id="error"></div>
-          </div>
-
-          <div class="col-3">
             <div id="fs-all" class="fs-style" data-bind="with: currentLocation, visible: focus() === 'POI'">
 
                <!-- FourSquare POI Image Slider Gallery-->
@@ -112,7 +106,7 @@
             </div>
           </div>
 
-          <div class="col-4 menu">
+          <div class="col-3 menu">
 
             <ul data-bind="template: {name: 'focusGroupMainMenu', foreach: focusButtons()}"></ul>
 
@@ -133,7 +127,7 @@
 
           </div>
 
-          <div class="col-5">
+          <div class="col-4">
 
             <div id="wiki" class="wikipedia">
               <h4>Wiki about <span data-bind="text: region"></span></h4>
@@ -168,6 +162,13 @@
             </div>
 
           </div>
+
+          <div class="col-5">
+            <!-- Show 'arrow right' when 'location search list' is hidden -->
+            <div id="show-list" class="show arrow-right" title="show"></div>
+            <div id="error"></div>
+          </div>
+
         </div>
       </main>
     </div>
@@ -274,7 +275,7 @@
       });
 
       var poi = document.getElementsByClassName("POI");
-      var poiDrawer = document.querySelector('.col-3');
+      var poiDrawer = document.querySelector('.col-2');
 
       /* Open the right POI FourSquare drawer when a POI list item is clicked */
       for(var i=0; i < poi.length; i++){
@@ -282,17 +283,19 @@
         	showElement("fs-all");
         	if (!poiDrawer.classList.contains('open')) {
         		poiDrawer.classList.add('open');
+            listDrawer.classList.add('close');
+            showElement('show-list');
         	}
             e.stopPropagation();
         });
       }
 
-      var rightDrawer = document.querySelector('.col-4');
-      var subInfoDrawer = document.querySelector('.col-5');
+      var menuDrawer = document.querySelector('.col-3');
+      var subInfoDrawer = document.querySelector('.col-4');
       var subInfos = document.getElementsByClassName('sub-info');
       var subInfoId = [];
 
-      $(".col-5 div").each( function() {
+      $(".col-4 div").each( function() {
       	subInfoId.push($(this).attr("id"));
       });
 
@@ -317,11 +320,11 @@
       /* Open the right Main Menu drawer when hamburger menu icon is clicked
       /* Close left Locations Search List drawer when right Main Menu drawer opens */
       menu.addEventListener('click', function(e) {
-      	rightDrawer.classList.toggle('open');
+      	menuDrawer.classList.toggle('open');
       	if (subInfoDrawer.classList.contains('open')) {
       		subInfoDrawer.classList.remove('open');
       	}
-        if (rightDrawer.classList.contains('open')) {
+        if (menuDrawer.classList.contains('open')) {
       	  listDrawer.classList.add('close');
       	 /* showElement('show-list');*/
         } else {
@@ -333,7 +336,7 @@
 
       /* Close the right Main Menu drawer and the Sub Info draer when hamburger menu icon is clicked */
       main.addEventListener('click', function() { // TODO: Needs to get another DOM element to click on
-        rightDrawer.classList.remove('open');
+        menuDrawer.classList.remove('open');
         subInfoDrawer.classList.remove('open');
       });
 
@@ -342,7 +345,7 @@
       	hideElement('show-list');
       	listDrawer.classList.remove('close');
         poiDrawer.classList.remove('open');
-        rightDrawer.classList.remove('open');
+        menuDrawer.classList.remove('open');
         subInfoDrawer.classList.remove('open');
       });
 
