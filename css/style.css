@@ -53,12 +53,11 @@ body {
   backface-visibility: hidden;
   -webkit-transition: -webkit-transform 0.4s ease-out;
   transition: transform 0.4s ease-out;
-  -webkit-transform: translate(0,0);
-  transform: translate(0,0);
+  -webkit-transform: translate(-350px,0);
+  transform: translate(-350px,0);
   background-color: rgba(0, 1, 20, 0.9);
   background: rgba(0, 1, 20, 0.9);
   z-index: 1;
-  /* TODO: Make column 1 always stretch from top to bottom */
 }
 
 .col-2 {
@@ -117,11 +116,6 @@ body {
     width: 100%;
 }
 
-.col-1.close {
-    -webkit-transform: translate(-350px,0);
-    transform: translate(-350px,0);
-}
-
 .col-1.open {
     -webkit-transform: translate(0,0);
     transform: translate(0,0);
@@ -135,11 +129,6 @@ body {
 .col-3.open {
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
-}
-
-.col-3.close {
-  -webkit-transform: translate(-300px,0);
-  transform: translate(-300px,0);
 }
 
 .col-4.open {
@@ -655,7 +644,6 @@ a.control_next {
 .show {
   position: absolute;
   left: 0;
-  display: none;
 }
 
 /**
@@ -809,12 +797,6 @@ a:hover {
     .col-2 {
         max-width: 320px;
     }
-
-    .col-2.open {
-        -webkit-transform: translate(0,0);
-        transform: translate(0,0);
-    }
-
 }
 
 @media only screen and (max-width: 450px) {
@@ -845,19 +827,6 @@ a:hover {
     .col-3,
     .col-4 {
         width: 250px;
-    }
-
-    .col-1.close,
-    .col-3.close,
-    .col-4.close {
-        -webkit-transform: translate(-250px,0);
-        transform: translate(-250px,0);
-    }
-
-    .col-3.open,
-    .col-4.open {
-        -webkit-transform: translate(0,0);
-        transform: translate(0,0);
     }
 
     .category {

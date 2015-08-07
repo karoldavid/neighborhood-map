@@ -263,13 +263,13 @@
 
       /* Hide the left location search list drawer when the hide icon '<<' is clicked */
       hideList.addEventListener('click', function(e) { // TODO: Needs to get another DOM element to open on click when closed
-        listDrawer.classList.add('close');
+        listDrawer.classList.remove('open');
         showElement('show-list');
         e.stopPropagation();
       });
 
       showList.addEventListener('click', function(e) {
-      	listDrawer.classList.remove('close');
+      	listDrawer.classList.add('open');
       	hideElement('show-list');
         e.stopPropagation();
       });
@@ -283,7 +283,7 @@
         	showElement("fs-all");
         	if (!poiDrawer.classList.contains('open')) {
         		poiDrawer.classList.add('open');
-            listDrawer.classList.add('close');
+            listDrawer.classList.remove('open');
             showElement('show-list');
         	}
             e.stopPropagation();
@@ -324,11 +324,14 @@
       	if (subInfoDrawer.classList.contains('open')) {
       		subInfoDrawer.classList.remove('open');
       	}
-        if (menuDrawer.classList.contains('open')) {
-      	  listDrawer.classList.add('close');
+        if (poiDrawer.classList.contains('open')) {
+          poiDrawer.classList.remove('open');
+        }
+        if (listDrawer.classList.contains('open')) {
+      	  listDrawer.classList.remove('open');
       	 /* showElement('show-list');*/
         } else {
-      	  listDrawer.classList.remove('close');
+      	  listDrawer.classList.add('open');
       	  /*hideElement('show-list');*/
         }
         e.stopPropagation();
@@ -343,7 +346,7 @@
       /* Reset drawers to default when Reset button in header is clicked */
       resetButton.addEventListener('click', function() {
       	hideElement('show-list');
-      	listDrawer.classList.remove('close');
+      	listDrawer.classList.add('open');
         poiDrawer.classList.remove('open');
         menuDrawer.classList.remove('open');
         subInfoDrawer.classList.remove('open');
