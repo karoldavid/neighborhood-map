@@ -19,6 +19,17 @@ body {
 	color: #fff;
 }
 
+a,
+p,
+span,
+h1,
+h2,
+h3,
+h4 {
+    margin: 0;
+    padding: 0;
+}
+
 /**
  *
  * FLEXBOX
@@ -337,18 +348,14 @@ main {
 /* FourSquare */
 
 .fs-style {
-  color: #fff;
+    margin: 0;
+    padding: 0;
+    color: #fff;
 }
 
 .fs-style h3 {
   margin: 0;
   padding: 0.25em;
-}
-
-.fs-style {
-  margin: 0;
-  padding: 0;
-  position: relative;
 }
 
 .fs-style ul {

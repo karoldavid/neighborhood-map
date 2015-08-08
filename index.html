@@ -67,7 +67,9 @@
             <div class="item-3 search-results">
               <!-- TODO: Scroll to activated list item -->
               <!-- TODO: Message "nothing found" -->
-              <ul data-bind="template: {name: 'result', foreach: searchResults}"></ul>
+              <ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}">
+              </ul>
+              <p data-bind="visible: searchResults().length == 0">nothing found</p>
             </div>
             </div>
           </div>
@@ -287,7 +289,7 @@
         		poiDrawer.classList.add('open');
             listDrawer.classList.remove('open');
         	}
-            e.stopPropagation();
+          e.stopPropagation();
         });
       }
 
