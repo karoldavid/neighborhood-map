@@ -170,7 +170,7 @@
           <div class="col-5">
             <!-- Show 'arrow right' when 'location search list' is hidden -->
             <div id="show-list" class="show arrow-right" title="show"></div>
-            <div id="error"></div>
+            <div id="error" class="gm-error"></div>
           </div>
 
         </div>
@@ -224,7 +224,6 @@
     <script src="js/map-styles.js"></script>
     <script src="js/location-data.js"></script>
     <script src="js/app.js"></script>
-
     <script>
 
       /**
@@ -310,10 +309,10 @@
       });
 
       /* Open Sub Info Drawer with according information when Menu Item is clicked */
-      for(var i=0; i < subInfos.length; i++){
+      for(var i = 0; i < subInfos.length; i++){
       	subInfos[i].addEventListener('click', function(e) {
       		var currentElem = e.srcElement.id;
-        	for (var x=0; x<subInfoId.length; x++) {
+        	for (var x = 0; x < subInfoId.length; x++) {
         		if (x != currentElem) {
         			hideElement(subInfoId[x]);
         		} else {

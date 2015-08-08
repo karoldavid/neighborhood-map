@@ -569,7 +569,6 @@ $(document).ready(function(region, focus, locations, styles) {
             // Create Google Maps map object
             map = new google.maps.Map(element, (new Region(region)).mapOptions);
 
-
             //Associate the styled map with the MapTypeId and set it to display.
             map.mapTypes.set('map_style', styledMap);
             map.setMapTypeId('map_style');
@@ -847,31 +846,23 @@ $(document).ready(function(region, focus, locations, styles) {
     ko.applyBindings(viewModel);
 }(neighborhood.region, neighborhood.focus, neighborhood.locations, styles));
 
-// TODO: Write code required to add map markers identifying a number of locations you are interested in within this neighborhood
-// TODO: Searchbox Text updates item list and map markers instantly when user types
-// TODO: Markers are clickable, and change styling to indicate their selected state
-// TODO: Markers bounce on click
-// TODO: SHOW GOOGLE MAPS ERROR MESSAGE WHEN RESPONSE FAILS
-// TODO: When list item is clicked, highlight marker/ open marker info window
 // TODO: Add print option for selected locations
-// TODO: Add Google Street View Image to link list
-// TODO: Open InfoWindow on location list item or marker hover
-// TODO: Add address to info window
-// TODO: Add fs image gallery to poi info window
-// TODO: Add Yelp Review to POI, additionally nearby fs food and hotel search
 // TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
 //       (ex. Yelp reviews, Wikipedia, Flickr images, Kayak, etc).
 // TODO: Integrate https://www.firebase.com/ to Exceed Specifications
 
-// TODO: Additional 3rd party API
-// TODO: Better API REQUESTS integration
-// TODO: ERROR HANDLING and Error Messages
+// TODO: Goolge Maps load async
+//       https://developers.google.com/maps/documentation/javascript/tutorial
+//       https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
+
 // TODO: Optimize Performance
-// TODO: BUILD PROCESS WITH GULP
+
+// TODO: The list view loads quickly at 60FPS
+// TODO: Include gulpfile.js and packages.json in repo
+// TODO: Production quality code in separate dir, not in
+//       same dir as the distribution (unminified) code
 
 // UI:
-// TODO: block mouse wheel zoom
-// TODO: an 'X' on the search list as an additional way to close
 // TODO: load a placeholder image when the image cannot be retrieved from foursquare
 
 
