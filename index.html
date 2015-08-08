@@ -364,6 +364,24 @@
         subInfoDrawer.classList.remove('open');
       });
 
+      // Hide poi drawer and menu drawer if selected location list item is not active anymore
+      function checkListItemSelected() {
+        var loc = document.querySelector('#locList > li.selected');
+        //console.log(loc || 'nothing selected');
+        if (!loc) {
+          if (poiDrawer.classList.contains('open')) {
+            poiDrawer.classList.remove('open');
+            showElement('show-list');
+          }
+          if (menuDrawer.classList.contains('open')) {
+            menuDrawer.classList.remove('open');
+            showElement('show-list');
+          }
+        }
+      }
+
+      window.onclick = checkListItemSelected;
+
     </script>
   </body>
 </html>
