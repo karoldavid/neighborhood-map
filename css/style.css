@@ -25,7 +25,6 @@ body {
  *
  */
 
-
 .flex-container {
     display: -webkit-flex;
     display: flex;
@@ -391,7 +390,7 @@ main {
 
 .search-list {
   margin: 0;
-  padding: 0;
+  padding: 0 0.5em;
 }
 
 .search-list p,
@@ -430,7 +429,7 @@ main {
 }
 
 .search-results ul {
-  margin: 0 0.5em;
+  margin: 0;
   padding: 0;
 	list-style: none;
 }
