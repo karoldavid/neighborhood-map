@@ -215,16 +215,28 @@
       <li data-bind="text: $data"></li>
     </script>
 
-    <!-- TODO: Load Google Maps async with &callback=initialize
-         https://developers.google.com/maps/documentation/javascript/tutorial
-         https://developers.google.com/maps/documentation/javascript/examples/map-simple-async -->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg"></script>
     <script src="js/lib/jquery-1.11.3.js"></script>
     <script src="js/lib/knockout-3.3.0.js"></script>
     <script src="js/map-styles.js"></script>
     <script src="js/location-data.js"></script>
     <script src="js/app.js"></script>
     <script>
+
+    function initialize () {
+      app(neighborhood.region, neighborhood.focus, neighborhood.locations, styles);
+    }
+
+
+    function loadScript () {
+      var  script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg&callback=initialize';
+      document.body.appendChild(script);
+    }
+
+    window.onload = loadScript;
+
+
 
       /**
        *

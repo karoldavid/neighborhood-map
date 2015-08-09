@@ -1,6 +1,6 @@
 
 // TODO: Load data as json
-$(document).ready(function(region, focus, locations, styles) {
+function app(region, focus, locations, styles) {
 
     var initialLocations = locations, // Location data
         map, // Set map object scope
@@ -844,7 +844,7 @@ $(document).ready(function(region, focus, locations, styles) {
     var viewModel = new MyViewModel();
 
     ko.applyBindings(viewModel);
-}(neighborhood.region, neighborhood.focus, neighborhood.locations, styles));
+};
 
 // TODO: Add print option for selected locations
 // TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
