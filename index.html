@@ -220,10 +220,12 @@
     <script src="js/map-styles.js"></script>
     <script src="js/location-data.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/drawers.js"></script>
     <script>
 
     function initialize () {
       app(neighborhood.region, neighborhood.focus, neighborhood.locations, styles);
+      makeDrawers();
     }
 
     // CREDIT: https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
@@ -246,166 +248,6 @@
     }
 
     window.onload = loadScript;
-
-      /**
-       *
-       * Toggle, hide and show DOM elements
-       *
-       */
-
-      function toggleVisibility(id) {
-      	var elem = document.getElementById(id);
-    	elem.style.display = ((elem.style.display!='none') ? 'none' : 'block');
-      }
-
-      function hideElement(id) {
-    	var elem = document.getElementById(id);
-        elem.style.display = ('none');
-      }
-
-      function showElement(id) {
-        var elem = document.getElementById(id);
-        elem.style.display = ('block');
-      }
-
-      /**
-       *
-       * DRAWERS:
-       * - left Locations Search List drawer
-       * - right POI FourSquare drawer
-       * - right Main Menu drawer
-       * - right Sub Info drawer
-       */
-
-      var menu = document.querySelector('#menu');
-      var hideList = document.querySelector('#hide-list');
-      var showList = document.querySelector('#show-list');
-      var hidePoiDrawer = document.querySelector('#hide-poi');
-      var resetButton = document.querySelector('#resetButton');
-      var main = document.querySelector('main');
-      var listDrawer = document.querySelector('.col-1');
-
-      /* Hide the left location search list drawer when the hide icon '<<' is clicked */
-      hideList.addEventListener('click', function(e) {
-        listDrawer.classList.remove('open');
-        showElement('show-list');
-        e.stopPropagation();
-      });
-
-      showList.addEventListener('click', function(e) {
-      	listDrawer.classList.add('open');
-      	hideElement('show-list');
-        e.stopPropagation();
-      });
-
-      var poi = document.getElementsByClassName("POI");
-      var poiDrawer = document.querySelector('.col-2');
-
-      /* Open the right POI FourSquare drawer when a POI list item is clicked */
-      for(var i = 0; i < poi.length; i++){
-      	poi[i].addEventListener('click', function(e) {
-        	showElement("fs-all");
-           var loc = document.querySelector('#locList > li.selected');
-           if (loc && !poiDrawer.classList.contains('open')) {
-        		poiDrawer.classList.add('open');
-            listDrawer.classList.remove('open');
-            hideElement('show-list');
-        	}
-          e.stopPropagation();
-        });
-      }
-
-      hidePoiDrawer.addEventListener('click', function(e) {
-        poiDrawer.classList.remove('open');
-        showElement('show-list');
-        e.stopPropagation();
-      });
-
-      var menuDrawer = document.querySelector('.col-3');
-      var subInfoDrawer = document.querySelector('.col-4');
-      var subInfos = document.getElementsByClassName('sub-info');
-      var subInfoId = [];
-
-      $(".col-4 div").each( function() {
-      	subInfoId.push($(this).attr("id"));
-      });
-
-      /* Open Sub Info Drawer with according information when Menu Item is clicked */
-      for(var i = 0; i < subInfos.length; i++){
-      	subInfos[i].addEventListener('click', function(e) {
-      		var currentElem = e.srcElement.id;
-        	for (var x = 0; x < subInfoId.length; x++) {
-        		if (x != currentElem) {
-        			hideElement(subInfoId[x]);
-        		} else {
-        			showElement(subInfoId[currentElem]);
-        		}
-        	}
-        	if (!subInfoDrawer.classList.contains('open')) {
-        		subInfoDrawer.classList.add('open');
-        	}
-            e.stopPropagation();
-        });
-      }
-
-      /* Open the right Main Menu drawer when hamburger menu icon is clicked
-      /* Close left Locations Search List drawer when right Main Menu drawer opens */
-      menu.addEventListener('click', function(e) {
-      	menuDrawer.classList.toggle('open');
-      	if (subInfoDrawer.classList.contains('open')) {
-      		subInfoDrawer.classList.remove('open');
-      	}
-        if (menuDrawer.classList.contains('open')) {
-          poiDrawer.classList.remove('open');
-        }
-        if (menuDrawer.classList.contains('open')) {
-      	  listDrawer.classList.remove('open');
-          hideElement('show-list');
-        } else {
-      	  listDrawer.classList.add('open');
-          hideElement('show-list');
-        }
-        e.stopPropagation();
-      });
-
-      /* Close the right Main Menu drawer and the Sub Info draer when hamburger menu icon is clicked */
-      main.addEventListener('click', function() { // TODO: Needs to get another DOM element to click on
-        menuDrawer.classList.remove('open');
-        subInfoDrawer.classList.remove('open');
-        if (!listDrawer.classList.contains('open')) {
-          showElement('show-list');
-        }
-      });
-
-      /* Reset drawers to default when Reset button in header is clicked */
-      resetButton.addEventListener('click', function() {
-      	hideElement('show-list');
-      	listDrawer.classList.add('open');
-        poiDrawer.classList.remove('open');
-        menuDrawer.classList.remove('open');
-        subInfoDrawer.classList.remove('open');
-      });
-
-      // Hide poi drawer and menu drawer if selected location list item is not active anymore
-      function checkListItemSelected() {
-        var loc = document.querySelector('#locList > li.selected');
-        if (!loc) {
-          if (poiDrawer.classList.contains('open')) {
-            poiDrawer.classList.remove('open');
-            showElement('show-list');
-          }
-          if (menuDrawer.classList.contains('open')) {
-            menuDrawer.classList.remove('open');
-            showElement('show-list');
-          }
-        }
-      }
-
-                              // TODO: Scroll to active location list item
-                        // var selected = $('ul #locList > li.selected');
-                        // console.log(selected);
-
-      window.onclick = checkListItemSelected;
 
     </script>
   </body>
