@@ -235,7 +235,6 @@ function app(region, focus, locations, styles) {
         // TODO: Fetch data on click only?
         self.wikipediaLinks = new GetWikiLinks().links;
 
-
         // FourSquare
         // Get proper location categories from FourSquare API
         // TODO: Cach venue details (for up to 30 days)
@@ -274,7 +273,7 @@ function app(region, focus, locations, styles) {
 
         // Get POI photos from FourSquare API
         self.fsPhotos = ko.computed(function() {
-            self.myMap().forEach(function(location, i) {
+            self.myMap().forEach(function(location) {
                 if (location.focus() === "POI" && location.fs_id()) {
                     var VENUE_ID = location.fs_id();
 
@@ -304,7 +303,7 @@ function app(region, focus, locations, styles) {
 
         // Get POI nearby restaurants from FourSquare API
         self.fsNearByRestaurants = ko.computed(function() {
-            self.myMap().forEach(function(location,i) {
+            self.myMap().forEach(function(location) {
                 if (location.focus() === "POI") {
                     var latlng = [location.lat, location.lng],
                         query = "food";
@@ -374,7 +373,7 @@ function app(region, focus, locations, styles) {
 
         // Get POI tips from FourSquare API
         self.fsTips = ko.computed(function() {
-            self.myMap().forEach(function(location, i) {
+            self.myMap().forEach(function(location) {
                 if (location.focus() === "POI" && location.fs_id()) {
                     var VENUE_ID = location.fs_id();
 
@@ -552,6 +551,16 @@ function app(region, focus, locations, styles) {
             var styledMap = new google.maps.StyledMapType(styles,
             {name: "Styled Map"});
 
+            // Create Google Maps map object
+            map = new google.maps.Map(element, (new Region(region)).mapOptions);
+
+            //Associate the styled map with the MapTypeId and set it to display.
+            map.mapTypes.set('map_style', styledMap);
+            map.setMapTypeId('map_style');
+
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
             // Get Google Maps app region bounds
             var strictBounds = new google.maps.LatLngBounds(
                     new google.maps.LatLng(region.bounds[0], region.bounds[1]),
@@ -565,13 +574,6 @@ function app(region, focus, locations, styles) {
 
             // Get locations data
             var locations = valueAccessor();
-
-            // Create Google Maps map object
-            map = new google.maps.Map(element, (new Region(region)).mapOptions);
-
-            //Associate the styled map with the MapTypeId and set it to display.
-            map.mapTypes.set('map_style', styledMap);
-            map.setMapTypeId('map_style');
 
             // TODO: Filter locations that are not within app region bounds
             /*locations().forEach(function(location, index) {
