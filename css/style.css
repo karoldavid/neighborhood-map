@@ -1,7 +1,7 @@
 /**
  *
- * author: Karol Zyskowski
- * email: k.zysk@zoho.com
+ * Author: Karol Zyskowski
+ * Email: k.zysk@zoho.com
  *
  */
 
@@ -801,9 +801,7 @@ a:hover {
  */
 
 @media only screen and (max-width: 380px) {
-    .col-2 {
-        max-width: 320px;
-    }
+
 }
 
 @media only screen and (max-width: 450px) {

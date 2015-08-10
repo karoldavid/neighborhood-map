@@ -43,11 +43,11 @@ function app(region, focus, locations, styles) {
         this.website = data.website || 'http://#';
         this.tag = data.tag;
 
-        // Delete City and Country from Address for Search List
+        // Delete City and Country from Address for location search list
         var x = this.address.lastIndexOf(","),
             address = this.address.slice(0,x);
 
-        // Create string for search list
+        // Create string for location search list
         this.title = ko.pureComputed(function() {
             return this.name + ", " + address + ", " + this.tag;
         }, this);
@@ -66,32 +66,26 @@ function app(region, focus, locations, styles) {
         this.lat = data.coord.lat;
         this.lng = data.coord.lng;
 
-        // If no tag is active all location items are visible, otherwise only locations with active tag are visible
+        // If no tag is set to active all location items are visible, otherwise only locations with active tag are visible
         this.visible = ko.observable(!activeTag || activeTag === this.tag ? true : false);
 
         // Get Google Street View image
         this.img = ko.computed(function() {
-            var streetView = 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' +
+            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' +
                               this.lat +
                               ',' + this.lng;
-            //'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + this.name + "," + this.address;
-            return streetView;
         }, this);
 
-        // Wikipedia API
-        this.description = "";
-
-        // fourSquare API
+        // FourSquare API
         this.fs_cat = "";
-        this.fs_id = ko.observable(""); //("4b96b46cf964a52029df34e3");
-        //if (this.focus() === "POI") {
+        this.fs_id = ko.observable("");
         this.fs_photos = ko.observableArray([]);
         this.fs_restaurants = ko.observableArray([]);
         this.fs_hotels = ko.observableArray([]);
         this.fs_tips = ko.observableArray([]);
-        //Fetching 3rd party data only on click/ demand?}
     };
 
+    // API request to Wikipedia
     var GetWikiLinks = function() {
         var self = this;
 
@@ -129,6 +123,7 @@ function app(region, focus, locations, styles) {
         });
     };
 
+    // API request to Openweathermap
     var GetWeather = function() {
         var self = this;
 
@@ -168,7 +163,7 @@ function app(region, focus, locations, styles) {
         return deg * (Math.PI/180);
     }
 
-    //
+    // App
     var MyViewModel = function() {
 
         var self = this;
@@ -232,13 +227,10 @@ function app(region, focus, locations, styles) {
 
         // Wikipedia
         // Get url and title for info link list about map region from Wikipedia API
-        // TODO: Fetch data on click only?
         self.wikipediaLinks = new GetWikiLinks().links;
 
         // FourSquare
         // Get proper location categories from FourSquare API
-        // TODO: Cach venue details (for up to 30 days)
-        // TODO: Check error message
         var CLIENT_ID = 'VWJWF5S1DZEW1CM3LXB1XNAYWYACBNCFDC35CYSJQ4MF5NNZ',
             CLIENT_SECRET = 'HE4ERXKDWNRP1VCF5FGJTTBMACM3WBEC03KTMKX0DAN5CXOH',
             version = 20150705;
@@ -411,7 +403,7 @@ function app(region, focus, locations, styles) {
             self.myMap.reverse();
         };
 
-        // Reset search
+        // Reset current search
         self.resetSearch = function() {
             google.maps.closeStreetView();
             self.query("");
@@ -421,20 +413,7 @@ function app(region, focus, locations, styles) {
             self.goToFocus("");
         };
 
-        // Retrieve only unique tags from locations data
-        self.uniqueSelect = function() {
-            var tags = ko.utils.arrayMap(self.myMap(), function(item) {
-                return item.tag;
-            });
-            return ko.utils.arrayGetDistinctValues(tags).sort();
-        };
-
-        // Build search tag array for the tag cloud in the View
-        // TODO: delete?
-        self.searchTags = ko.utils.arrayMap(self.uniqueSelect(), function(tag) {
-            return tag;
-        });
-
+        // Retrieve categories for focusButtons search functionality
         self.focusButtons = function() {
             var groups = [];
             for (var group in focus) {
@@ -457,8 +436,7 @@ function app(region, focus, locations, styles) {
                 location.marker.setMap(!self.chosenFocusId() || self.chosenFocusId() === location.focus() ? map : null);
             });
 
-            // TODO: How to handle everything map related in the 'Google Maps bindingHandler'?
-            // Fit map to new bounds based on all location positions filtered by tag
+            // Fit map to new bounds based on all location positions filtered by selected category
             var currentBounds = new google.maps.LatLngBounds();
             self.searchResults().forEach(function(location) {
                 currentBounds.extend(location.marker.position);
@@ -515,12 +493,10 @@ function app(region, focus, locations, styles) {
          });
     };
 
-    // Return info string for Google Maps location info window
+    // Return info string for Google Maps map marker info window
     getInfoString = function(location) {
-
-        var locationCategory = location.fs_cat || location.tag;
-
-        var infoString = '<div class="info-window">' +
+        var locationCategory = location.fs_cat || location.tag,
+            infoString = '<div class="info-window">' +
                          '<h3>' + location.name + '</h3>'+
                          '<p class="address">Address:</p>'+
                          '<p class="address">' + location.address + '</p>'+ '<hr>' +
@@ -528,7 +504,6 @@ function app(region, focus, locations, styles) {
                          '<a href="' + location.website + '" title="Go to ' + location.website +
                          '" target="_blank">Visit Website</a>' +
                          '</div>';
-
         return infoString;
     };
 
@@ -540,25 +515,24 @@ function app(region, focus, locations, styles) {
 
     // Google Maps functionality
     ko.bindingHandlers.map = {
-
+        // Initialize Google Maps
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-
-            // SOURCE: https://developers.google.com/maps/documentation/javascript/styling?csw=1
+            // CREDIT: https://developers.google.com/maps/documentation/javascript/styling?csw=1
             // Create an array of styles
             // Create a new StyledMapType object, passing it the array of styles,
             // as well as the name to be displayed on the map type control
-
             var styledMap = new google.maps.StyledMapType(styles,
             {name: "Styled Map"});
 
             // Create Google Maps map object
             map = new google.maps.Map(element, (new Region(region)).mapOptions);
 
-            //Associate the styled map with the MapTypeId and set it to display.
+            //Associate the styled map with the MapTypeId and set it to display
             map.mapTypes.set('map_style', styledMap);
             map.setMapTypeId('map_style');
 
         },
+        // Create map markers and map marker functionality
         update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
             // Get Google Maps app region bounds
@@ -575,19 +549,13 @@ function app(region, focus, locations, styles) {
             // Get locations data
             var locations = valueAccessor();
 
-            // TODO: Filter locations that are not within app region bounds
-            /*locations().forEach(function(location, index) {
-                if (!checkBounds(strictBounds, location)) {
-                    locations().splice(index, 1);
-                }
-            });*/
-
             // Generate map markers with different colors
-            var pinColors = {"Transportation": "eeb211", "City": "5cb3ff", "Recommended": "ff7563", "POI": "d50f25", "hover": "f0ffff", "visited": "666666"};
+            var pinImages = {},
+                pinColors = {"Transportation": "eeb211", "City": "5cb3ff",
+                             "Recommended": "ff7563", "POI": "d50f25",
+                             "hover": "f0ffff", "visited": "666666"};
 
-            var pinImages = {};
-
-            // @CREDITS: https://stackoverflow.com/posts/7686977/revisions
+            // CREDIT: https://stackoverflow.com/posts/7686977/revisions
             for (var color in pinColors) {
                 pinImages[color] = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColors[color],
                     new google.maps.Size(21, 34),
@@ -596,7 +564,7 @@ function app(region, focus, locations, styles) {
                 );
             }
 
-            // Create location markers
+            // Create map markers
             locations().forEach(function(location) {
                 marker = new google.maps.Marker({
                     map: map,
@@ -624,31 +592,23 @@ function app(region, focus, locations, styles) {
                     }
                 }
 
-                // TODO: Close info window when active marker is clicked
-                // TODO: Highlight search list item when marker is active
                 // Open Google Maps info window on click
                 google.maps.event.addListener(location.marker, 'click', function() {
 
                     // Close infowindow immediately on click if any is open
 
                     // Open the infowindow on marker click
-                    //Check if there some info window selected and if is opened then close it
+                    // Check if there some info window selected and if is opened then close it
                         if (infowindow.isOpen()) {
                             infowindow.close();
                             selectedInfoWindow = null;
                         }
-
-                        //map.setZoom(16);
 
                         map.panTo(location.marker.getPosition());
 
                         var infoString = getInfoString(location);
 
                         viewModel.chosenLocationId(location);
-
-                        // TODO: Scroll to active location list item
-                        // var selected = $('ul #locList > li.selected');
-                        // console.log(selected);
 
                         toggleBounce();
                         setTimeout(toggleBounce, 500);
@@ -659,14 +619,12 @@ function app(region, focus, locations, styles) {
                             selectedInfoWindow.open(map, location.marker);
                         }, 750);
 
-                        // Mark visited marker green
+                        // Mark visited map marker green
                         location.marker.setIcon(pinImages.visited);
                         location.visited = true;
-                        //location.marker.setIcon('https://www.google.com/mapfiles/marker_green.png');
                 });
 
                 google.maps.event.addListener(infowindow, 'closeclick', function() {
-                    //marker.setMap(null);
                     viewModel.chosenLocationId("");
                 });
 
@@ -681,22 +639,8 @@ function app(region, focus, locations, styles) {
             });
 
             var regionCenter = new google.maps.LatLng(region.center.coord.lat, region.center.coord.lng);
-            /*
-            var panoramaOptions = {
-                position: wawaCenter,
-                pov: {
-                    heading: 34,
-                    pitch: 10
-                }
-            };
 
-           var panorama = new google.maps.StreetViewPanorama(document.getElementById('panorama'), panoramaOptions);
-           map.setStreetView(panorama);
-
-           map.getStreetView().setVisible(false);*/
-            /* SRC: https://developers.google.com/maps/documentation/javascript/examples/streetview-overlays */
-
-
+            /* CREDIT: https://developers.google.com/maps/documentation/javascript/examples/streetview-overlays */
             var panoOptions = {
                 position: regionCenter,
                 addressControlOptions: {
@@ -715,21 +659,17 @@ function app(region, focus, locations, styles) {
                 document.getElementById('map-canvas'), panoOptions);
             panorama.setVisible(false);
 
-
-                        //panorama = map.getStreetView();
-            //panorama.setPosition(wawaCenter); // Default Value
             panorama.setPov(/** @type {google.maps.StreetViewPov} */({
                 heading: 265,
                 zoom: 1,
                 pitch: 0
             }));
 
-
             google.maps.toggleStreetView = function(location) {
                 var loc = new google.maps.LatLng(location.lat, location.lng);
                 panorama.setPosition(new google.maps.LatLng(location.lat, location.lng));
 
-                // Calculate differnce between position of currentLocation and position of current
+                // Calculate difference between position of currently selected location and position of current
                 // street view image
                 var pano = panorama.location.latLng,
                     heading = google.maps.geometry.spherical.computeHeading(pano, loc);
@@ -761,7 +701,7 @@ function app(region, focus, locations, styles) {
                   pitch: 0
                 }));
 
-                if (panorama.getVisible() === false ){
+                if (panorama.getVisible() === false ) {
                     panorama.setVisible(true);
                 }
             };
@@ -773,7 +713,7 @@ function app(region, focus, locations, styles) {
                 }
             };
 
-            google.maps.InfoWindow.prototype.isOpen = function(){
+            google.maps.InfoWindow.prototype.isOpen = function() {
                 var map = infowindow.getMap();
                 return (map !== null && typeof map !== "undefined");
             };
@@ -787,23 +727,14 @@ function app(region, focus, locations, styles) {
                 }
             });
 
-            // TODO: Check functionality
-            var listener = google.maps.event.addListener(map, "idle", function () {
+            // Capture viewport change and set map center to initial value
+/*            google.maps.event.addListener(map, "idle", function () {
                 map.setZoom(region.zoom.initial);
                 google.maps.event.removeListener(listener);
             });
-
-            // Limit the zoom level according to app region data object
-            google.maps.event.addListener(map, "zoom_changed", function () {
-                if (map.getZoom() < region.zoom.min) {
-                    map.setZoom(region.zoom.min);
-                } else if (map.getZoom() > region.zoom.max) {
-                    map.setZoom(region.zoom.max);
-                }
-            });
-
-            // Make sure, that bounds of Google Maps region are never left
-            // CREDIT TO: http://jsfiddle.net/cse_tushar/9d4jy4ye/
+*/
+            // Make sure, the bounds of the current Google Maps region are never left
+            // CREDIT: http://jsfiddle.net/cse_tushar/9d4jy4ye/
             google.maps.event.addListener(map, 'dragend', function () {
                 if (strictBounds.contains(map.getCenter())) return;
                 // We're out of bounds - Move the map back within the bounds
@@ -830,45 +761,7 @@ function app(region, focus, locations, styles) {
         }
     };
 
-    // TODO: Check error message
-    // Show error message if google is not defined
-    setTimeout(function () {
-        try{
-            if (!google || !google.maps) {
-            }
-        }
-        catch (e) {
-            var $error_elem = $('#error');
-            $error_elem.text('Google Maps Could Not Be Reached.');
-        }
-    }, 1000);
-
     var viewModel = new MyViewModel();
 
     ko.applyBindings(viewModel);
 };
-
-// TODO: Add print option for selected locations
-// TODO: Functionality using third-party APIs when a map marker, search result, or list view entry is clicked
-//       (ex. Yelp reviews, Wikipedia, Flickr images, Kayak, etc).
-// TODO: Integrate https://www.firebase.com/ to Exceed Specifications
-
-// TODO: Goolge Maps load async
-//       https://developers.google.com/maps/documentation/javascript/tutorial
-//       https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
-
-// TODO: Optimize Performance
-
-// TODO: The list view loads quickly at 60FPS
-// TODO: Include gulpfile.js and packages.json in repo
-// TODO: Production quality code in separate dir, not in
-//       same dir as the distribution (unminified) code
-
-// UI:
-// TODO: load a placeholder image when the image cannot be retrieved from foursquare
-
-
-// NOTES: KNOCKOUTJS: MODEL VIEW VIEW MODEL Pattern
-// NOTES: RESPONSIVE Design
-// NOTES: USER EXPERIENCE | UI
-// NOTES: PRODUCTION CODE with grunt/gulp

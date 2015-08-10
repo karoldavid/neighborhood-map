@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Performing Arts Map Application">
     <meta name="author" content="Karol Zyskowski">
-    <title>Performing Arts Map</title>
+    <title>skyZoom</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Architects+Daughter">
     <link rel="stylesheet" href="css/style.css">
   </head>
@@ -55,7 +56,7 @@
               <!-- Show selected Focus Button as text -->
                 <div class="item-1 flex1 category">
                   <p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p>
-                </div> <!-- TODO: Get POI dynamically -->
+                </div>
 
                 <div id="hide-list" class="arrow-left item-2 flex2" title="hide"></div>
             </div>
@@ -66,7 +67,6 @@
 
             <div class="item-3 search-results">
               <!-- TODO: Scroll to activated list item -->
-              <!-- TODO: Message "nothing found" -->
               <ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}">
               </ul>
               <p data-bind="visible: searchResults().length == 0">nothing found</p>
@@ -226,7 +226,7 @@
       app(neighborhood.region, neighborhood.focus, neighborhood.locations, styles);
     }
 
-
+    // CREDIT: https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
     function loadScript () {
       var  script = document.createElement('script');
       script.type = 'text/javascript';
@@ -302,13 +302,14 @@
       var poiDrawer = document.querySelector('.col-2');
 
       /* Open the right POI FourSquare drawer when a POI list item is clicked */
-      for(var i=0; i < poi.length; i++){
+      for(var i = 0; i < poi.length; i++){
       	poi[i].addEventListener('click', function(e) {
         	showElement("fs-all");
            var loc = document.querySelector('#locList > li.selected');
            if (loc && !poiDrawer.classList.contains('open')) {
         		poiDrawer.classList.add('open');
             listDrawer.classList.remove('open');
+            hideElement('show-list');
         	}
           e.stopPropagation();
         });
@@ -399,6 +400,10 @@
           }
         }
       }
+
+                              // TODO: Scroll to active location list item
+                        // var selected = $('ul #locList > li.selected');
+                        // console.log(selected);
 
       window.onclick = checkListItemSelected;
 
