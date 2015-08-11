@@ -46,8 +46,8 @@ gulp.task('scripts', function() {
 // Compiles css files and outputs them to build/css/
 gulp.task('styles', function(){
     return gulp.src(paths.stylesheets)
-                .pipe(concatify('style.min.css'))
                 .pipe(minifycss())
+                .pipe(concatify('style.min.css'))
                 .pipe(gulp.dest('./build/css'));
 });
 
@@ -72,7 +72,7 @@ gulp.task('images', function() {
 
 // Lints app.js and outputs to beautified to console
 gulp.task('lint', function() {
-  return gulp.src('js/app.js')
+  return gulp.src('js/app/app.js')
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
