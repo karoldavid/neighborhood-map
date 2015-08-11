@@ -78,6 +78,8 @@
             <div class="drawer-top">
               <div id="hide-poi" class="arrow-left" title="hide"></div>
             </div>
+            <!-- If FourSuqare API request did not succeeded, according rubrics stay hidden, so there is no need to display an
+                 error message for the user -->
             <div id="fs-all" class="fs-style" data-bind="with: currentLocation, visible: focus() === 'POI'">
                <!-- FourSquare POI Image Slider Gallery-->
               <div class="slider" data-bind="visible: fs_photos().length > 0">

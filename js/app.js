@@ -1,7 +1,6 @@
 
 // TODO: Load data as json
 function app(region, focus, locations, styles) {
-      var styles;
 
     var initialLocations = locations, // Location data
         map, // Set map object scope
@@ -294,7 +293,7 @@ function app(region, focus, locations, styles) {
             });
         });
 
-        // Get POI nearby restaurants from FourSquare API
+/*        // Get POI nearby restaurants from FourSquare API
         self.fsNearByRestaurants = ko.computed(function() {
             self.myMap().forEach(function(location) {
                 if (location.focus() === "POI") {
@@ -362,7 +361,7 @@ function app(region, focus, locations, styles) {
                     });
                 }
             });
-        });
+        });*/
 
         // Get POI tips from FourSquare API
         self.fsTips = ko.computed(function() {

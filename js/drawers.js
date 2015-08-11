@@ -75,6 +75,15 @@ function makeDrawers () {
         e.stopPropagation();
     });
 
+    listDrawer.addEventListener('click', function(e) {
+        var selected = document.querySelector('#locList > li.selected');
+        if (selected && listDrawer.classList.contains('open')) {
+            listDrawer.classList.remove('open');
+            showElement('show-list');
+        }
+        e.stopPropagation();
+    });
+
     var menuDrawer = document.querySelector('.col-3'),
         subInfoDrawer = document.querySelector('.col-4'),
         subInfos = document.getElementsByClassName('sub-info'),
