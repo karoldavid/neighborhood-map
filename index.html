@@ -11,6 +11,115 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Architects+Daughter">
    <!-- <link rel="stylesheet" href="build/css/style.min.css">-->
+   <style>
+     html,
+body {
+    margin: 0;
+    padding: 0;
+      width: 100%;
+      height: 100%;
+}
+
+body {
+    font: 1em "Architects Daughter", cursive;
+    overflow-x: hidden;
+    color: #fff;
+}
+
+.item-1 {
+    order: 1;
+}
+
+.item-2 {
+    order: 2;
+}
+
+.item-3 {
+    order: 3;
+}
+
+.item-4 {
+    order: 4;
+}
+
+.item-5 {
+    order: 5;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3em;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 1000000;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0,0,255,0.5);
+}
+
+header h1,
+header p {
+    display: inline;
+    vertical-align: center;
+}
+
+header h1 {
+    font-weight: bold;
+    font-size: 1.6em;
+    line-height: 1.8em;
+}
+
+header p {
+    font-size: 1.2em;
+}
+
+.hamburger {
+    display: inline-block;
+}
+
+.hamburger svg {
+    width: 32px;
+    fill: #e0e0e0;
+}
+
+@media only screen and (max-width: 450px) {
+    header p {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+  header h1 {
+        font-size: 1.2em;
+        line-height: 1.4em;
+    }
+    header p {
+        font-size: 0.8em;
+    }
+    .reverse {
+        display: none;
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+  .search {
+      margin: 0;
+  }
+  header .item-3 {
+      display: none;
+  }
+}
+
+   </style>
   </head>
 
   <body>
