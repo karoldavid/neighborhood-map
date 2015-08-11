@@ -22,18 +22,6 @@ h4 {
  *
  */
 
-.flex-container {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-flow: row nowrap;
-    flex-flow: row nowrap;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: none;
-}
-
 .row {
     display: -webkit-flex;
     display:         flex;
@@ -525,6 +513,21 @@ a.control_next {
 
 /**
  *
+ *
+ *
+ */
+
+.rounded-corners {
+    border-radius: 10px;
+    border: 2px solid #fff;
+    padding: auto 0.25em;
+    height: 2em;
+    width: auto;
+}
+
+
+/**
+ *
  * CONTROLS
  *
  *
@@ -580,10 +583,26 @@ a.control_next {
  *
  */
 
+button {
+    border: none;
+    position: relative;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
 .suggest-button {
     width: 3em;
     height: 3em;
     font-size: 8pt;
+}
+
+.function-button {
+    width: 2em;
+    height: 2em;
+    background-color: #5cb3ff;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #fff;
 }
 
 /* Different Colors for suggest buttons */

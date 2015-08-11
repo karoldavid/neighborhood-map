@@ -13,6 +13,18 @@ body {
     color: #fff;
 }
 
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: none;
+}
+
 .item-1 {
     order: 1;
 }
@@ -150,11 +162,10 @@ button {
       else window.addEventListener('load', cb);
     </script><script>
 
-      var elem = document.getElementById('main');
-      elem.style.display = ('block');
-
     function initialize () {
       app(neighborhood.region, neighborhood.focus, neighborhood.locations, styles);
+      var elem = document.getElementById('main');
+      elem.style.display = ('block');
       makeDrawers();
     }
 
