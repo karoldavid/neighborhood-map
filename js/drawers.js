@@ -167,8 +167,8 @@ function makeDrawers () {
     }
 
     // TODO: Scroll to active location list item
-    // var selected = $('ul #locList > li.selected');
-    // console.log(selected);
+    /*var selected = $('ul #locList > li.selected');
+        console.log(selected); */
     window.onclick = checkListItemSelected;
 
 }
