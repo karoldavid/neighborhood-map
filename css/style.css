@@ -384,7 +384,7 @@ main {
 .fs-style li:last-child {
     border-bottom: none;
 }
-
+/*
 .fs-style li:hover {
     background-color: rgb(255, 255, 255) transparent;
     background-color: rgba(255, 255, 255, 0.8);
@@ -397,7 +397,7 @@ main {
     background-color: rgba(0,0,255,0.5);
     -webkit-transition: all 0.1s;
     color: #fff;
-}
+}*/
 
 /**
  *
