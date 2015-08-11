@@ -71,7 +71,7 @@ function app(region, focus, locations, styles) {
 
         // Get Google Street View image
         this.img = ko.computed(function() {
-            return 'https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' +
+            return 'https://maps.googleapis.com/maps/api/streetview?size=100x66&location=' +
                               this.lat +
                               ',' + this.lng;
         }, this);
