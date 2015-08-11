@@ -393,33 +393,34 @@ button {
     </script>
     <script>
 
-    function initialize () {
-      app(neighborhood.region, neighborhood.focus, neighborhood.locations, styles);
-      var elem = document.getElementById('main');
-      elem.style.display = ('block');
-      makeDrawers();
-    }
-
-    // CREDIT: https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
-    function loadScript () {
-      var  script = document.createElement('script');
-      script.type = 'text/javascript';
-
-      script.onerror = function(event){
-        var $error_elem = $('#error');
-        $error_elem.text('Google Maps Could Not Be Reached.');
-        console.log('Google Maps Error');
+      function initialize () {
+        app(neighborhood.region, neighborhood.focus, neighborhood.locations, styles);
+        var elem = document.getElementById('main');
+        elem.style.display = ('block');
+        makeDrawers();
       }
 
-      script.onload = function(event){
-        console.log('Google Maps Success');
+      // CREDIT: https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
+      function loadScript () {
+        var  script = document.createElement('script');
+        script.type = 'text/javascript';
+
+        script.onerror = function(event){
+          var $error_elem = $('#error');
+          $error_elem.text('Google Maps Could Not Be Reached.');
+          console.log('Google Maps Error');
+          alert('Google Maps Could Not Be Reached.');
+        }
+
+        script.onload = function(event){
+          console.log('Google Maps Success');
+        }
+
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg&callback=initialize';
+        document.body.appendChild(script);
       }
 
-      script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg&callback=initialize';
-      document.body.appendChild(script);
-    }
-
-    window.onload = loadScript;
+      window.onload = loadScript;
 
     </script>
   </body>
