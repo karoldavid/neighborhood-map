@@ -1,6 +1,7 @@
 
 // TODO: Load data as json
 function app(region, focus, locations, styles) {
+      var styles;
 
     var initialLocations = locations, // Location data
         map, // Set map object scope
@@ -34,7 +35,7 @@ function app(region, focus, locations, styles) {
         };
     };
 
-    // Location 'data' comes from the location object and 'activeTag' is ...
+    // Location 'data' comes from the location object, active tag default is that all locations are visible
     var Location = function(data, activeTag) {
         this.name = data.name;
         this.marker = "";
@@ -139,7 +140,7 @@ function app(region, focus, locations, styles) {
 
         .done(function() { console.log('GetWeather request succeeded!'); })
         .fail(function(jqXHR, textStatus, errorThrown) {
-            self.weatherStr('Open Weather Map Could Not Be Reached.')
+            self.weatherStr('Open Weather Map Could Not Be Reached.');
             console.log('GetWeather request failed! ' + textStatus);
         })
         .always(function() { console.log('GetWeather request ended!'); });
@@ -581,7 +582,7 @@ function app(region, focus, locations, styles) {
                 bounds.extend(location.marker.position);
             });
 
-            // Add events to markers
+            // Add events to map markers
             locations().forEach(function(location) {
 
                 function toggleBounce() {
@@ -764,4 +765,4 @@ function app(region, focus, locations, styles) {
     var viewModel = new MyViewModel();
 
     ko.applyBindings(viewModel);
-};
+}
