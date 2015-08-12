@@ -1,4 +1,4 @@
-// @CREDITS: https://snazzymaps.com/style/15/subtle-grayscale
+// CREDIT: https://snazzymaps.com/style/15/subtle-grayscale
 var styles = [
     {
         "featureType": "landscape",

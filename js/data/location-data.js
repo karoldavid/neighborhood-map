@@ -1,6 +1,6 @@
  //@ http://www.latlong.net/
 
- var neighborhood = {
+var neighborhood = {
 		region: {
 			center: {
 				"name": "Warsaw",

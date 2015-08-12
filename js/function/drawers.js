@@ -1,4 +1,5 @@
 function makeDrawers () {
+    'use strict';
     /**
      *
      * Toggle, hide and show DOM elements
@@ -52,10 +53,11 @@ function makeDrawers () {
     });
 
     var poi = document.getElementsByClassName("POI"),
-        poiDrawer = document.querySelector('.col-2');
+        poiDrawer = document.querySelector('.col-2'),
+        poiLength = poi.length;
 
     /* Open the left POI FourSquare drawer when a POI list item is clicked */
-    for(var i = 0; i < poi.length; i++){
+    for(var i = 0; i < poiLength; i++){
       	poi[i].addEventListener('click', function(e) {
            	showElement("fs-all");
             var selected = document.querySelector('#locList > li.selected');
@@ -87,6 +89,7 @@ function makeDrawers () {
     var menuDrawer = document.querySelector('.col-3'),
         subInfoDrawer = document.querySelector('.col-4'),
         subInfos = document.getElementsByClassName('sub-info'),
+        subInfosLength = subInfos.length,
         subInfoId = [];
 
     $(".col-4 div").each( function() {
@@ -94,10 +97,11 @@ function makeDrawers () {
     });
 
     /* Open left Sub Info Drawer with according information when Menu Item on left Main Menu drawer is clicked */
-    for(var i = 0; i < subInfos.length; i++){
+    for(var i = 0; i < subInfosLength; i++){
        	subInfos[i].addEventListener('click', function(e) {
-      	    var currentElem = e.srcElement.id;
-        	  for (var x = 0; x < subInfoId.length; x++) {
+      	    var currentElem = e.srcElement.id,
+                subInfoIdLength = subInfoId.length;
+        	  for (var x = 0; x < subInfoIdLength; x++) {
         		    if (x != currentElem) {
         			      hideElement(subInfoId[x]);
         		    } else {

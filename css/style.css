@@ -352,14 +352,10 @@ main {
 
 /* Locations Search Results List */
 
-.search-results {
-
-}
-
 .search-results ul {
     margin: 0;
     padding: 0;
-	  list-style: none;
+	list-style: none;
 }
 
 .search-results ul li img {
@@ -371,7 +367,7 @@ main {
 
 .search-results ul li {
     padding: 0 0 0.25em 0;
-	  -webkit-transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
           - transition: all 0.5s ease-out;
     border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
     float: left;
@@ -385,15 +381,15 @@ main {
 .search-results ul li:hover {
     background-color: rgb(255, 255, 255) transparent;
     background-color: rgba(255, 255, 255, 0.8);
-	  cursor: pointer;
-	  -webkit-transition: all 0.1s;
+	cursor: pointer;
+	-webkit-transition: all 0.1s;
     color: #000;
 }
 
 .search-results ul li.selected {
     background-color: rgba(0,0,255,0.5);
-	  -webkit-transition: all 0.1s;
-	  color: #fff;
+    -webkit-transition: all 0.1s;
+    color: #fff;
 }
 
 .title {
@@ -651,8 +647,8 @@ button.selected {
 
 .info-window h3,
 .info-window p {
-	  margin: 0;
-	  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .info-window h3 {
@@ -722,55 +718,70 @@ a:hover {
  */
 
 @media only screen and (max-width: 450px) {
+
     header p {
         display: none;
     }
+
 }
 
 @media only screen and (max-width: 600px) {
-	  header h1 {
-		    font-size: 1.2em;
+
+    header h1 {
+	    font-size: 1.2em;
         line-height: 1.4em;
     }
+
     header p {
         font-size: 0.8em;
     }
+
     .reverse {
         display: none;
     }
+
     .col-1,
     .col-3,
     .col-4 {
         width: 250px;
     }
+
     .category {
     	display: none;
     }
+
     .search-results ul li {
   	    float: none;
     }
+
     .menu ul {
         margin: 0.5em 0.25em;
         padding: 1em 0.25em;
     }
+
 }
 
 @media only screen and (max-width: 800px) {
-  .search {
-  	  margin: 0;
-  }
-  header .item-3 {
-  	  display: none;
-  }
-  .title {
-      display: none;
-  }
-  .name {
-      display: inline;
-  }
-  .search-results ul li img {
-      display: none;
-  }
+    .search {
+  	    margin: 0;
+    }
+
+    header .item-3 {
+  	    display: none;
+    }
+
+    .title {
+        display: none;
+    }
+
+    .name {
+        display: inline;
+    }
+
+    .search-results ul li img {
+        display: none;
+    }
+
 }
 
 /* @CREDITS: https://developers.google.com/web/fundamentals/layouts/rwd-patterns/off-canvas?hl=en */

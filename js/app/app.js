@@ -2,6 +2,8 @@
 // TODO: Load data as json
 function app(region, focus, locations, styles) {
 
+    //'use strict';
+
     var initialLocations = locations, // Location data
         map, // Set map object scope
         selectedInfoWindow; // Set Google Maps info window object scope
@@ -79,10 +81,10 @@ function app(region, focus, locations, styles) {
         // FourSquare API
         this.fs_cat = "";
         this.fs_id = ko.observable("");
-        this.fs_photos = ko.observableArray([]);
-        this.fs_restaurants = ko.observableArray([]);
-        this.fs_hotels = ko.observableArray([]);
-        this.fs_tips = ko.observableArray([]);
+        this.fs_photos = ko.observableArray();
+        this.fs_restaurants = ko.observableArray();
+        this.fs_hotels = ko.observableArray();
+        this.fs_tips = ko.observableArray();
     };
 
     // API request to Wikipedia
@@ -109,9 +111,10 @@ function app(region, focus, locations, styles) {
                     dataType: dt,
                     success: function(response){
                         var titleList = response[1],
-                            definitionList = response[2];
+                            definitionList = response[2],
+                            titleListLength = titleList.length;
 
-                        for (var i = 0; i < titleList.length; i++) {
+                        for (var i = 0; i < titleListLength; i++) {
                             var titleStr = titleList[i],
                                 urlStr = 'http://en.wikipedia.org/wiki/' + titleStr,
                                 definitionStr = definitionList[i];

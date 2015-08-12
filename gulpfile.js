@@ -1,6 +1,4 @@
-//
-// http://una.im/gulp-local-psi/
-
+// Credit: http://una.im/gulp-local-psi/
 var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     sourcemaps = require('gulp-sourcemaps'),
