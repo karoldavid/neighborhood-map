@@ -2,6 +2,7 @@
 var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     sourcemaps = require('gulp-sourcemaps'),
+    rename = require('gulp-rename'),
 	uglify = require('gulp-uglify'),
 	concatify = require('gulp-concat'),
 	minifycss = require('gulp-minify-css'),
@@ -23,7 +24,7 @@ var paths = {
     stylesheets: ['css/*.css', 'css/fonts/stylesheet.css', 'css/fonts/specimen_files/specimen_stylesheet.css'],
     images: ['img/**/*'],
     icons: ['src/img/icons/*.svg'],
-    content: ['index.html']
+    content: ['index_dev.html']
 };
 
 gulp.task('watch', function(){
@@ -52,11 +53,12 @@ gulp.task('styles', function() {
 // Minifies HTML file and outputs to build/*.html
 gulp.task('content', function() {
     return gulp.src(paths.content)
+        .pipe(rename("index.html"))
         .pipe(minifyhtml({
             empty: true,
             quotes: true
         }))
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest('.'));
 });
 
 // Optimizes image files and outputs them to build/image/*
