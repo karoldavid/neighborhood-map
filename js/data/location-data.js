@@ -1,5 +1,3 @@
- //@ http://www.latlong.net/
-
 var neighborhood = {
 		region: {
 			center: {
