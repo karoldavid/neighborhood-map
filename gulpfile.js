@@ -20,8 +20,7 @@ var site = 'http://karoldavid.github.io/neighborhood-map/',
 // Paths to files
 var paths = {
     scripts: ['js/lib/*.js','js/data/*.js','js/app/*.js','js/function/*.js'],
-    stylesheets: ['css/*.css'],
-    fonts: ['css/fonts/stylesheet.css', 'css/fonts/specimen_files/specimen_stylesheet.css'],
+    stylesheets: ['css/*.css', 'css/fonts/stylesheet.css', 'css/fonts/specimen_files/specimen_stylesheet.css'],
     images: ['img/**/*'],
     icons: ['src/img/icons/*.svg'],
     content: ['index.html']
@@ -47,13 +46,6 @@ gulp.task('styles', function() {
     return gulp.src(paths.stylesheets)
                 .pipe(minifycss())
                 .pipe(concatify('style.min.css'))
-                .pipe(gulp.dest('./build/css'));
-});
-
-gulp.task('styles', function() {
-    return gulp.src(paths.fonts)
-                .pipe(minifycss())
-                .pipe(concatify('fonts.min.css'))
                 .pipe(gulp.dest('./build/css'));
 });
 
