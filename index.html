@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Performing Arts Map Application"><meta name="author" content="Karol Zyskowski"><title>skyZoom</title><link rel="icon" type="image/png" href="favicon.png"><script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script><script async src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script><style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        font: 1em "architects_daughterregular", cursive;
+        overflow-x: hidden;
+        color: #fff;
+      }
+
+      .flex-container {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: none;
+      }
+
+      .item-1 {
+        order: 1;
+      }
+
+      .item-2 {
+        order: 2;
+      }
+
+      .item-3 {
+        order: 3;
+      }
+
+      .item-4 {
+        order: 4;
+      }
+
+      .item-5 {
+        order: 5;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3em;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        z-index: 1000000;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -webkit-justify-content: space-around;
+        justify-content: space-around;
+        align-items: center;
+        background-color: rgba(0,0,255,0.5);
+      }
+
+      header h1,
+      header p {
+        display: inline;
+        vertical-align: center;
+      }
+
+      header h1 {
+        font-weight: bold;
+        font-size: 1.6em;
+        line-height: 1.8em;
+      }
+
+      header p {
+        font-size: 1.2em;
+      }
+
+      .hamburger {
+        display: inline-block;
+      }
+
+      .hamburger svg {
+        width: 32px;
+        fill: #e0e0e0;
+      }
+
+      button {
+        border: none;
+        position: relative;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+      }
+
+      .rounded-corners {
+        border-radius: 10px;
+        border: 2px solid #fff;
+        padding: auto 0.25em;
+        height: 2em;
+        width: auto;
+      }
+
+      .function-button {
+        width: 2em;
+        height: 2em;
+        background-color: #5cb3ff;
+        font-size: 10pt;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .col-1,
+      .col-2 {
+        width: 350px;
+        -webkit-transform: translate(-350px,0);
+        transform: translate(-350px,0);
+      }
+
+      .col-3,
+      .col-4 {
+        position: absolute;
+        width: 300px;
+        -webkit-transform: translate(-300px,0);
+        transform: translate(-300px,0);
+      }
+
+      @media only screen and (max-width: 450px) {
+
+        header p {
+          display: none;
+        }
+
+      }
+
+      @media only screen and (max-width: 600px) {
+
+        header h1 {
+          font-size: 1.2em;
+          line-height: 1.4em;
+        }
+
+        header p {
+          font-size: 0.8em;
+        }
+
+        #reverse {
+          display: none;
+        }
+
+      }
+
+      @media only screen and (max-width: 800px) {
+
+        .search {
+          margin: 0;
+        }
+
+        header .item-3 {
+          display: none;
+        }
+
+      }
+
+    </style></head><body><div class="flex-container"><header><div class="item-1"><h1 data-bind="text: region, attr: {title: distance}"></h1><p>skyZoom</p></div><div class="item-2"><form action="#"><input class="rounded-corners" placeholder="Search skyZoom…" type="search" name="q" data-bind="textInput: query" autocomplete="off"> <button id="resetButton" class="function-button" title="reset" data-bind="click: resetSearch">X</button> <button id="reverse" class="function-button" title="reverse" data-bind="click: reverseList"><></button></form></div><div class="item-3"><p data-bind="text: weather" title="http://openweathermap.org/"></p></div><div class="item-4"><a id="menu" class="hamburger" title="menu"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"></path></svg></a></div></header><div class="map-container"><div id="map-canvas" class="full-map" data-bind="map: myMap"></div></div><main id="main"><div class="row"><div class="col-1"><div class="search-list"><div class="item-1 vertical-container"><div class="item-1 flex1 category"><p>Selected: <span data-bind="text: $root.chosenFocusId() || 'All'"></span><span data-bind="visible: $root.chosenFocusId() == 'POI', text: ' = Performing Arts'"></span></p></div><div id="hide-list" class="arrow-left item-2 flex2" title="hide"></div></div><div class="item-2 search-suggestions"><ul class="vertical-container" data-bind="template: {name: 'focusGroup', foreach: focusButtons()}"></ul></div><div class="item-3 search-results"><ul id="locList" data-bind="template: {name: 'result', foreach: searchResults}"></ul><p data-bind="visible: searchResults().length == 0">nothing found</p></div></div></div><div class="col-2"><div class="drawer-top"><div id="hide-poi" class="arrow-left" title="hide"></div></div><div id="fs-all" class="fs-style" data-bind="with: currentLocation, visible: focus() === 'POI'"><div class="slider" data-bind="visible: fs_photos().length > 0"><h3 data-bind="text: name"></h3><a class="control_next" id="next" data-bind="click: $root.chosenDirectionId">></a> <a class="control_prev" id="prev" data-bind="click: $root.chosenDirectionId"><</a><ul><li><a class="thumbs" data-bind="attr: {href: fs_photos()[$parent.currentImage()]}" target="_blank" }><img title="Source: FourSquare" data-bind="attr: {src: fs_photos()[$parent.currentImage()]}"></a></li></ul></div><div id="fs-tips" data-bind="visible: fs_tips().length > 0"><h3>Tips</h3><ul data-bind="template: {name: 'tips', foreach: fs_tips}"></ul></div></div></div><div class="col-3 menu"><ul data-bind="template: {name: 'focusGroupMainMenu', foreach: focusButtons()}"></ul><ul><li><a id="0" class="sub-info">Wikipedia</a></li></ul><ul><li><a id="1" class="sub-info">info</a></li><li><a id="2" class="sub-info">about</a></li><li><a id="3" class="sub-info">contact</a></li><li><a><a href="mailto:k.zysk@zoho.com?subject=skyZoom Application" title="email to Karol Zyskowski" target="_self">&#9993;</a></a></li></ul><ul><li><a id="4" class="sub-info">disclaimer</a></li></ul></div><div class="col-4"><div id="wiki" class="wikipedia"><h4>Wiki about <span data-bind="text: region"></span></h4><ul id="wikipedia-links" data-bind="template: {name: 'wikipediaList', foreach: wikipediaLinks}"></ul></div><div id="info" class="info-text"><h4>Information</h4><p>This Application offers Production Managers in the fast paste Performing Arts Industry (Classical Music, Contemporary Dance, Theater, Musical) an easy and distraction free overview of a location where their company is going to perform in the future.</p><p>They can search a location by different categories such as venue (POI = Concert Hall, Theater, Opera House, etc.) and identify nearby hotels and restaurants, or by transportation (Airport, Train Station) and the most important spots (City Center, Historic Center, Park, Library, Mall) the location has to offer.</p><p>Finally their choices may be printed for further purposes.</p></div><div id="about" class="about-text"><h4>About</h4><p>Idea & Programming by<br>Karol Zyskowski</p></div><div id="contact" class="contact-text"><h4>Contact</h4><p>Karol Zyskowski<br>Front-End Webdeveloper<br><br>location: Berlin - Germany<br><br>email: k.zysk@zoho.com<br>phone: +49 30 301 393 71</p></div><div id="disclaimer" class="disclaimer-text"><h4>Disclaimer</h4><p>Throughout our site you will find links to external websites. Although we make every effort to ensure these links are accurate, up to date and relevant, we cannot take responsibility for pages maintained by external providers.</p></div></div><div class="col-5"><div id="show-list" class="show arrow-right" title="show"></div><div id="error" class="gm-error"></div></div></div></main></div><script type="text/html" id="focusGroup"><li><button class="suggest-button" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button></li></script><script type="text/html" id="focusGroupMainMenu"><li><button class="suggest-button" data-bind="css: { selected: $data == $root.chosenFocusId() }, click: $root.goToFocus, attr: {title: $data}"></button><span data-bind="text: $data"></span></li></script><script type="text/html" id="result"><li data-bind="css: { selected: $data == $root.chosenLocationId() }, click: $root.goToLocation, event: {mouseover: $root.mouseOverListItem, mouseout: $root.mouseOutListItem}, attr: {title: name, class: focus()}"><img data-bind="click: $root.toggleStreetView, attr:{src:img(), alt: 'Google Street View Image of ' + name, title: 'Google Street View of ' + name}"/><span class="title" data-bind="text: title"></span><span class="name" data-bind="text: name"></span></li></script><script type="text/html" id="wikipediaList"><li> <a data-bind="attr:{href: url, title: url}, text: title" target="_blank"></a> <p class="block-ellipsis" data-bind="text: definition || 'no short description available'"></p> </li></script><script type="text/html" id="tips"><li data-bind="text: $data"></li></script><script async src="build/js/app.min.js"></script><script>
+      // Loads css after page build
+      // Source: https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery
+      var cb = function() {
+        var l = document.createElement('link'); l.rel = 'stylesheet';
+        l.href = 'build/css/style.min.css';
+        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(cb);
+      else window.addEventListener('load', cb);
+    </script><script>
+
+      function initialize () {
+        app(neighborhood.region, neighborhood.focus, neighborhood.locations, styles);
+        var elem = document.getElementById('main');
+        elem.style.display = ('block');
+        makeDrawers();
+      }
+
+      // CREDIT: https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
+      function loadScript () {
+        var  script = document.createElement('script');
+        script.type = 'text/javascript';
+
+        script.onerror = function(event){
+          var $error_elem = $('#error');
+          $error_elem.text('Google Maps Could Not Be Reached.');
+          console.log('Google Maps Error');
+          alert('Google Maps Could Not Be Reached.');
+        }
+
+        script.onload = function(event){
+          console.log('Google Maps Success');
+        }
+
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg&callback=initialize';
+        document.body.appendChild(script);
+      }
+
+      window.onload = loadScript;
+
+    </script></body></html>
