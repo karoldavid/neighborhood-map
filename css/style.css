@@ -632,7 +632,7 @@ button.selected {
 .info-window {
     margin: 0;
     padding: 0;
-    font: 1em "Architects Daughter", cursive;
+    font: 1em "architects_daughterregular", cursive;
     overflow: hidden !important;
     color: #000;
 }
