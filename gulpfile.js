@@ -19,7 +19,7 @@ var site = 'http://karoldavid.github.io/neighborhood-map/',
 
 // Paths to files
 var paths = {
-    scripts: ['js/lib/*.js','js/data/*.js','js/app/*.js','js/function/*.js'],
+    scripts: ['js/data/*.js','js/app/*.js','js/function/*.js'],
     stylesheets: ['css/*.css', 'css/fonts/stylesheet.css', 'css/fonts/specimen_files/specimen_stylesheet.css'],
     images: ['img/**/*'],
     icons: ['src/img/icons/*.svg'],
