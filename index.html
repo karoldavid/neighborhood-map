@@ -125,11 +125,6 @@
         color: #fff;
       }
 
-      .reverse {
-        diplay: block;
-        background-color: #5cb3ff;
-      }
-
       @media only screen and (max-width: 450px) {
 
         header p {
@@ -149,7 +144,7 @@
           font-size: 0.8em;
         }
 
-        .reverse {
+        #reverse {
           display: none;
         }
 
@@ -182,7 +177,7 @@
           <form action="#">
             <input class="rounded-corners" placeholder="Search skyZoom…" type="search" name="q" data-bind="textInput: query" autocomplete="off">
             <button id="resetButton" class="function-button" title="reset" data-bind="click: resetSearch">X</button>
-            <button class="function-button reverse" title="reverse" data-bind="click: reverseList"><></button>
+            <button id="reverse" class="function-button" title="reverse" data-bind="click: reverseList"><></button>
           </form>
         </div>
 
