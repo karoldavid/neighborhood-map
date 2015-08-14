@@ -1,0 +1,27 @@
+{
+    "focus": {
+        "Transportation": [
+            "Airport",
+            "Train Station"
+        ],
+        "City": [
+            "City Center",
+            "Historic Center",
+            "Cultural Center",
+            "Museum",
+            "Park",
+            "Library",
+            "Arts Gallery",
+            "Mall"
+        ],
+        "Recommended": [
+            "Club",
+            "Restaurant",
+            "Hotel",
+            "Cinema"
+        ],
+        "POI": [
+            "Performing Arts"
+        ]
+    }
+}
