@@ -24,9 +24,9 @@ h4 {
 
 .row {
     display: -webkit-flex;
-    display:         flex;
+    display: flex;
     -webkit-flex-flow: row;
-            flex-flow: row;
+    flex-flow: row;
 }
 
 .col-1 {
@@ -123,22 +123,23 @@ h4 {
 .vertical-container {
     height: 3em;
     display: -webkit-flex;
-    display:         flex;
+    display: flex;
     -webkit-align-content: space-around;
-           align-content: space-around;
+    align-content: space-around;
     - webkit-align-items: center;
-           align-items: center;
+    align-items: center;
     -webkit-justify-content: center;
-            justify-content: center;
+    justify-content: center;
 }
 
 .flex1 {
     -webkit-flex: 8;
-            flex: 8;
+    flex: 8;
 }
+
 .flex2 {
     -webkit-flex: 1;
-            flex: 1;
+    flex: 1;
 }
 
 /**
@@ -160,7 +161,7 @@ h4 {
 
 main {
     width: 100%;
-	  margin: 3em 0 0;
+    margin: 3em 0 0;
     overflow: none;
     display: none;
 }
@@ -202,12 +203,12 @@ main {
 }
 
 .menu ul li a {
-    color:  #add8e6;
+    color: #add8e6;
 }
 
 .menu ul li a:hover {
     cursor: pointer;
-    color:  #fff;
+    color: #fff;
 }
 
 /**
@@ -218,7 +219,7 @@ main {
 
 /* Google Maps */
 
-/* CREDITS: http://jsfiddle.net/X5r8r/927/ */
+/* CREDIT: http://jsfiddle.net/X5r8r/927/ */
 .map-container {
     width: 100%;
     height: 100%;
@@ -240,19 +241,19 @@ main {
 }
 
 .wikipedia ul {
-	  margin: 0;
-	  padding: 0;
-	  height: auto;
+    margin: 0;
+    padding: 0;
+    height: auto;
     list-style: none;
 }
 
 .wikipedia ul li {
-	  -webkit-transition: all 0.5s ease-out;
-	  border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
+    -webkit-transition: all 0.5s ease-out;
+    border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
 .wikipedia ul li:last-child {
-	  border-bottom: none;
+    border-bottom: none;
 }
 
 .wikipedia ul li a {
@@ -355,7 +356,7 @@ main {
 .search-results ul {
     margin: 0;
     padding: 0;
-	list-style: none;
+    list-style: none;
 }
 
 .search-results ul li img {
@@ -367,22 +368,22 @@ main {
 
 .search-results ul li {
     padding: 0 0 0.25em 0;
-	-webkit-transition: all 0.5s ease-out;
-          - transition: all 0.5s ease-out;
+    -webkit-transition: all 0.5s ease-out;
+    - transition: all 0.5s ease-out;
     border-bottom: 0.1rem solid rgba(255, 255, 255, 0.1);
     float: left;
 }
 
 .search-results ul li:last-child {
-	  margin: 0;
-	  border: none;
+    margin: 0;
+    border: none;
 }
 
 .search-results ul li:hover {
     background-color: rgb(255, 255, 255) transparent;
     background-color: rgba(255, 255, 255, 0.8);
-	cursor: pointer;
-	-webkit-transition: all 0.1s;
+    cursor: pointer;
+    -webkit-transition: all 0.1s;
     color: #000;
 }
 
@@ -431,10 +432,10 @@ main {
     height: 200px;
     display: block;
     background: #ccc;
-    -webkit-transition:all 1.0s ease-in-out;
-    -moz-transition:all 1.0s ease-in-out;
-    -o-transition:all 1.0s ease-in-out;
-    transition:all 1.0s ease-in-out;
+    -webkit-transition: all 1.0s ease-in-out;
+    -moz-transition: all 1.0s ease-in-out;
+    -o-transition: all 1.0s ease-in-out;
+    transition: all 1.0s ease-in-out;
 }
 
 .slider img {
@@ -495,7 +496,6 @@ a.control_next {
 .about-text p,
 .contact-text p,
 .disclaimer-text p {
-
 }
 
 .wikipedia h4,
@@ -574,8 +574,8 @@ a.control_next {
  *
  * BUTTONS
  *
- * @CREDITS: https://css-tricks.com/examples/ButtonMaker/
- * @CREDITS: http://jsfiddle.net/TJcGc/
+ * CREDIT: https://css-tricks.com/examples/ButtonMaker/
+ * CREDIT: http://jsfiddle.net/TJcGc/
  *
  */
 
@@ -603,10 +603,21 @@ button {
 
 /* Different Colors for suggest buttons */
 /* TODO: Get this colors dynamically*/
-li:nth-child(1) button { background: #eeb211; }
-li:nth-child(2) button { background: #5cb3ff; }
-li:nth-child(3) button { background: #ff7563; }
-li:nth-child(4) button { background: #d50f25; }
+li:nth-child(1) button {
+    background: #eeb211;
+}
+
+li:nth-child(2) button {
+    background: #5cb3ff;
+}
+
+li:nth-child(3) button {
+    background: #ff7563;
+}
+
+li:nth-child(4) button {
+    background: #d50f25;
+}
 
 button:hover {
     border: 1px solid #fff;
@@ -664,6 +675,7 @@ button.selected {
     overflow-y: auto !important;
     overflow-x: hidden !important;
 }
+
 .gm-style-iw > div {
     overflow: visible !important;
 }
@@ -688,7 +700,7 @@ button.selected {
  */
 
 a {
-  text-decoration: none;
+    text-decoration: none;
     color: #ccc;
 }
 
@@ -722,13 +734,12 @@ a:hover {
     header p {
         display: none;
     }
-
 }
 
 @media only screen and (max-width: 600px) {
 
     header h1 {
-	    font-size: 1.2em;
+        font-size: 1.2em;
         line-height: 1.4em;
     }
 
@@ -747,27 +758,26 @@ a:hover {
     }
 
     .category {
-    	display: none;
+        display: none;
     }
 
     .search-results ul li {
-  	    float: none;
+        float: none;
     }
 
     .menu ul {
         margin: 0.5em 0.25em;
         padding: 1em 0.25em;
     }
-
 }
 
 @media only screen and (max-width: 800px) {
     .search {
-  	    margin: 0;
+        margin: 0;
     }
 
     header .item-3 {
-  	    display: none;
+        display: none;
     }
 
     .title {
@@ -780,16 +790,5 @@ a:hover {
 
     .search-results ul li img {
         display: none;
-    }
-
-}
-
-/* @CREDITS: https://developers.google.com/web/fundamentals/layouts/rwd-patterns/off-canvas?hl=en */
-@media (min-width: 500px) {
-    .flex-container {
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-flow: row nowrap;
-        flex-flow: row nowrap;
     }
 }
