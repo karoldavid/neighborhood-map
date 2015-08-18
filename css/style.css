@@ -1,7 +1,7 @@
 /**
  * @file style.css
- * @author: Karol Zyskowski
- * @email: k.zysk@zoho.com
+ * @author Karol Zyskowski
+ * @email k.zysk@zoho.com
  *
  */
 
@@ -38,8 +38,8 @@ h4 {
     backface-visibility: hidden;
     -webkit-transition: -webkit-transform 0.4s ease-out;
     transition: transform 0.4s ease-out;
-    -webkit-transform: translate(-350px,0);
-    transform: translate(-350px,0);
+    -webkit-transform: translate(-350px, 0);
+    transform: translate(-350px, 0);
     background-color: rgba(0, 1, 20, 0.9);
     background: rgba(0, 1, 20, 0.9);
     z-index: 1;
@@ -54,8 +54,8 @@ h4 {
     backface-visibility: hidden;
     -webkit-transition: -webkit-transform 0.4s ease-out;
     transition: transform 0.4s ease-out;
-    -webkit-transform: translate(-350px,0);
-    transform: translate(-350px,0);
+    -webkit-transform: translate(-350px, 0);
+    transform: translate(-350px, 0);
     z-index: 2;
     overflow: none;
     background-color: rgba(0, 1, 20, 0.9);
@@ -72,8 +72,8 @@ h4 {
     backface-visibility: hidden;
     -webkit-transition: -webkit-transform 0.4s ease-out;
     transition: transform 0.4s ease-out;
-    -webkit-transform: translate(-300px,0);
-    transform: translate(-300px,0);
+    -webkit-transform: translate(-300px, 0);
+    transform: translate(-300px, 0);
     z-index: 2;
     overflow: none;
     background-color: rgba(0, 1, 20, 0.9);
@@ -90,8 +90,8 @@ h4 {
     backface-visibility: hidden;
     -webkit-transition: -webkit-transform 0.4s ease-out;
     transition: transform 0.4s ease-out;
-    -webkit-transform: translate(-300px,0);
-    transform: translate(-300px,0);
+    -webkit-transform: translate(-300px, 0);
+    transform: translate(-300px, 0);
     z-index: 2;
     overflow: none;
     background-color: rgba(0, 1, 20, 0.9);
@@ -99,30 +99,30 @@ h4 {
     color: #add8e6;
 }
 
-/* Google Maps map content */
+/* Content */
 .col-5 {
     position: absolute;
     width: 100%;
 }
 
 .col-1.open {
-    -webkit-transform: translate(0,0);
-    transform: translate(0,0);
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
 }
 
 .col-2.open {
-    -webkit-transform: translate(0,0);
-    transform: translate(0,0);
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
 }
 
 .col-3.open {
-    -webkit-transform: translate(0,0);
-    transform: translate(0,0);
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
 }
 
 .col-4.open {
-    -webkit-transform: translate(0,0);
-    transform: translate(0,0);
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
 }
 
 .vertical-container {
@@ -223,8 +223,9 @@ main {
  *
  */
 
-/* Google Maps
-   CREDIT: http://jsfiddle.net/X5r8r/927/ */
+/* Google Maps */
+/* CREDIT: http://jsfiddle.net/X5r8r/927/ */
+
 .map-container {
     width: 100%;
     height: 100%;
@@ -301,20 +302,6 @@ main {
 .fs-style li:last-child {
     border-bottom: none;
 }
-/*
-.fs-style li:hover {
-    background-color: rgb(255, 255, 255) transparent;
-    background-color: rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-    -webkit-transition: all 0.1s;
-    color: #000;
-}
-
-.fs-style li.selected {
-    background-color: rgba(0,0,255,0.5);
-    -webkit-transition: all 0.1s;
-    color: #fff;
-}*/
 
 /**
  *
@@ -393,7 +380,7 @@ main {
 }
 
 .search-results ul li.selected {
-    background-color: rgba(0,0,255,0.5);
+    background-color: rgba(0, 0, 255, 0.5);
     -webkit-transition: all 0.1s;
     color: #fff;
 }
@@ -448,7 +435,8 @@ main {
     height: auto;
 }
 
-a.control_prev, a.control_next {
+a.control_prev,
+a.control_next {
     position: absolute;
     top: 40%;
     z-index: 999;
@@ -465,7 +453,8 @@ a.control_prev, a.control_next {
     cursor: pointer;
 }
 
-a.control_prev:hover, a.control_next:hover {
+a.control_prev:hover,
+a.control_next:hover {
     opacity: 0.8;
     background-color: #fff;
     -webkit-transition: all 0.2s ease;
@@ -497,12 +486,6 @@ a.control_next {
     display: none;
 }
 
-.info-text p,
-.about-text p,
-.contact-text p,
-.disclaimer-text p {
-}
-
 .wikipedia h4,
 .info-text h4,
 .about-text h4,
@@ -526,7 +509,6 @@ a.control_next {
     width: auto;
 }
 
-
 /**
  *
  * CONTROLS
@@ -534,8 +516,7 @@ a.control_next {
  *
  */
 
-/* CREDIT: http://jsfiddle.net/rohitazad/VzZhU/ */
-/* CREDIT: http://jsfiddle.net/rohitazad/VzZhU/ */
+/* credit: http://jsfiddle.net/rohitazad/VzZhU/ */
 .arrow-left {
     margin: 0;
     text-align: right;
@@ -579,9 +560,8 @@ a.control_next {
  *
  * BUTTONS
  *
- * CREDIT: https://css-tricks.com/examples/ButtonMaker/
- * CREDIT: http://jsfiddle.net/TJcGc/
- *
+ * credit: https://css-tricks.com/examples/ButtonMaker/
+ * credit: http://jsfiddle.net/TJcGc/
  */
 
 button {
@@ -607,7 +587,7 @@ button {
 }
 
 /* Different Colors for suggest buttons */
-/* TODO: Get this colors dynamically*/
+
 li:nth-child(1) button {
     background: #eeb211;
 }
@@ -654,7 +634,8 @@ button.selected {
 }
 
 .info-window hr {
-    /* CREDIT: Inset, by Dan Eden */
+    /* credit: Inset, by Dan Eden */
+
     border: 0;
     height: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -713,7 +694,6 @@ a:hover {
     color: #000;
 }
 
-/* CREDIT: */
 .block-ellipsis {
     display: block;
     display: -webkit-box;
@@ -735,41 +715,33 @@ a:hover {
  */
 
 @media only screen and (max-width: 450px) {
-
     header p {
         display: none;
     }
 }
 
 @media only screen and (max-width: 600px) {
-
     header h1 {
         font-size: 1.2em;
         line-height: 1.4em;
     }
-
     header p {
         font-size: 0.8em;
     }
-
     .reverse {
         display: none;
     }
-
     .col-1,
     .col-3,
     .col-4 {
         width: 250px;
     }
-
     .category {
         display: none;
     }
-
     .search-results ul li {
         float: none;
     }
-
     .menu ul {
         margin: 0.5em 0.25em;
         padding: 1em 0.25em;
@@ -780,19 +752,15 @@ a:hover {
     .search {
         margin: 0;
     }
-
     header .item-3 {
         display: none;
     }
-
     .title {
         display: none;
     }
-
     .name {
         display: inline;
     }
-
     .search-results ul li img {
         display: none;
     }

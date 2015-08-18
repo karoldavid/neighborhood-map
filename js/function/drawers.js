@@ -14,7 +14,7 @@
  * Wrapper function
  * @function makeDrawers
  */
-function makeDrawers () {
+function makeDrawers() {
 
     /* jshint ignore:start */
     'use strict';
@@ -28,7 +28,7 @@ function makeDrawers () {
 
     function toggleVisibility(id) {
         var elem = document.getElementById(id);
-    	  elem.style.display = ((elem.style.display!='none') ? 'none' : 'block');
+        elem.style.display = ((elem.style.display != 'none') ? 'none' : 'block');
     }
 
     /**
@@ -37,7 +37,7 @@ function makeDrawers () {
      * @param {string} id - id of the DOM element to hide
      */
     function hideElement(id) {
-      	var elem = document.getElementById(id);
+        var elem = document.getElementById(id);
         elem.style.display = ('none');
     }
 
@@ -82,8 +82,8 @@ function makeDrawers () {
      * the hide icon '<<' is clicked
      */
     showList.addEventListener('click', function(e) {
-      	listDrawer.classList.add('open');
-      	hideElement('show-list');
+        listDrawer.classList.add('open');
+        hideElement('show-list');
         e.stopPropagation();
     });
 
@@ -95,15 +95,15 @@ function makeDrawers () {
      * Open the left POI FourSquare drawer when
      * a POI list item is clicked
      */
-    for(var i = 0; i < poiLength; i++){
-      	poi[i].addEventListener('click', function(e) {
-           	showElement("fs-all");
+    for (var i = 0; i < poiLength; i++) {
+        poi[i].addEventListener('click', function(e) {
+            showElement("fs-all");
             var selected = document.querySelector('#locList > li.selected');
             if (selected && !poiDrawer.classList.contains('open')) {
-        		    poiDrawer.classList.add('open');
+                poiDrawer.classList.add('open');
                 listDrawer.classList.remove('open');
                 hideElement('show-list');
-        	  }
+            }
             e.stopPropagation();
         });
     }
@@ -137,28 +137,28 @@ function makeDrawers () {
         subInfoId = [];
 
     /** Get ids from DOM and push them to subInfoId array */
-    $(".col-4 div").each( function() {
-      	subInfoId.push($(this).attr("id"));
+    $(".col-4 div").each(function() {
+        subInfoId.push($(this).attr("id"));
     });
 
     /**
      * Open left Sub Info Drawer with according information when
      * Menu Item on left Main Menu drawer is clicked
      */
-    for(var i = 0; i < subInfosLength; i++){
-       	subInfos[i].addEventListener('click', function(e) {
-      	    var currentElem = e.srcElement.id,
+    for (var i = 0; i < subInfosLength; i++) {
+        subInfos[i].addEventListener('click', function(e) {
+            var currentElem = e.srcElement.id,
                 subInfoIdLength = subInfoId.length;
-        	  for (var x = 0; x < subInfoIdLength; x++) {
-        		    if (x != currentElem) {
-        			      hideElement(subInfoId[x]);
-        		    } else {
-        		  	    showElement(subInfoId[currentElem]);
-        		    }
+            for (var x = 0; x < subInfoIdLength; x++) {
+                if (x != currentElem) {
+                    hideElement(subInfoId[x]);
+                } else {
+                    showElement(subInfoId[currentElem]);
+                }
             }
-        	  if (!subInfoDrawer.classList.contains('open')) {
-        		    subInfoDrawer.classList.add('open');
-        	  }
+            if (!subInfoDrawer.classList.contains('open')) {
+                subInfoDrawer.classList.add('open');
+            }
             e.stopPropagation();
         });
     }
@@ -169,18 +169,18 @@ function makeDrawers () {
      * Close left Sub Info drawer when left Main Menu drawer opens
      */
     menu.addEventListener('click', function(e) {
-      	menuDrawer.classList.toggle('open');
-      	if (subInfoDrawer.classList.contains('open')) {
-          	subInfoDrawer.classList.remove('open');
-      	}
+        menuDrawer.classList.toggle('open');
+        if (subInfoDrawer.classList.contains('open')) {
+            subInfoDrawer.classList.remove('open');
+        }
         if (menuDrawer.classList.contains('open')) {
             poiDrawer.classList.remove('open');
         }
         if (menuDrawer.classList.contains('open')) {
-      	    listDrawer.classList.remove('open');
+            listDrawer.classList.remove('open');
             hideElement('show-list');
         } else {
-      	    listDrawer.classList.add('open');
+            listDrawer.classList.add('open');
             hideElement('show-list');
         }
         e.stopPropagation();
@@ -203,7 +203,7 @@ function makeDrawers () {
      * is clicked
      */
     resetButton.addEventListener('click', function() {
-      	listDrawer.classList.remove('open');
+        listDrawer.classList.remove('open');
         poiDrawer.classList.remove('open');
         menuDrawer.classList.remove('open');
         subInfoDrawer.classList.remove('open');
