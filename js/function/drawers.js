@@ -17,7 +17,7 @@
 function makeDrawers () {
 
     /* jshint ignore:start */
-    "use strict";
+    'use strict';
     /* jshint ignore:end */
 
     /**

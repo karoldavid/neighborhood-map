@@ -26,13 +26,11 @@
  * @param {object} locations
  * @param {object} focus
  * @param {object} styles
- * @returns
  */
-
 function app(region, locations, focus, styles) {
 
     /* jshint ignore:start */
-    //"use strict";
+    'use strict';
     /* jshint ignore:end */
 
     /** @global */
@@ -309,7 +307,7 @@ function app(region, locations, focus, styles) {
         });
 
         //Initialize Google Maps map markers
-        self.myMap = ko.observableArray(ko.utils.arrayMap(self.myLocations(), function(locationItem) {
+        self.myMap = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
             return new Location(locationItem);
         }));
 
@@ -566,7 +564,7 @@ function app(region, locations, focus, styles) {
      * @param {object} location
      * @returns info string for Google Maps map marker info window
      */
-    getInfoString = function(location) {
+    var getInfoString = function(location) {
         var locationCategory = location.fs_cat || location.tag,
             infoString = '<div class="info-window">' +
             '<h3>' + location.name + '</h3>' +
@@ -585,28 +583,31 @@ function app(region, locations, focus, styles) {
      * @returns {boolean} true or false
      * Checks whether the location is within current Google Maps map bounds or not
      */
-    checkBounds = function(bounds, location) {
+    var checkBounds = function(bounds, location) {
         var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
         return bounds.contains(position);
     };
 
 
     /**
-     * ko.bindingHandlers.map
+     * Google Maps map, map markers, events and listeners
+     * @function map.init
+     * @param {object} element
+     * @param {object} valueAccessor
+     * @param {object} allBindingsAccessor
+     * @param {function} viewModel
      *
-     *
-     * Google Maps functionality
      */
     ko.bindingHandlers.map = {
         // Initialize Google Maps
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+
             /**
              * Creates a styled map object
              * @constructor StyledMapType
              * @params {object} styles - Array of styles
              * @params {object} name - Name of styled map to be displayed on the map type control
              * @credit: https://developers.google.com/maps/documentation/javascript/styling?csw=1
-             *
              */
             var styledMap = new google.maps.StyledMapType(styles, {
                 name: "Styled Map"
@@ -677,7 +678,7 @@ function app(region, locations, focus, styles) {
 
             /** Create Map Marker for each location */
             locations().forEach(function(location) {
-                marker = new google.maps.Marker({
+                var marker = new google.maps.Marker({
                     map: map,
                     position: new google.maps.LatLng(
                         location.lat,
