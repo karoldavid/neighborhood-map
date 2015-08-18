@@ -36,8 +36,11 @@ gulp.task('watch', function(){
 gulp.task('scripts', function() {
     return gulp.src(paths.scripts)
         .pipe(sourcemaps.init())
-            .pipe(uglify())
-            .pipe(concatify('app.min.js'))
+        .pipe(uglify())
+        .on('error', function(err){
+        console.log(err);
+        })
+        .pipe(concatify('app.min.js'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./build/js/'));
 });
