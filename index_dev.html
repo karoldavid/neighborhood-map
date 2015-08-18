@@ -368,56 +368,86 @@
     </script>
 
   <!--  <script src="js/lib/jquery-1.11.3.js"></script>
-    <script src="js/lib/knockout-3.3.0.js"></script>
-    <script src="js/map-styles.js"></script>
-    <script src="js/location-data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/drawers.js"></script> -->
-    <script async src="build/js/app.min.js"></script>
+    <script src="js/lib/knockout-3.3.0.js"></script> -->
+    <script src="js/data/map-styles.js"></script>"
+    <script src="js/data/location-data.js"></script>
+    <script src="js/app/app.js"></script>
+    <script src="js/function/drawers.js"></script>
+  <!--  <script async src="build/js/app.min.js"></script> -->
 
     <script>
-      // Loads css after page build
-      // Source: https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery
-      var cb = function() {
-        var l = document.createElement('link'); l.rel = 'stylesheet';
-        l.href = 'build/css/style.min.css';
-        var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-      };
-      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
-          webkitRequestAnimationFrame || msRequestAnimationFrame;
-      if (raf) raf(cb);
-      else window.addEventListener('load', cb);
+        /**
+         * Loads css after page build
+         * @credit: https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery
+         *
+         */
+        var cb = function() {
+            var l = document.createElement('link'); l.rel = 'stylesheet';
+            l.href = 'build/css/style.min.css';
+            var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        };
+        var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+            webkitRequestAnimationFrame || msRequestAnimationFrame;
+        if (raf) raf(cb);
+        else window.addEventListener('load', cb);
     </script>
     <script async>
 
-      function initialize () {
-        app(neighborhood.focus);
-        var elem = document.getElementById('main');
-        elem.style.display = ('block');
-        makeDrawers();
-      }
-
-      // CREDIT: https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
-      function loadScript () {
-        var  script = document.createElement('script');
-        script.type = 'text/javascript';
-
-        script.onerror = function(event){
-          var $error_elem = $('#error');
-          $error_elem.text('Google Maps Could Not Be Reached.');
-          console.log('Google Maps Error');
-          alert('Google Maps Could Not Be Reached.');
+        /**
+         * Initializes the App, map and off-canvas Drawers upon successful Google Maps API request
+         * @callback initialize
+         *
+         */
+        function initialize () {
+            //
+            app(neighborhood.region, neighborhood.locations, neighborhood.focus, styles);
+            var elem = document.getElementById('main');
+            elem.style.display = ('block');
+            makeDrawers();
         }
 
-        script.onload = function(event){
-          console.log('Google Maps Success');
+        /**
+         * Loads Google Maps API asynchronously
+         * @function loadScript
+         * @credit: https://developers.google.com/maps/documentation/javascript/examples/map-simple-async
+         */
+        function loadScript () {
+            var  script = document.createElement('script');
+            script.type = 'text/javascript';
+
+            /**
+             * Displays an error message in case of a failing request
+             * @event: onerror
+             *
+             */
+            script.onerror = function(event){
+                var $error_elem = $('#error');
+                $error_elem.text('Google Maps Could Not Be Reached.');
+                console.log('Google Maps Error');
+                alert('Google Maps Could Not Be Reached.');
+            }
+
+            /**
+             * Displays a success message in case of a successful request
+             * @event: onload
+             *
+             */
+            script.onload = function(event){
+                console.log('Google Maps Success');
+            }
+
+            /**
+             * Send an async request to Google Maps API and executes the callback on completion
+             * @param {string} path - URL of Google Maps JavaScript file
+             * @param (string) v - Google Maps API Version
+             * @param {string} key - Google Maps API key
+             * @param {requestCallback} callback - initialize function
+             */
+            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg&callback=initialize';
+            document.body.appendChild(script);
         }
 
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDfBRThn5FwVjH451Lo-oeK-rGHsPRVzWg&callback=initialize';
-        document.body.appendChild(script);
-      }
-
-      window.onload = loadScript;
+        window.onload = loadScript;
 
     </script>
   </body>

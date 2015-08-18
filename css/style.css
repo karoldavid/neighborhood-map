@@ -1,7 +1,7 @@
 /**
- *
- * Author: Karol Zyskowski
- * Email: k.zysk@zoho.com
+ * @file style.css
+ * @author: Karol Zyskowski
+ * @email: k.zysk@zoho.com
  *
  */
 
@@ -29,6 +29,7 @@ h4 {
     flex-flow: row;
 }
 
+/* DRAWER (off-canvas) */
 .col-1 {
     position: absolute;
     width: 350px;
@@ -44,6 +45,7 @@ h4 {
     z-index: 1;
 }
 
+/* DRAWER (off-canvas) */
 .col-2 {
     position: absolute;
     width: 350px;
@@ -61,6 +63,7 @@ h4 {
     color: #add8e6;
 }
 
+/* DRAWER (off-canvas) */
 .col-3 {
     position: absolute;
     width: 300px;
@@ -78,6 +81,7 @@ h4 {
     color: #add8e6;
 }
 
+/* DRAWER (off-canvas) */
 .col-4 {
     position: absolute;
     width: 300px;
@@ -95,6 +99,7 @@ h4 {
     color: #add8e6;
 }
 
+/* Google Maps map content */
 .col-5 {
     position: absolute;
     width: 100%;
@@ -168,16 +173,6 @@ main {
 
 /**
  *
- *  DRAWERS
- *
- */
-.drawer-top {
-    margin: 0;
-    padding: 0 0.5em;
-}
-
-/**
- *
  * MAIN MENUE
  *
  */
@@ -213,13 +208,23 @@ main {
 
 /**
  *
+ *  DRAWERS (off-canvas)
+ *
+ */
+
+.drawer-top {
+    margin: 0;
+    padding: 0 0.5em;
+}
+
+/**
+ *
  * APIS
  *
  */
 
-/* Google Maps */
-
-/* CREDIT: http://jsfiddle.net/X5r8r/927/ */
+/* Google Maps
+   CREDIT: http://jsfiddle.net/X5r8r/927/ */
 .map-container {
     width: 100%;
     height: 100%;

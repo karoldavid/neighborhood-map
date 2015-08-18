@@ -1,17 +1,52 @@
 /**
- *
- *
- *
+ * @file app.js Interactive Neighborhood Map
+ * @version 0.1 2015
+ * @author Karol Zyskowski
+ * @email k.zysk@zoho.com
+ * Please read the README.md file for more information about the Browser Application.
+ * Here is a link to the live version:
+ * {@link http://karoldavid.github.io/neighborhood-map/ GitHub}
+ * Here is a link to the Github repository:
+ * {@link http://github.com/karoldavid/neighborhood-map.git/ GitHub}
+ * This project is a part of the Udacity FEND Nanodegree
+ * Here is a link to hte Udacity Project Page:
+ * {@link https://www.udacity.com/course/viewer#!/c-nd001/l-2711658591/m-2629448638}
  */
-function app(focus) {
 
-    //'use strict';
+/**
+ * @descripion
+ * The file app.js provides the funcionality to create location objects and binds them
+ * to the Goolge Maps map in the view and to the search list. It updates any changes
+ * to the data via knockoutJS Model-View-View Model pattern (MVVM) instantly.
+ */
 
-    var initialLocations = locations, // Location data
-        map, // Set map object scope
-        selectedInfoWindow; // Set Google Maps info window object scope
+ /**
+ * @function app
+ * @param {object} region
+ * @param {object} locations
+ * @param {object} focus
+ * @param {object} styles
+ * @returns
+ */
 
-    // Set Google Maps 'mapOptions' to Region data definded in locations-data.js
+function app(region, locations, focus, styles) {
+
+    /* jshint ignore:start */
+    //"use strict";
+    /* jshint ignore:end */
+
+    /** @global */
+    var map, // Set Google Maps map object scope
+        /** @global */
+        selectedInfoWindow, // Set Google Maps info window object scope
+        /** @global */
+        initialLocations = locations;
+
+    /**
+     * Sets the maps center, and defines Google Maps controls, styles, behavior
+     * @constructor Region
+     * @param {object} data - Google Maps 'mapOptions'
+     */
     var Region = function(data) {
         this.mapOptions = {
             center: {
@@ -44,14 +79,11 @@ function app(focus) {
         };
     };
 
-    // Location 'data' comes from the location object, activeTag default is that all locations are visible
-
     /**
-     *
-     *
-     *
+     * Represents locations/ places, diplayed in the view as map markers and in the location search list
+     * @constructor Location
+     * @param {object} data - geo data, address, name, etc. of a location
      */
-
     var Location = function(data) {
         this.name = data.name;
         this.marker = "";
@@ -60,7 +92,7 @@ function app(focus) {
         this.website = data.website || 'http://#';
         this.tag = data.tag;
 
-        // Delete City and Country from Address for location search list
+        // Delete city and country data from address for location search list string
         var x = this.address.lastIndexOf(","),
             address = this.address.slice(0, x);
 
@@ -83,7 +115,6 @@ function app(focus) {
         this.lat = data.coord.lat;
         this.lng = data.coord.lng;
 
-        // If no tag is set to active all location items are visible, otherwise only locations with active tag are visible
         this.visible = ko.observable(true);
 
         // Get Google Street View image
@@ -93,7 +124,7 @@ function app(focus) {
                 ',' + this.lng;
         }, this);
 
-        // FourSquare API
+        // Location properties for FourSquare API data
         this.fs_cat = "";
         this.fs_id = ko.observable("");
         this.fs_photos = ko.observableArray();
@@ -102,7 +133,13 @@ function app(focus) {
         this.fs_tips = ko.observableArray();
     };
 
-    // API request to Wikipedia
+    /**
+     * Asynchronous API request to wikipedia.org
+     * @contructor GetWikiLinks
+     * Gets Wikipedia links and short descriptions of articles about the current maps region
+     * and appends them directly to the DOM
+     *
+     */
     var GetWikiLinks = function() {
         var self = this;
 
@@ -110,17 +147,38 @@ function app(focus) {
 
         self.getLinks = ko.computed(function() {
 
+            /* @method wikiRequestLinksTimeout
+             * @param
+             * @listens
+             *
+             */
             var wikiRequestLinksTimeout = setTimeout(function() {
                 var $wikiElem = $('#wikipedia-links');
                 $wikiElem.text('Wikipedia Could Not Be Reached.');
                 console.log('Wikipedia Could Not Be Reached.');
             }, 5000);
 
+            /**
+             * Complete ajax request URL
+             * @param {string} wikiQuery - Name of map region
+             * @param {string} dt - Data type
+             * @param {string} wikiBase - URL of Wikwipedia API
+             * @param {string} wikiUrl - Complete ajax request URL
+             *
+             */
             var wikiQuery = region.center.name,
                 dt = 'jsonp',
                 wikiBase = 'http://en.wikipedia.org/w/api.php',
                 wikiUrl = wikiBase + '?action=opensearch&search=' + wikiQuery + '&format=json&callback=wikiCallback';
 
+            /**
+             * Ajax request
+             *
+             *
+             *
+             *
+             *
+             */
             $.ajax({
                 url: wikiUrl,
                 dataType: dt,
@@ -145,20 +203,44 @@ function app(focus) {
         });
     };
 
-    // API request to Openweathermap
+    /**
+     * Asynchronous API request to openweathermap.org
+     * @contructor GetWeather
+     * Gets current weather string with weather short description and temperature
+     * and appends the string to the DOM
+     */
     var GetWeather = function() {
         var self = this;
 
         self.weatherStr = ko.observable("");
 
+        /**
+         * Complete ajax request URL
+         * @param {string} weather - Base URL + latitude + longitude
+         * @param {number} lat - Latitude
+         * @param {number} lon - Longitude
+         *
+         */
         var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
             'lat=' + region.center.coord.lat +
             '&lon=' + region.center.coord.lng;
 
+        /**
+         * Ajax request
+         *
+         *
+         *
+         *
+         *
+         */
         $.getJSON(weather, function(response) {
             self.weatherStr(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
         })
 
+        /**
+         * @event: wikiRequestLinksTimeout
+         *
+         */
         .done(function() {
                 console.log('GetWeather request succeeded!');
             })
@@ -169,10 +251,19 @@ function app(focus) {
             .always(function() {
                 console.log('GetWeather request ended!');
             });
-
     };
 
-    // @CREDITS: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
+    /**
+     * Calculates distance
+     * @function getDistanceFromLatLonInKm
+     * @param {number} lat1
+     * @param {number} lon1
+     * @param {number} lat2
+     * @param {number} lon2
+     * @returns {number} distance in km between current maps's region center and Sillicon Valley
+     * @credit: http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
+     *
+     */
     function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
         var R = 6371; // Radius of the earth in km
         var dLat = deg2rad(lat2 - lat1); // deg2rad below
@@ -191,12 +282,13 @@ function app(focus) {
 
 
     /**
+     * @contructor MyViewModel
+     *
      *
      *
      *
      */
 
-    // App
     var MyViewModel = function() {
 
         var self = this;
@@ -216,21 +308,10 @@ function app(focus) {
             return left.name === right.name ? 0 : (left.name < right.name ? -1 : 1);
         });
 
-        // Initialize Google Maps map markers
-
-        $.ajax({url: 'json/locations.json',
-            dataType: 'json',
-            success: function(data) {
-                         self.myMap = ko.observableArray(ko.utils.arrayMap(data, function(locationItem) {
-                                return new Location(locationItem);
-                         }
-                     }
-        });
-
-
-        /* self.myMap = ko.observableArray(ko.utils.arrayMap(initialLocations, function(locationItem) {
+        //Initialize Google Maps map markers
+        self.myMap = ko.observableArray(ko.utils.arrayMap(self.myLocations(), function(locationItem) {
             return new Location(locationItem);
-        })); */
+        }));
 
         self.currentLocation = ko.observable("");
 
@@ -480,7 +561,11 @@ function app(focus) {
         });
     };
 
-    // Return info string for Google Maps map marker info window
+    /**
+     * @function getInfoString
+     * @param {object} location
+     * @returns info string for Google Maps map marker info window
+     */
     getInfoString = function(location) {
         var locationCategory = location.fs_cat || location.tag,
             infoString = '<div class="info-window">' +
@@ -494,7 +579,12 @@ function app(focus) {
         return infoString;
     };
 
-    // Check whether location is in map bounds
+    /**
+     * @function getInfoString
+     * @param {object} location
+     * @returns {boolean} true or false
+     * Checks whether the location is within current Google Maps map bounds or not
+     */
     checkBounds = function(bounds, location) {
         var position = new google.maps.LatLng(location.coord.lat, location.coord.lng);
         return bounds.contains(position);
@@ -502,65 +592,70 @@ function app(focus) {
 
 
     /**
+     * ko.bindingHandlers.map
      *
      *
-     *
+     * Google Maps functionality
      */
-
-    // Google Maps functionality
     ko.bindingHandlers.map = {
         // Initialize Google Maps
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-            // CREDIT: https://developers.google.com/maps/documentation/javascript/styling?csw=1
-            // Create an array of styles
-            // Create a new StyledMapType object, passing it the array of styles,
-            // as well as the name to be displayed on the map type control
-
-            var styledMap;
-
-            $.ajax({
-                url: 'json/map.json',
-                dataType: 'json',
-                success: function(data) {
-                         styledMap = new google.maps.StyledMapType(data, {
-                            name: "Styled Map"
-                        });
-            });
-
-            /*var styledMap = new google.maps.StyledMapType(styles, {
+            /**
+             * Creates a styled map object
+             * @constructor StyledMapType
+             * @params {object} styles - Array of styles
+             * @params {object} name - Name of styled map to be displayed on the map type control
+             * @credit: https://developers.google.com/maps/documentation/javascript/styling?csw=1
+             *
+             */
+            var styledMap = new google.maps.StyledMapType(styles, {
                 name: "Styled Map"
-            });*/
-
-            $.ajax({
-                url: 'json/region.json',
-                dataType: 'json',
-                success: function(data) {
-                             map = new google.maps.Map(element, (new Region(data)).mapOptions);
-                         }
             });
 
-            // Create Google Maps map object
-           /* map = new google.maps.Map(element, (new Region(region)).mapOptions);*/
+            /**
+             * Create Google Maps map object
+             * @constructor Map
+             * @param {object} element - DOM element
+             * @param {object} mapOptions -
+             *
+             */
+            map = new google.maps.Map(element, (new Region(region)).mapOptions);
 
-            //Associate the styled map with the MapTypeId and set it to display
+            /** Associate the styled map with the MapTypeId and set it to display */
             map.mapTypes.set('map_style', styledMap);
             map.setMapTypeId('map_style');
 
-            // Get Google Maps app region bounds
+            /**
+             * Create absolute bounds object
+             * @constructor LatLngBounds
+             * @param {number} lat1 - latitude for northwest
+             * @param {number} lon1 - longitude for northwest
+             * @param {number} lat2 - latitude for southeast
+             * @param {number} lon2 - longitude for southeast
+             *
+             */
             var strictBounds = new google.maps.LatLngBounds(
                 new google.maps.LatLng(region.bounds[0], region.bounds[1]),
                 new google.maps.LatLng(region.bounds[2], region.bounds[3]));
 
+            /**
+             * Create object for relative bounds
+             * @constructor LatLngBounds
+             *
+             */
             var bounds = new google.maps.LatLngBounds();
 
-            //Create Google Maps info window.
+            /**
+             * Create Google Maps info window
+             * @constructor InfoWindow
+             *
+             */
             var infowindow = new google.maps.InfoWindow();
-            //selectedInfoWindow = infowindow;
 
-            // Get locations data
+            /** Get locations data */
             var locations = valueAccessor();
 
-            // Generate map markers with different colors
+            /** Generate map markers with different colors */
             var pinImages = {},
                 pinColors = {
                     "Transportation": "eeb211",
@@ -571,7 +666,7 @@ function app(focus) {
                     "visited": "666666"
                 };
 
-            // CREDIT: https://stackoverflow.com/posts/7686977/revisions
+            /** @credit: https://stackoverflow.com/posts/7686977/revisions */
             for (var color in pinColors) {
                 pinImages[color] = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColors[color],
                     new google.maps.Size(21, 34),
@@ -580,7 +675,7 @@ function app(focus) {
                 );
             }
 
-            // Create map markers
+            /** Create Map Marker for each location */
             locations().forEach(function(location) {
                 marker = new google.maps.Marker({
                     map: map,
@@ -588,7 +683,7 @@ function app(focus) {
                         location.lat,
                         location.lng),
                     title: location.name,
-                    icon: pinImages[location.focus()],
+                    icon: pinImages[location.focus()], // Set pin color according to search category
                     animation: google.maps.Animation.DROP,
                     draggable: false
                 });
@@ -600,6 +695,11 @@ function app(focus) {
             // Add events to map markers
             locations().forEach(function(location) {
 
+                /**
+                 * Map Marker bounce animation
+                 * @function toggleBounce
+                 *
+                 */
                 function toggleBounce() {
                     if (location.marker.getAnimation() !== null) {
                         location.marker.setAnimation(null);
@@ -608,55 +708,85 @@ function app(focus) {
                     }
                 }
 
-                // Open Google Maps info window on click
+                /**
+                 * Open Google Maps info window if click on Map Marker
+                 * @listener: click
+                 *
+                 */
                 google.maps.event.addListener(location.marker, 'click', function() {
 
-                    // Close infowindow immediately on click if any is open
-
-                    // Open the infowindow on marker click
-                    // Check if there some info window selected and if is opened then close it
+                    // If info window is open, close it
                     if (infowindow.isOpen()) {
                         infowindow.close();
                         selectedInfoWindow = null;
                     }
 
+                    /** Smoothly center map on chosen Map Marker */
                     map.panTo(location.marker.getPosition());
 
                     var infoString = getInfoString(location);
 
                     viewModel.chosenLocationId(location);
 
+                    /** Map Marker bounces on click */
                     toggleBounce();
                     setTimeout(toggleBounce, 500);
 
+                    /** Open info window of selected Map Marker after Map Marker bounce finished*/
                     setTimeout(function() {
                         infowindow.setContent(infoString);
                         selectedInfoWindow = infowindow;
                         selectedInfoWindow.open(map, location.marker);
                     }, 750);
 
-                    // Mark visited map marker green
-                    location.marker.setIcon(pinImages.visited);
+                    location.marker.setIcon(pinImages.visited);  // Set color of visited Map Marker to green
                     location.visited = true;
                 });
 
+                /**
+                 * Unselect location list item if Google Maps info window is closed on click
+                 * @listener: click
+                 *
+                 */
                 google.maps.event.addListener(infowindow, 'closeclick', function() {
                     viewModel.chosenLocationId("");
                 });
 
+                /**
+                 * Set pin color on Map Marker to 'hover', when mouse hovers over location list item
+                 * @listener: hover
+                 *
+                 */
                 google.maps.event.addListener(location.marker, 'mouseover', function(event) {
                     this.setIcon(pinImages.hover);
                 });
 
+                /**
+                 * Set pin color on Map Marker to former color, when mouse out on location list item
+                 * @listener: hover
+                 *
+                 */
                 google.maps.event.addListener(location.marker, 'mouseout', function(event) {
                     this.setIcon(pinImages[location.visited ? "visited" : location.focus()]);
                 });
 
             });
 
+            /**
+             * Set center of Google Maps map
+             * @constructor LatLng
+             * @param {number} latitude
+             * @param {number} longitude
+             *
+             */
             var regionCenter = new google.maps.LatLng(region.center.coord.lat, region.center.coord.lng);
 
-            /* CREDIT: https://developers.google.com/maps/documentation/javascript/examples/streetview-overlays */
+            /**
+             * Set Street View location and controls
+             * @param {object} panoOptions
+             * @credit: https://developers.google.com/maps/documentation/javascript/examples/streetview-overlays
+             *
+             */
             var panoOptions = {
                 position: regionCenter,
                 addressControlOptions: {
@@ -671,22 +801,38 @@ function app(focus) {
                 enableCloseButton: false
             };
 
+            /**
+             * @constructor StreetViewPanorama
+             * @param {object} DOM element - 'map-canvas'
+             * @param {object} panoOptions - StreetViewOptions
+             *
+             */
             var panorama = new google.maps.StreetViewPanorama(
-                document.getElementById('map-canvas'), panoOptions);
+            	document.getElementById('map-canvas'), panoOptions);
+
+            /** @default */
             panorama.setVisible(false);
 
+            /** Set Point of View */
             panorama.setPov( /** @type {google.maps.StreetViewPov} */ ({
                 heading: 265,
                 zoom: 1,
                 pitch: 0
             }));
 
+            /**
+             * Toggles street view
+             * @function toggleStreetView
+             * @param {object} location - latitude and longitute of location
+             */
             google.maps.toggleStreetView = function(location) {
                 var loc = new google.maps.LatLng(location.lat, location.lng);
                 panorama.setPosition(new google.maps.LatLng(location.lat, location.lng));
 
-                // Calculate difference between position of currently selected location and position of current
-                // street view image
+                /**
+                 * Calculate difference between position of currently selected location
+                 * and position of current street view image
+                 */
                 var pano = panorama.location.latLng,
                     heading = google.maps.geometry.spherical.computeHeading(pano, loc);
 
@@ -704,6 +850,12 @@ function app(focus) {
                 }
             };
 
+            /**
+             * Opens street view and sets heading
+             * @function openStreetView
+             * @param {object} location - latitude and longitude of selected location
+             *
+             */
             google.maps.openStreetView = function(location) {
                 var loc = new google.maps.LatLng(location.lat, location.lng);
                 panorama.setPosition(new google.maps.LatLng(location.lat, location.lng));
@@ -722,6 +874,11 @@ function app(focus) {
                 }
             };
 
+            /**
+             * Closes street view
+             * @function closeStreetView
+             *
+             */
             google.maps.closeStreetView = function() {
                 var visible = panorama.getVisible();
                 if (visible === true) {
@@ -729,13 +886,25 @@ function app(focus) {
                 }
             };
 
+            /**
+             * Checks if infow window is open
+             * @function isOpen
+             * @returns {boolean} true or false
+             *
+             */
             google.maps.InfoWindow.prototype.isOpen = function() {
                 var map = infowindow.getMap();
                 return (map !== null && typeof map !== "undefined");
             };
 
-            // Limit the zoom level according to region data object
-            google.maps.event.addListener(map, "zoom_changed", function() {
+            /**
+             * Limits the zoom level according to region data object specifications
+             * @method
+             * @param {object} map
+             * @param {string} 'zoom_changed'
+             *
+             */
+            google.maps.event.addListener(map, 'zoom_changed', function() {
                 if (map.getZoom() < region.zoom.min) {
                     map.setZoom(region.zoom.min);
                 } else if (map.getZoom() > region.zoom.max) {
@@ -743,17 +912,24 @@ function app(focus) {
                 }
             });
 
-            // Capture viewport change and set map center to initial value
+            // Captures viewport change and sets map center to initial value
             /*            google.maps.event.addListener(map, "idle", function () {
                             map.setZoom(region.zoom.initial);
                             google.maps.event.removeListener(listener);
                         });
             */
-            // Make sure, the bounds of the current Google Maps region are never left
-            // CREDIT: http://jsfiddle.net/cse_tushar/9d4jy4ye/
+
+            /**
+             * Makes sure, the bounds of the current Google Maps region are never left
+             * @method
+             * @param {object} map
+             * @param {string} 'dragend'
+             * @credit: http://jsfiddle.net/cse_tushar/9d4jy4ye/
+             *
+             */
             google.maps.event.addListener(map, 'dragend', function() {
                 if (strictBounds.contains(map.getCenter())) return;
-                // We're out of bounds - Move the map back within the bounds
+                // Moves the map back within the bounds
                 var c = map.getCenter(),
                     x = c.lng(),
                     y = c.lat(),
@@ -768,9 +944,16 @@ function app(focus) {
                 map.setCenter(new google.maps.LatLng(y, x));
             });
 
-            google.maps.event.addDomListener(window, "resize", function() {
+            /**
+             * Resizes and centers Google Maps map on window resize
+             * @method
+             * @param {object} window
+             * @param {string} 'resize'
+             *
+             */
+            google.maps.event.addDomListener(window, 'resize', function() {
                 var center = map.getCenter();
-                google.maps.event.trigger(map, "resize");
+                google.maps.event.trigger(map, 'resize');
                 map.fitBounds(bounds);
                 map.setCenter(center);
             });
