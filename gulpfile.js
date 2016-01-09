@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     sourcemaps = require('gulp-sourcemaps'),
     rename = require('gulp-rename'),
+    autoprefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     concatify = require('gulp-concat'),
     minifycss = require('gulp-minify-css'),
@@ -49,6 +50,8 @@ gulp.task('scripts', function() {
 /** Compiles css files and outputs them to build/css/ */
 gulp.task('styles', function() {
     return gulp.src(paths.stylesheets)
+    	.pipe(sourcemaps.init())
+    	.pipe(autoprefixer())
         .pipe(minifycss())
         .pipe(concatify('style.min.css'))
         .pipe(gulp.dest('./build/css'));
@@ -151,7 +154,7 @@ gulp.task('psi', ['psi-seq'], function() {
 
 /** Watches for changes to files and executes scripts */
 gulp.task('script-watch', ['scripts']);
-gulp.task('scss-watch', ['styles']);
+gulp.task('css-watch', ['styles']);
 gulp.task('content-watch', ['svgstore', 'content']);
 gulp.task('image-watch', ['images', 'svgstore']);
 
