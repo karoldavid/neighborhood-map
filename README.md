@@ -46,7 +46,7 @@ for ex.: knockout.js helps to simplify dynamic JavaScript UIs using the Model-Vi
 
 The neighborhood map app is part of the Udacity Front-End Webdeveloper Nanodegree (FEND)
 
-FEND https://www.udacity.com/wiki/nd001
+FEND PROGRAM https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001
 
 ## APIs
 
