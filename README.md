@@ -1,10 +1,8 @@
 # Neighborhood-Map skyZoom
 
-### Here is a link to the live version
+Link to the live version: http://karoldavid.github.io/neighborhood-map/
 
-http://karoldavid.github.io/neighborhood-map/
-
-#### Description
+## Description
 
 The neighborhood map is a fully responsive single-page application, named "skyZoom", featuring a Google Maps map and additional functionality, including: map markers to identify popular locations or places, a search function to discover these locations,
 a listview to support simple browsing and a Google StreetView Panorama walk around. Furthermore third-party APIs provide
@@ -15,7 +13,7 @@ can browse venues theaters, concert halls, operas, etc.
 
 The current showcased region Warsaw can be easily changed to Berlin, Paris, London etc. Just change the underlying data set to any given area.
 
-### Features
+## Features
 
 - gain a distraction free and fast overview of the region, defined in the data set
 - live search the data set by entering key words into the searchbar
@@ -28,7 +26,7 @@ The current showcased region Warsaw can be easily changed to Berlin, Paris, Lond
 - a short description of most important articles and links about the map's region are automatically generated (wikipedia.org)
 - current weather conditions and temperature are displayed in the header (openweathermap.org)
 
-### Installation
+## Installation
 
 * git clone https://github.com/karoldavid/neighborhood-map.git
 * wget https://github.com/karoldavid/neighborhood-map/archive/master.zip
@@ -38,17 +36,17 @@ The current showcased region Warsaw can be easily changed to Berlin, Paris, Lond
 * JavaScript
 * Desktop, Tablet, Mobile Phone
 
-#### Purpose
+## Purpose
 
 Design patterns assist in developing manageable codebases. Frameworks can decrease the time required developing an application
 and provide a number of utilities. Third-party APIs provide valuable data sets that can improve the application's quality, 
 for ex.: knockout.js helps to simplify dynamic JavaScript UIs using the Model-View-ViewModel (MVVM) pattern.
 
-#### The neighborhood map app is part of the Udacity Front-End Webdeveloper Nanodegree
+## The neighborhood map app is part of the Udacity Front-End Webdeveloper Nanodegree
 
 https://www.udacity.com/wiki/nd001
 
-### APIs
+## APIs
 
 * https://developers.google.com/maps/documentation/javascript/
 * https://developers.google.com/maps/documentation/streetview/
@@ -56,6 +54,6 @@ https://www.udacity.com/wiki/nd001
 * http://openweathermap.org/api
 * https://www.mediawiki.org/wiki/API:Main_page
 
-#### Questions
+## Questions
 
 You can email me: k.zysk@zoho.com
