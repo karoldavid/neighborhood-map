@@ -1,4 +1,4 @@
-# NEIGHBORHOOD-MAP
+# Neighborhood-Map skyZoom
 
 ### Here is a link to the live version
 
@@ -6,8 +6,7 @@ http://karoldavid.github.io/neighborhood-map/
 
 #### Description
 
-The neighborhood map is a fully responsive single-page application, named "skyZoom", featuring a Google Maps map and additional functionality,
-including: map markers to identify popular locations or places, a search function to discover these locations,
+The neighborhood map is a fully responsive single-page application, named "skyZoom", featuring a Google Maps map and additional functionality, including: map markers to identify popular locations or places, a search function to discover these locations,
 a listview to support simple browsing and a Google StreetView Panorama walk around. Furthermore third-party APIs provide
 additional information about each of these locations.
 
