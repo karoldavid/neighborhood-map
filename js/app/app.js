@@ -187,13 +187,15 @@ function app(region, locations, focus, styles) {
      * and appends the string to the DOM
      */
     var GetWeather = function() {
-        var self = this;
+        var self = this,
+            id = '80fdd3dd75120e3fe0f97de4d63ab783';
 
         self.weatherStr = ko.observable("");
 
         var weather = 'http://api.openweathermap.org/data/2.5/weather?' +
             'lat=' + region.center.coord.lat +
-            '&lon=' + region.center.coord.lng;
+            '&lon=' + region.center.coord.lng +
+            '&appid=' + id;
 
         $.getJSON(weather, function(response) {
             self.weatherStr(response.weather[0].description + "   " + Math.round(response.main.temp - 273.15) + " °C");
