@@ -42,9 +42,9 @@ Design patterns assist in developing manageable codebases. Frameworks can decrea
 and provide a number of utilities. Third-party APIs provide valuable data sets that can improve the application's quality, 
 for ex.: knockout.js helps to simplify dynamic JavaScript UIs using the Model-View-ViewModel (MVVM) pattern.
 
-## FEND
+## FEND Nanodegree
 
-The neighborhood map app is part of the Udacity Front-End Webdeveloper Nanodegree (FEND)
+The neighborhood map app is part of the Udacity Front-End Webdeveloper Nanodegree
 
 FEND PROGRAM https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001
 
@@ -56,6 +56,6 @@ FEND PROGRAM https://www.udacity.com/course/front-end-web-developer-nanodegree--
 * http://openweathermap.org/api
 * https://www.mediawiki.org/wiki/API:Main_page
 
-## Questions?
+## Questions
 
-Email me at k.zysk@zoho.com
+You can email me: k.zysk@zoho.com
